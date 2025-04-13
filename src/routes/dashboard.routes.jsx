@@ -1,3 +1,4 @@
+import DashboardLayout from "@/components/layout/dashboard-layout";
 import AuthGuard from "@/middlewares/auth-guard";
 
 export const dashboardRoutes = [
@@ -5,8 +6,7 @@ export const dashboardRoutes = [
 		path: "/dashboard",
 		element: (
 			<AuthGuard>
-				<div>Dashboard Route</div>
-				{/* // 	<DashboardLayout /> */}
+				<DashboardLayout />
 			</AuthGuard>
 		),
 		// children: [

@@ -4,7 +4,11 @@ function AuthGuard({ children }) {
 	const isAuthenticated = localStorage.getItem("blood_token"); //just use localstorage for store token
 	console.log({ isAuthenticated });
 
-	return isAuthenticated ? <>{children}</> : <Navigate to='/login' replace />;
+	return !isAuthenticated ? (
+		<>{children}</>
+	) : (
+		<Navigate to='/login' replace />
+	);
 }
 
 export default AuthGuard;
