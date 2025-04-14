@@ -1,7 +1,7 @@
 import { useForm } from "react-hook-form";
-import "../style/Form.css";
+import "./Form.css";
 
-export default function LoginPage() {
+export default function Form() {
   const {
     register,
     handleSubmit,
@@ -49,7 +49,7 @@ export default function LoginPage() {
 
       <button className="submit-btn">Login</button>
       <span className="register-msg">
-        Don't have an account? <a href="/register">Register</a>
+        Don't have an account? <a href="#">Register</a>
       </span>
     </form>
   );
