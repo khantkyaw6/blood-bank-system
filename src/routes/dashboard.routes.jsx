@@ -1,5 +1,8 @@
 import DashboardLayout from "@/components/layout/dashboard-layout";
 import AuthGuard from "@/middlewares/auth-guard";
+import Bank from "@/modules/dashboard/pages/Bank";
+import Donar from "@/modules/dashboard/pages/Donor";
+import Home from "@/modules/dashboard/pages/Home";
 
 export const dashboardRoutes = [
 	{
@@ -9,12 +12,10 @@ export const dashboardRoutes = [
 				<DashboardLayout />
 			</AuthGuard>
 		),
-		// children: [
-		// 	...dashboardRoute,
-		// 	...usersRoutes,
-		// 	...settingsRoutes,
-		// 	...tenantsRoutes,
-		// 	...propertyRoutes,
-		// ],
+		children: [
+			{ index: true, element: <Home /> },
+			{ path: "donors", element: <Donar /> },
+			{ path: "banks", element: <Bank /> },
+		],
 	},
 ];

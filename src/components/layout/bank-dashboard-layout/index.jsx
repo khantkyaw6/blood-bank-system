@@ -5,7 +5,7 @@ import {
 	SidebarTrigger,
 } from "@/components/ui/sidebar";
 import { Outlet } from "react-router";
-import DashboardSidebar from "../../ui/sidebar/index";
+import DashboardSidebar from "../../ui/bank_sidebar";
 
 export default function DashboardLayout() {
 	return (
