@@ -29,7 +29,7 @@ import {
 const items = [
 	{
 		title: "Home",
-		url: "/dashboard",
+		url: "/bank-dashboard",
 		icon: LayoutDashboardIcon,
 	},
 	// {
@@ -37,14 +37,14 @@ const items = [
 	// 	url: "/dashboard/admins",
 	// 	icon: UserPlusIcon,
 	// },
+	// {
+	// 	title: "Donors",
+	// 	url: "/dashboard/donors",
+	// 	icon: UsersIcon,
+	// },
 	{
-		title: "Donors",
-		url: "/dashboard/donors",
-		icon: UsersIcon,
-	},
-	{
-		title: "Banks",
-		url: "banks",
+		title: "Appointments",
+		url: "appointments",
 		icon: Layers,
 		// children: [
 		// 	{

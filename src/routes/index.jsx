@@ -5,10 +5,12 @@ import Loading from "../components/ui/loading";
 import NotFoundPage from "../pages/NotFoundPage";
 import { authCollection } from "./auth.collection.routes";
 import { dashboardRoutes } from "./dashboard.routes";
+import { bankDashboardRoutes } from "./bankdashboard.routes";
 
 const routes = [
 	...authCollection,
 	...dashboardRoutes,
+	...bankDashboardRoutes,
 	{ path: "/", element: <Navigate to='/dashboard' replace /> },
 	{ path: "*", element: <NotFoundPage /> },
 ];
