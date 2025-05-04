@@ -4,32 +4,6 @@ import "../style/main.css";
 
 import { TextInput, SelectInput } from "../components/FormElements";
 
-const InputField = ({
-  title = "Full Name",
-  register,
-  name,
-  type = "text",
-  placeholder,
-  required,
-  defaultValue,
-  errors,
-}) => (
-  <div>
-    <input
-      {...register(name, { required })}
-      type={type}
-      placeholder={placeholder}
-      defaultValue={defaultValue}
-      className="input"
-    />
-    {errors?.[name] && (
-      <p className="text-red-500 text-sm">
-        {errors[name].message || "This field is required."}
-      </p>
-    )}
-  </div>
-);
-
 export default function DonorForm() {
   const {
     register,
@@ -50,6 +24,7 @@ export default function DonorForm() {
         </h2>
 
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
+          {/* Personal Information */}
           <div>
             <h3 className="text-xl font-semibold mb-2">Personal Information</h3>
             <div className="grid md:grid-cols-2 gap-4">
@@ -99,15 +74,24 @@ export default function DonorForm() {
                 placeholder="alice@gmail.com"
                 errors={errors}
               />
-              <textarea
-                {...register("address", { required: true })}
-                placeholder="Address"
-                className="input col-span-2"
-                defaultValue="123 Main St, City, Country"
-              />
+              <div className="md:col-span-2">
+                <p className="text-xs text-gray-500 mb-1 ml-1">Address</p>
+                <textarea
+                  {...register("address", { required: "Address is required" })}
+                  placeholder="123 Main St, City, Country"
+                  className="input"
+                  // defaultValue="123 Main St, City, Country"
+                />
+                {errors?.address && (
+                  <p className="text-red-500 text-sm ms-2">
+                    {errors.address.message}
+                  </p>
+                )}
+              </div>
             </div>
           </div>
 
+          {/* Donation Info */}
           <div>
             <h3 className="text-xl font-semibold mb-2">Donation Info</h3>
             <div className="grid md:grid-cols-2 gap-4">
@@ -125,7 +109,7 @@ export default function DonorForm() {
                 title="Preferred Donation Time"
                 placeholder="Preferred Time"
                 options={["Morning", "Afternoon", "Evening"]}
-                errors={errors}
+                required={false}
               />
               <TextInput
                 register={register}
@@ -141,6 +125,7 @@ export default function DonorForm() {
             </div>
           </div>
 
+          {/* Health Screening */}
           <div>
             <h3 className="text-xl font-semibold mb-2">Health Screening</h3>
             <div className="grid md:grid-cols-2 gap-4">
@@ -181,23 +166,28 @@ export default function DonorForm() {
                 name="weight"
                 title="Weight (kg)"
                 type="number"
-                errors={errors}
+                required={false}
               />
-              <label className="flex items-center gap-2 col-span-2">
-                <input
-                  type="checkbox"
-                  {...register("consent", { required: true })}
-                />
-                I consent to donate blood.
-              </label>
-              {errors.consent && (
-                <p className="text-red-500 text-sm col-span-2">
-                  You must give consent to proceed.
-                </p>
-              )}
             </div>
           </div>
 
+          {/* Consent */}
+          <div>
+            <div className="flex items-center gap-2 col-span-2">
+              <input
+                type="checkbox"
+                {...register("consent", { required: true })}
+              />
+              <span className="text-md">I consent to donate blood.</span>
+            </div>
+            {errors.consent && (
+              <p className="text-red-500 text-sm">
+                You must give consent to proceed.
+              </p>
+            )}
+          </div>
+
+          {/* Submit btn */}
           <div className="text-center mt-6">
             <button
               type="submit"
