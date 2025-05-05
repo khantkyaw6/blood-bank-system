@@ -1,30 +1,28 @@
-// import styles from "./style/main.module.css";
+import { useState } from "react";
+import Navbar from "../components/NavBar";
+import Button from "../components/Button";
 
 export default function Main() {
   return (
-    <section className="md:w-screen md:h-screen bg-red-100 py-16 px-6 md:px-12 lg:px-24 flex justify-center items-center bg-linear-to-br/oklab from-white to-red-200">
-      <div className="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-12">
+    <section className="min-h-screen bg-gradient-to-br from-white via-red-50 to-red-100">
+      {/* Navbar */}
+      <Navbar />
+
+      {/* Hero Section */}
+      <div className="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-12 py-20 px-6 md:px-10">
         <div className="flex-1 text-center md:text-left">
-          <h1 className="text-4xl md:text-5xl font-extrabold text-red-700 mb-6">
-            Save Lives. Be a Hero Today.
+          <h1 className="text-4xl md:text-5xl font-bold text-red-700 mb-6 leading-tight">
+            Save Lives. <br className="hidden md:inline" /> Be a Hero Today.
           </h1>
-          <p className="text-lg md:text-xl text-gray-700 mb-8">
+          <p className="text-lg text-gray-700 mb-8">
             Every drop counts. Your blood donation could give someone a second
-            chance at life. Join us or request help — we’re here for you.
+            chance.
           </p>
           <div className="flex flex-col md:flex-row gap-4 justify-center md:justify-start">
-            <a
-              href="/request-form"
-              className="bg-red-600 hover:bg-red-700 text-white font-semibold px-6 py-3 rounded-lg shadow-md transition"
-            >
+            <Button href="/request-form" primary>
               🚑 Request Blood
-            </a>
-            <a
-              href="/donor-form"
-              className="bg-white border border-red-600 text-red-700 hover:bg-red-200 font-semibold px-6 py-3 rounded-lg transition"
-            >
-              🩸 Book a Donation
-            </a>
+            </Button>
+            <Button href="/donor-form">🩸 Book a Donation</Button>
           </div>
         </div>
 

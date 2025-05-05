@@ -17,7 +17,7 @@ export default function BloodRequestForm() {
   };
 
   return (
-    <section className="py-10 bg-gradient-to-br from-white to-red-100">
+    <section className="md:pt-10 md:pb-10 bg-linear-to-br/oklab from-white to-red-200">
       <div className="max-w-3xl mx-auto bg-white shadow-xl p-8 rounded-xl">
         <h2 className="text-3xl font-bold text-red-600 mb-6 text-center">
           Blood Request Form
