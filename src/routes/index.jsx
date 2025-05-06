@@ -9,22 +9,22 @@ import { bankDashboardRoutes } from "./bankdashboard.routes";
 import { mainRoutes } from "./main.routes";
 
 const routes = [
-  ...authCollection,
-  ...dashboardRoutes,
-  ...bankDashboardRoutes,
-  ...mainRoutes,
-  { path: "/", element: <Navigate to="/dashboard" replace /> },
-  { path: "*", element: <NotFoundPage /> },
+	...authCollection,
+	...dashboardRoutes,
+	...bankDashboardRoutes,
+	...mainRoutes,
+	{ path: "/", element: <Navigate to='/main' replace /> },
+	{ path: "*", element: <NotFoundPage /> },
 ];
 
 const Routes = () => useRoutes(routes);
 
 export default function AppRoutes() {
-  return (
-    <Router>
-      <Suspense fallback={<Loading />}>
-        <Routes />
-      </Suspense>
-    </Router>
-  );
+	return (
+		<Router>
+			<Suspense fallback={<Loading />}>
+				<Routes />
+			</Suspense>
+		</Router>
+	);
 }

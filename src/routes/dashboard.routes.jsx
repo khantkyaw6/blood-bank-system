@@ -14,7 +14,9 @@ export const dashboardRoutes = [
 		),
 		children: [
 			{ index: true, element: <Home /> },
-			{ path: "donors", element: <Donar /> },
+			{ path: "donors", element: <Donar /> }, // Table Read
+			// { path: "donors/create", element: <DonarCreate /> },
+			// { path: "donors/update", element: <DonarUpdate /> },
 			{ path: "banks", element: <Bank /> },
 		],
 	},
