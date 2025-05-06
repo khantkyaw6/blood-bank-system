@@ -57,7 +57,7 @@ export default function Navbar() {
 
       {/* Nav Links (mobile) */}
       {menuOpen && (
-        <div className="md:hidden px-6 pb-4 flex flex-col gap-2 bg-white text-gray-700 text-sm text-center font-medium">
+        <div className="md:hidden px-6 pb-4 flex flex-col gap-2 bg-white text-gray-700 text-sm  font-medium">
           <NavLink href="/main" label="Home" />
           <NavLink href="/about" label="About" />
           <NavLink href="/donor-form" label="Donate" />
@@ -70,10 +70,14 @@ export default function Navbar() {
 }
 
 function NavLink({ href, label }) {
+  const isActive = window.location.pathname === href;
+
   return (
     <a
       href={href}
-      className="hover:text-red-500 transition-colors duration-200"
+      className={`w-max md:w-auto m-auto hover:text-red-600 border-b-2 transition-all duration-100 ${
+        isActive ? "border-b-red-600 text-red-600" : "border-b-transparent"
+      }`}
     >
       {label}
     </a>

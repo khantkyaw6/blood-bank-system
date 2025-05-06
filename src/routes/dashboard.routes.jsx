@@ -5,19 +5,19 @@ import Donar from "@/modules/dashboard/pages/Donor";
 import Home from "@/modules/dashboard/pages/Home";
 
 export const dashboardRoutes = [
-	{
-		path: "/dashboard",
-		element: (
-			<AuthGuard>
-				<DashboardLayout />
-			</AuthGuard>
-		),
-		children: [
-			{ index: true, element: <Home /> },
-			{ path: "donors", element: <Donar /> }, // Table Read
-			// { path: "donors/create", element: <DonarCreate /> },
-			// { path: "donors/update", element: <DonarUpdate /> },
-			{ path: "banks", element: <Bank /> },
-		],
-	},
+  {
+    path: "/dashboard",
+    element: (
+      <AuthGuard>
+        <DashboardLayout />
+      </AuthGuard>
+    ),
+    children: [
+      // { index: true, element: <Home /> },
+      // { path: "donors", element: <Donar /> }, // Table Read
+      // { path: "donors/create", element: <DonarCreate /> },
+      // { path: "donors/update", element: <DonarUpdate /> },
+      { path: "banks", element: <Bank /> },
+    ],
+  },
 ];
