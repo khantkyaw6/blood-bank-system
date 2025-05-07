@@ -1,8 +1,8 @@
 import DashboardLayout from "@/components/layout/dashboard-layout";
 import AuthGuard from "@/middlewares/auth-guard";
 import Bank from "@/modules/dashboard/pages/Bank";
-import Donar from "@/modules/dashboard/pages/Donor";
-import Home from "@/modules/dashboard/pages/Home";
+import BankCreate from "@/modules/dashboard/pages/BankCreate";
+import BankEdit from "@/modules/dashboard/pages/BankEdit";
 
 export const dashboardRoutes = [
   {
@@ -18,6 +18,8 @@ export const dashboardRoutes = [
       // { path: "donors/create", element: <DonarCreate /> },
       // { path: "donors/update", element: <DonarUpdate /> },
       { path: "banks", element: <Bank /> },
+      { path: "banks/create", element: <BankCreate /> },
+      { path: "banks/edit", element: <BankEdit /> },
     ],
   },
 ];
