@@ -154,6 +154,10 @@ export function DataTable({ columns, data, onCreate, resourceName = null }) {
 
       {/* Pagination Controls */}
       <div className="flex items-center justify-between space-x-2">
+        <div className="text-sm text-muted-foreground">
+          Page {table.getState().pagination.pageIndex + 1} of{" "}
+          {table.getPageCount()}
+        </div>
         <div className="flex items-center space-x-2">
           <Button
             variant="outline"
@@ -171,10 +175,6 @@ export function DataTable({ columns, data, onCreate, resourceName = null }) {
           >
             Next
           </Button>
-        </div>
-        <div className="text-sm text-muted-foreground">
-          Page {table.getState().pagination.pageIndex + 1} of{" "}
-          {table.getPageCount()}
         </div>
       </div>
     </div>

@@ -1,8 +1,8 @@
-import { AppointmentForm } from "../components/appointmentForm";
+import AppointmentForm from "./components/AppointmentForm";
 
 export default function AppointmentCreate() {
   const handleCreate = (data) => {
-    console.log("Create Appointment:", data);
+    console.log("Appointment Created:", data);
   };
 
   return (

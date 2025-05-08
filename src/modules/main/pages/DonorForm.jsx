@@ -65,15 +65,15 @@ export default function DonorForm() {
                 />
                 <TextInput
                   register={register}
-                  name="contact"
-                  title="Contact Number"
+                  name="phone"
+                  title="Phone Number"
                   placeholder="09987654321"
                   errors={errors}
                 />
                 <TextInput
                   register={register}
                   name="email"
-                  title="Full Name"
+                  title="Email"
                   type="email"
                   placeholder="alice@gmail.com"
                   errors={errors}
@@ -102,9 +102,9 @@ export default function DonorForm() {
               <div className="grid md:grid-cols-2 gap-4">
                 <SelectInput
                   register={register}
-                  name="bloodGroup"
-                  title="Blood Group"
-                  placeholder="Blood Group"
+                  name="blood_type"
+                  title="Blood Type"
+                  placeholder="Blood Type"
                   options={["A+", "A-", "B+", "B-", "AB+", "AB-", "O+", "O-"]}
                   errors={errors}
                 />
@@ -165,13 +165,11 @@ export default function DonorForm() {
                   errors={errors}
                   options={["Yes", "No"]}
                 />
-
                 <TextInput
                   register={register}
                   name="weight"
                   title="Weight (kg)"
                   type="number"
-                  required={false}
                 />
               </div>
             </div>

@@ -1,4 +1,4 @@
-import getAppointmentCol from "../components/appointmentColumns";
+import getAppointmentCol from "./components/AppointmentColumns";
 import { DataTable } from "@/components/ui/custom/data-table";
 import { appointments } from "./appointmentData";
 

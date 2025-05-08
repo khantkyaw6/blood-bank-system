@@ -1,9 +1,11 @@
 import { useForm } from "react-hook-form";
 import { TextInput, SelectInput } from "@/components/ui/custom/FormElements";
 
-const statusOptions = ["approved", "pending", "rejected"];
-
-export function BankForm({ onSubmit, defaultValues = {}, isEdit = false }) {
+export default function DonorForm({
+  onSubmit,
+  defaultValues = {},
+  isEdit = false,
+}) {
   const {
     register,
     handleSubmit,
@@ -16,31 +18,24 @@ export function BankForm({ onSubmit, defaultValues = {}, isEdit = false }) {
       className="bg-zinc-50 p-8 rounded-2xl shadow-md max-w-2xl w-full mx-auto space-y-6"
     >
       <h2 className="text-2xl text-center font-semibold text-gray-800 mb-4">
-        {isEdit ? "Edit Bank Details" : "Create New Bank"}
+        {isEdit ? "Edit Donor Details" : "Create New Donor"}
       </h2>
 
+      {/* // Donar => name / phone / dob ( date of birth ) / gender / address / blood_type / weight */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         <TextInput
           register={register}
-          name="title"
-          title="Bank Name"
-          placeholder="National Bank"
+          name="name"
+          title="Donor Name"
+          placeholder="Alice"
           errors={errors}
         />
         <TextInput
           register={register}
-          name="email"
-          title="Email"
-          type="email"
-          placeholder="alice@gmail.com"
+          name="dob"
+          title="Date of Birth"
           errors={errors}
-        />
-        <TextInput
-          register={register}
-          name="password"
-          title="Password"
-          errors={errors}
-          type="password"
+          type="date"
         />
         <TextInput
           register={register}
@@ -49,45 +44,42 @@ export function BankForm({ onSubmit, defaultValues = {}, isEdit = false }) {
           placeholder="09987654321"
           errors={errors}
         />
-        <TextInput
+        <SelectInput
           register={register}
-          name="address"
-          title="Address"
-          placeholder="123 Elm Street"
+          name="gender"
+          title="Gender"
+          placeholder="Gender"
+          options={["Male", "Female", "Other"]}
           errors={errors}
         />
         <TextInput
           register={register}
-          name="city"
-          title="City"
-          placeholder="New York"
+          name="weight"
+          title="Weight (kg)"
+          type="number"
+        />
+        <SelectInput
+          register={register}
+          name="blood_type"
+          title="Blood Type"
+          placeholder="Blood Type"
+          options={["A+", "A-", "B+", "B-", "AB+", "AB-", "O+", "O-"]}
           errors={errors}
         />
       </div>
-
       <TextInput
         register={register}
-        name="description"
-        title="Description"
-        placeholder="Short description about the bank"
+        name="address"
+        title="Address"
+        placeholder="123 Elm Street"
         errors={errors}
       />
-
-      <SelectInput
-        register={register}
-        name="status"
-        title="Status"
-        options={statusOptions}
-        placeholder="Choose status"
-        errors={errors}
-      />
-
       <div className="text-center pt-4">
         <button
           type="submit"
           className="bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 px-6 rounded-lg transition-colors duration-300"
         >
-          {isEdit ? "Update Bank" : "Create Bank"}
+          {isEdit ? "Update Donor" : "Create Donor"}
         </button>
       </div>
     </form>

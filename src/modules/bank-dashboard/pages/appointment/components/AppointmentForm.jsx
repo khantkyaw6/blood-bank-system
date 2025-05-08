@@ -1,9 +1,7 @@
 import { useForm } from "react-hook-form";
 import { TextInput, SelectInput } from "@/components/ui/custom/FormElements";
 
-const statusOptions = ["approved", "pending", "rejected"];
-
-export function AppointmentForm({
+export default function AppointmentForm({
   onSubmit,
   defaultValues = {},
   isEdit = false,
@@ -23,7 +21,7 @@ export function AppointmentForm({
       className="bg-zinc-50 p-8 rounded-2xl shadow-md max-w-2xl w-full mx-auto space-y-6"
     >
       <h2 className="text-2xl text-center font-semibold text-gray-800 mb-4">
-        {isEdit ? "Edit Bank Details" : "Create New Bank"}
+        {isEdit ? "Edit Appointment Details" : "Create New Appointment"}
       </h2>
 
       {/* <div className="grid grid-cols-1 gap-6"> */}
@@ -63,7 +61,7 @@ export function AppointmentForm({
           type="submit"
           className="bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 px-6 rounded-lg transition-colors duration-300"
         >
-          {isEdit ? "Update Bank" : "Create Bank"}
+          {isEdit ? "Update Appointment" : "Create Appointment"}
         </button>
       </div>
     </form>

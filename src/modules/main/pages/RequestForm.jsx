@@ -168,9 +168,9 @@ export default function BloodRequestForm() {
               <div className="grid md:grid-cols-2 gap-4">
                 <SelectInput
                   register={register}
-                  name="bloodGroup"
-                  title="Blood Group"
-                  placeholder="Blood Group"
+                  name="blood_type"
+                  title="Blood Type"
+                  placeholder="Blood Type"
                   options={["A+", "A-", "B+", "B-", "AB+", "AB-", "O+", "O-"]}
                   errors={errors}
                 />
