@@ -13,7 +13,7 @@ export const dashboardRoutes = [
       </AuthGuard>
     ),
     children: [
-      // { index: true, element: <Home /> },
+      { index: true, element: <Bank /> },
       // { path: "donors", element: <Donar /> }, // Table Read
       // { path: "donors/create", element: <DonarCreate /> },
       // { path: "donors/update", element: <DonarUpdate /> },

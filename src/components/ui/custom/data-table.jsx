@@ -9,6 +9,13 @@ import {
 } from "@tanstack/react-table";
 
 import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
+
+import {
   Table,
   TableBody,
   TableCell,
@@ -18,9 +25,9 @@ import {
 } from "@/components/ui/table";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { ArrowUpDown } from "lucide-react";
+import { ArrowUpDown, Plus } from "lucide-react";
 
-export function DataTable({ columns, data }) {
+export function DataTable({ columns, data, onCreate, resourceName = null }) {
   const [sorting, setSorting] = React.useState([]);
   const [globalFilter, setGlobalFilter] = React.useState("");
 
@@ -41,13 +48,25 @@ export function DataTable({ columns, data }) {
 
   return (
     <div className="space-y-4">
-      {/* Global Filter */}
-      <Input
-        placeholder="Search..."
-        value={globalFilter ?? ""}
-        onChange={(event) => setGlobalFilter(event.target.value)}
-        className="max-w-sm"
-      />
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+        {/* Global Filter */}
+        <Input
+          placeholder="Search..."
+          value={globalFilter ?? ""}
+          onChange={(event) => setGlobalFilter(event.target.value)}
+          className="max-w-sm"
+        />
+
+        {onCreate && (
+          <Button
+            onClick={onCreate}
+            className="bg-blue-600 text-white hover:bg-blue-700"
+          >
+            <Plus className="w-4 h-4 mr-2" />
+            Create {resourceName}
+          </Button>
+        )}
+      </div>
 
       {/* Table */}
       <div className="rounded-md border">
@@ -58,29 +77,43 @@ export function DataTable({ columns, data }) {
                 {headerGroup.headers.map((header) => {
                   return (
                     <TableHead key={header.id}>
-                      {header.isPlaceholder ? null : (
-                        <button
-                          onClick={header.column.getToggleSortingHandler()}
-                          className="flex items-center space-x-1"
-                        >
-                          <span>
-                            {flexRender(
-                              header.column.columnDef.header,
-                              header.getContext()
-                            )}
-                          </span>
-                          {header.column.getIsSorted() ? (
-                            <ArrowUpDown
-                              className="ml-2 h-4 w-4"
-                              style={{
-                                transform:
-                                  header.column.getIsSorted() === "desc"
-                                    ? "rotate(180deg)"
-                                    : "rotate(0deg)",
-                              }}
-                            />
-                          ) : null}
-                        </button>
+                      {header.column.getCanSort() ? (
+                        <TooltipProvider>
+                          <Tooltip>
+                            <TooltipTrigger asChild>
+                              <button
+                                onClick={header.column.getToggleSortingHandler()}
+                                className="flex items-center space-x-1"
+                              >
+                                <span>
+                                  {flexRender(
+                                    header.column.columnDef.header,
+                                    header.getContext()
+                                  )}
+                                </span>
+                                {header.column.getIsSorted() ? (
+                                  <ArrowUpDown
+                                    className="ml-2 h-4 w-4"
+                                    style={{
+                                      transform:
+                                        header.column.getIsSorted() === "desc"
+                                          ? "rotate(180deg)"
+                                          : "rotate(0deg)",
+                                    }}
+                                  />
+                                ) : null}
+                              </button>
+                            </TooltipTrigger>
+                            <TooltipContent>
+                              <p>Click to sort</p>
+                            </TooltipContent>
+                          </Tooltip>
+                        </TooltipProvider>
+                      ) : (
+                        flexRender(
+                          header.column.columnDef.header,
+                          header.getContext()
+                        )
                       )}
                     </TableHead>
                   );

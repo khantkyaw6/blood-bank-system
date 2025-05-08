@@ -1,8 +1,7 @@
 import { useEffect, useState } from "react";
-import getBankColumns from "./columns";
-import { DataTable } from "./data-table";
+import getBankColumns from "../components/columns";
+import { DataTable } from "@/components/ui/custom/data-table";
 import { banks } from "./sampleData";
-import { Plus } from "lucide-react";
 
 // async function getData() {
 //   return [
@@ -45,18 +44,15 @@ export default function Bank() {
       <div className="bg-white shadow-md rounded-2xl p-6 space-y-6">
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
           <h1 className="text-2xl font-bold text-gray-800">Bank Management</h1>
-          <button
-            type="button"
-            className="inline-flex items-center gap-2 bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded-lg shadow transition-colors duration-300"
-            onClick={handleCreate}
-          >
-            <Plus className="w-5 h-5" />
-            Create Bank
-          </button>
         </div>
 
         <div className="overflow-x-auto">
-          <DataTable columns={columns} data={banks} />
+          <DataTable
+            columns={columns}
+            data={banks}
+            onCreate={handleCreate}
+            resourceName="Bank"
+          />
         </div>
       </div>
     </div>

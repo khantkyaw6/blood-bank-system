@@ -52,6 +52,7 @@ export function TextInput({
         placeholder={placeholder}
         // defaultValue={placeholder}
         className="input"
+        min={type === "number" ? 1 : null}
       />
       {errors?.[name] && (
         <p className="text-red-500 text-sm ms-2">{errors[name].message}</p>

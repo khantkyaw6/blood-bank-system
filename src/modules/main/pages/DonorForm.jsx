@@ -2,7 +2,7 @@ import React from "react";
 import { useForm } from "react-hook-form";
 import "../style/main.css";
 
-import { TextInput, SelectInput } from "../components/FormElements";
+import { TextInput, SelectInput } from "@/components/ui/custom/FormElements";
 import Navbar from "../components/NavBar";
 
 export default function DonorForm() {
@@ -165,6 +165,7 @@ export default function DonorForm() {
                   errors={errors}
                   options={["Yes", "No"]}
                 />
+
                 <TextInput
                   register={register}
                   name="weight"

@@ -1,6 +1,6 @@
-import { BankForm } from "./BankForm";
+import { BankForm } from "../components/BankForm";
 
-export default function EditBank() {
+export default function BankEdit() {
   function handleUpdate(data) {
     console.log("Update bank:", data);
   }

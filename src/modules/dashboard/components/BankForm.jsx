@@ -1,9 +1,5 @@
 import { useForm } from "react-hook-form";
-import {
-  TextInput,
-  SelectInput,
-} from "@/components/ui/formElements/FormElements"; // adjust path
-// import { useNavigate } from "react-router-dom";
+import { TextInput, SelectInput } from "@/components/ui/custom/FormElements";
 
 const statusOptions = ["approved", "pending", "rejected"];
 
@@ -17,7 +13,7 @@ export function BankForm({ onSubmit, defaultValues = {}, isEdit = false }) {
   return (
     <form
       onSubmit={handleSubmit(onSubmit)}
-      className="bg-white p-8 rounded-2xl shadow-md max-w-2xl w-full mx-auto space-y-6"
+      className="bg-zinc-50 p-8 rounded-2xl shadow-md max-w-2xl w-full mx-auto space-y-6"
     >
       <h2 className="text-2xl text-center font-semibold text-gray-800 mb-4">
         {isEdit ? "Edit Bank Details" : "Create New Bank"}
