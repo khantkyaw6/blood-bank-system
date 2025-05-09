@@ -50,10 +50,9 @@ export default function BloodRequestForm() {
                 />
                 <TextInput
                   register={register}
-                  name="contact"
-                  title="Contact Number"
-                  placeholder="09123456789"
-                  type="text"
+                  name="phone"
+                  title="Phone Number"
+                  placeholder="09987654321"
                   errors={errors}
                 />
                 <TextInput

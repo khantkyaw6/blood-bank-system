@@ -1,8 +1,6 @@
 import { useForm } from "react-hook-form";
 import { TextInput, SelectInput } from "@/components/ui/custom/FormElements";
 
-const statusOptions = ["approved", "pending", "rejected"];
-
 export function BankForm({ onSubmit, defaultValues = {}, isEdit = false }) {
   const {
     register,
@@ -77,7 +75,7 @@ export function BankForm({ onSubmit, defaultValues = {}, isEdit = false }) {
         register={register}
         name="status"
         title="Status"
-        options={statusOptions}
+        options={["approved", "pending", "rejected"]}
         placeholder="Choose status"
         errors={errors}
       />

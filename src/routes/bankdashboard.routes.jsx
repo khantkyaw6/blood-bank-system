@@ -10,8 +10,8 @@ import DonorCreate from "@/modules/bank-dashboard/pages/donor/DonorCreate";
 import DonorEdit from "@/modules/bank-dashboard/pages/donor/DonorEdit";
 
 import RequestForm from "@/modules/bank-dashboard/pages/requestForm/RequestForm";
-// import RequestFormCreate from "@/modules/bank-dashboard/pages/requestForm/RequestFormCreate";
-// import RequestFormEdit from "@/modules/bank-dashboard/pages/requestForm/RequestFormEdit";
+import RequestFormCreate from "@/modules/bank-dashboard/pages/requestForm/RequestFormCreate";
+import RequestFormEdit from "@/modules/bank-dashboard/pages/requestForm/RequestFormEdit";
 // import Home from "@/modules/bank-dashboard/pages/Home";
 
 export const bankDashboardRoutes = [
@@ -33,8 +33,8 @@ export const bankDashboardRoutes = [
       { path: "donors/edit", element: <DonorEdit /> },
 
       { path: "request-forms", element: <RequestForm /> },
-      // { path: "request-forms/create", element: <RequestFormCreate /> },
-      // { path: "request-forms/edit", element: <RequestFormEdit /> },
+      { path: "request-forms/create", element: <RequestFormCreate /> },
+      { path: "request-forms/edit", element: <RequestFormEdit /> },
     ],
   },
 ];
