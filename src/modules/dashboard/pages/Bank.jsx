@@ -2,6 +2,8 @@ import { useEffect, useState } from "react";
 import getBankColumns from "../components/columns";
 import { DataTable } from "@/components/ui/custom/data-table";
 import { banks } from "./sampleData";
+import { useNavigate } from "react-router";
+import axios from "axios";
 
 // async function getData() {
 //   return [
@@ -16,45 +18,63 @@ import { banks } from "./sampleData";
 // }
 
 export default function Bank() {
-  // const [data, setData] = useState([]);
+	const [sample, setSample] = useState("Bello");
+	// const [data, setData] = useState(
+	// []);
 
-  // useEffect(() => {
-  //   getData().then(setData);
-  // }, []);
+	// get / post / put / patch / delete
 
-  function handleCreate() {
-    console.log("Create bank");
-    // show confirmation or remove from state
-  }
+	useEffect(() => {
+		axios({
+			method: "get",
+			url: "https://api-d.estate.com.mm/",
+		}).then(function (response) {
+			console.log("Response", response.data);
+			setSample(response?.data.message);
+		});
+		// https://api-d.estate.com.mm/
+	}, []);
 
-  function handleEdit(id) {
-    console.log("Edit bank", id);
-    // navigate or open modal
-  }
+	const navigate = useNavigate();
 
-  function handleDelete(id) {
-    console.log("Delete bank", id);
-    // show confirmation or remove from state
-  }
+	function handleCreate() {
+		console.log("Create bank");
+		navigate("/dashboard/banks/create");
+		// show confirmation or remove from state
+	}
 
-  const columns = getBankColumns({ handleEdit, handleDelete });
+	function handleEdit(id) {
+		console.log("Edit bank", id);
 
-  return (
-    <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-10">
-      <div className="bg-white shadow-md rounded-2xl p-6 space-y-6">
-        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-          <h1 className="text-2xl font-bold text-gray-800">Bank Management</h1>
-        </div>
+		// navigate or open modal
+	}
 
-        <div className="overflow-x-auto">
-          <DataTable
-            columns={columns}
-            data={banks}
-            onCreate={handleCreate}
-            resourceName="Bank"
-          />
-        </div>
-      </div>
-    </div>
-  );
+	function handleDelete(id) {
+		console.log("Delete bank", id);
+		// show confirmation or remove from state
+	}
+
+	const columns = getBankColumns({ handleEdit, handleDelete });
+
+	return (
+		<div className='container mx-auto px-4 sm:px-6 lg:px-8 py-10'>
+			<div className='bg-white shadow-md rounded-2xl p-6 space-y-6'>
+				<div className='flex flex-col sm:flex-row sm:items-center justify-between gap-4'>
+					<h1 className='text-4xl font-bold'>{sample}</h1>
+					<h1 className='text-2xl font-bold text-gray-800'>
+						Bank Management
+					</h1>
+				</div>
+
+				<div className='overflow-x-auto'>
+					<DataTable
+						columns={columns}
+						data={banks}
+						onCreate={handleCreate}
+						resourceName='Bank'
+					/>
+				</div>
+			</div>
+		</div>
+	);
 }
