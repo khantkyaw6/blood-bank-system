@@ -6,6 +6,7 @@ export default function Main() {
   return (
     <section className="min-h-screen bg-gradient-to-br from-white via-red-50 to-red-100">
       {/* Navbar */}
+      {/* blah blah */}
       <Navbar />
 
       {/* Hero Section */}
