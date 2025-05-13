@@ -1,11 +1,11 @@
 // Appointment => Donar Id / Blood Request Id / Date / Bank
 
 import { createColumnHelper } from "@tanstack/react-table";
+import DeleteAlertButton from "@/components/ui/custom/DeleteAlertButton";
 
 import {
   DropdownMenu,
   DropdownMenuContent,
-  DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { Button } from "@/components/ui/button";
@@ -15,6 +15,10 @@ export default function getBankColumns({ handleEdit, handleDelete }) {
   const columnHelper = createColumnHelper();
 
   return [
+    // columnHelper.accessor("id", {
+    //   header: "ID",
+    //   cell: (info) => info.getValue(),
+    // }),
     columnHelper.accessor("donorId", {
       header: "Donor ID",
       cell: (info) => info.getValue(),
@@ -50,18 +54,13 @@ export default function getBankColumns({ handleEdit, handleDelete }) {
               </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end">
-              <DropdownMenuItem
+              <button
                 onClick={() => handleEdit(id)}
-                className="focus:bg-blue-500 focus:text-white  text-blue-600"
+                className="custom-dropdownitem text-blue-600 hover:text-white hover:bg-blue-600"
               >
                 Edit
-              </DropdownMenuItem>
-              <DropdownMenuItem
-                onClick={() => handleDelete(id)}
-                className="focus:bg-red-500 focus:text-white text-red-600"
-              >
-                Delete
-              </DropdownMenuItem>
+              </button>
+              <DeleteAlertButton itemId={id} onDelete={handleDelete} />
             </DropdownMenuContent>
           </DropdownMenu>
         );

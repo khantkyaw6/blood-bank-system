@@ -1,9 +1,11 @@
 import getAppointmentCol from "./components/AppointmentColumns";
 import { DataTable } from "@/components/ui/custom/data-table";
 import { appointments } from "./appointmentData";
+import { useNavigate } from "react-router";
 
 export default function Appointment() {
   // const [data, setData] = useState([]);
+  const navigate = useNavigate();
 
   // useEffect(() => {
   //   getData().then(setData);
@@ -12,11 +14,13 @@ export default function Appointment() {
   function handleCreate() {
     console.log("Create appointment");
     // show confirmation or remove from state
+    navigate("/bank-dashboard/appointments/create");
   }
 
   function handleEdit(id) {
     console.log("Edit appointment", id);
     // navigate or open modal
+    navigate(`/bank-dashboard/appointments/edit/${id}`);
   }
 
   function handleDelete(id) {

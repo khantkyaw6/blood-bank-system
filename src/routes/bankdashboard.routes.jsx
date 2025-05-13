@@ -26,15 +26,15 @@ export const bankDashboardRoutes = [
       // { index: true, element: <Home /> },
       { path: "appointments", element: <Appointment /> },
       { path: "appointments/create", element: <AppointmentCreate /> },
-      { path: "appointments/edit", element: <AppointmentEdit /> },
+      { path: "appointments/edit/:id", element: <AppointmentEdit /> },
 
       { path: "donors", element: <Donor /> },
       { path: "donors/create", element: <DonorCreate /> },
-      { path: "donors/edit", element: <DonorEdit /> },
+      { path: "donors/edit/:id", element: <DonorEdit /> },
 
       { path: "request-forms", element: <RequestForm /> },
       { path: "request-forms/create", element: <RequestFormCreate /> },
-      { path: "request-forms/edit", element: <RequestFormEdit /> },
+      { path: "request-forms/edit/:id", element: <RequestFormEdit /> },
     ],
   },
 ];

@@ -8,6 +8,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { Button } from "@/components/ui/button";
 import { MoreHorizontal } from "lucide-react";
+import DeleteAlertButton from "@/components/ui/custom/DeleteAlertButton";
 
 export default function getDonarsCol({ handleEdit, handleDelete }) {
   const columnHelper = createColumnHelper();
@@ -68,18 +69,13 @@ export default function getDonarsCol({ handleEdit, handleDelete }) {
               </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end">
-              <DropdownMenuItem
+              <button
                 onClick={() => handleEdit(id)}
-                className="focus:bg-blue-500 focus:text-white  text-blue-600"
+                className="custom-dropdownitem text-blue-600 hover:text-white hover:bg-blue-600"
               >
                 Edit
-              </DropdownMenuItem>
-              <DropdownMenuItem
-                onClick={() => handleDelete(id)}
-                className="focus:bg-red-500 focus:text-white text-red-600"
-              >
-                Delete
-              </DropdownMenuItem>
+              </button>
+              <DeleteAlertButton itemId={id} onDelete={handleDelete} />
             </DropdownMenuContent>
           </DropdownMenu>
         );

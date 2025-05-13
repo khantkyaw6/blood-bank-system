@@ -1,5 +1,10 @@
 import { useForm } from "react-hook-form";
-import { TextInput, SelectInput } from "@/components/ui/custom/FormElements";
+import {
+  TextInput,
+  PasswordInput,
+  SelectInput,
+  BackButton,
+} from "@/components/ui/custom/FormElements";
 
 export function BankForm({ onSubmit, defaultValues = {}, isEdit = false }) {
   const {
@@ -13,6 +18,7 @@ export function BankForm({ onSubmit, defaultValues = {}, isEdit = false }) {
       onSubmit={handleSubmit(onSubmit)}
       className="bg-zinc-50 p-8 rounded-2xl shadow-md max-w-2xl w-full mx-auto space-y-6"
     >
+      <BackButton />
       <h2 className="text-2xl text-center font-semibold text-gray-800 mb-4">
         {isEdit ? "Edit Bank Details" : "Create New Bank"}
       </h2>
@@ -33,12 +39,12 @@ export function BankForm({ onSubmit, defaultValues = {}, isEdit = false }) {
           placeholder="alice@gmail.com"
           errors={errors}
         />
-        <TextInput
+
+        <PasswordInput
           register={register}
           name="password"
           title="Password"
           errors={errors}
-          type="password"
         />
         <TextInput
           register={register}
@@ -79,6 +85,15 @@ export function BankForm({ onSubmit, defaultValues = {}, isEdit = false }) {
         placeholder="Choose status"
         errors={errors}
       />
+
+      {/* Hidden fields for createdAt and updatedAt */}
+      {isEdit ? null : (
+        <input
+          type="hidden"
+          {...register("createdAt")}
+          value={new Date().toLocaleString()} // Set the current timestamp here
+        />
+      )}
 
       <div className="text-center pt-4">
         <button

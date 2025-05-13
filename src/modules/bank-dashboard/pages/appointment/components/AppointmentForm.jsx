@@ -1,5 +1,5 @@
 import { useForm } from "react-hook-form";
-import { TextInput, SelectInput } from "@/components/ui/custom/FormElements";
+import { TextInput, BackButton } from "@/components/ui/custom/FormElements";
 
 export default function AppointmentForm({
   onSubmit,
@@ -20,6 +20,7 @@ export default function AppointmentForm({
       onSubmit={handleSubmit(onSubmit)}
       className="bg-zinc-50 p-8 rounded-2xl shadow-md max-w-2xl w-full mx-auto space-y-6"
     >
+      <BackButton />
       <h2 className="text-2xl text-center font-semibold text-gray-800 mb-4">
         {isEdit ? "Edit Appointment Details" : "Create New Appointment"}
       </h2>

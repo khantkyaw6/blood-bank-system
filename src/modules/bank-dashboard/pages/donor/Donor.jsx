@@ -1,15 +1,20 @@
 // Donar => name / phone / dob ( date of birth ) / gender / address / blood_type / weight
+import { useNavigate } from "react-router";
 import getDonarsCol from "./components/DonorColumns";
 import { DataTable } from "@/components/ui/custom/data-table";
 import { donarsData } from "./donorData";
 
 export default function Donor() {
+  const navigate = useNavigate();
+
   function handleCreate() {
     console.log("Create donor");
+    navigate("/bank-dashboard/donors/create");
   }
 
   function handleEdit(id) {
     console.log("Edit donor", id);
+    navigate(`/bank-dashboard/donors/edit/${id}`);
   }
 
   function handleDelete(id) {

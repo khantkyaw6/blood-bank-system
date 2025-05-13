@@ -2,14 +2,19 @@
 import getRequestCol from "./components/RequestFormColumns";
 import { DataTable } from "@/components/ui/custom/data-table";
 import { requestData } from "./requestData";
+import { useNavigate } from "react-router";
 
 export default function Donor() {
+  const navigate = useNavigate();
+
   function handleCreate() {
     console.log("Create Request");
+    navigate("/bank-dashboard/request-forms/create");
   }
 
   function handleEdit(id) {
     console.log("Edit Request", id);
+    navigate(`/bank-dashboard/request-forms/edit/${id}`);
   }
 
   function handleDelete(id) {

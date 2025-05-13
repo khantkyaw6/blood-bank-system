@@ -1,4 +1,5 @@
 import { createColumnHelper } from "@tanstack/react-table";
+import DeleteAlertButton from "@/components/ui/custom/DeleteAlertButton";
 
 import {
   DropdownMenu,
@@ -32,7 +33,12 @@ export default function getBankColumns({ handleEdit, handleDelete }) {
     columnHelper.accessor("description", {
       header: "Description",
       cell: (info) => (
-        <span className="line-clamp-2 max-w-[300px]">{info.getValue()}</span>
+        <span
+          className="line-clamp-2 max-w-[300px] cursor-pointer"
+          title={info.getValue()}
+        >
+          {info.getValue()}
+        </span>
       ),
     }),
     columnHelper.accessor("address", {
@@ -87,18 +93,13 @@ export default function getBankColumns({ handleEdit, handleDelete }) {
               </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end">
-              <DropdownMenuItem
+              <button
                 onClick={() => handleEdit(id)}
-                className="focus:bg-blue-500 focus:text-white  text-blue-600"
+                className="custom-dropdownitem text-blue-600 hover:text-white hover:bg-blue-600"
               >
                 Edit
-              </DropdownMenuItem>
-              <DropdownMenuItem
-                onClick={() => handleDelete(id)}
-                className="focus:bg-red-500 focus:text-white text-red-600"
-              >
-                Delete
-              </DropdownMenuItem>
+              </button>
+              <DeleteAlertButton itemId={id} onDelete={handleDelete} />
             </DropdownMenuContent>
           </DropdownMenu>
         );
