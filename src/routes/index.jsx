@@ -17,8 +17,9 @@ const routes = [
 	{ path: "*", element: <NotFoundPage /> },
 ];
 
+const Routes = () => useRoutes(routes);
+
 export default function AppRoutes() {
-	const Routes = useRoutes(routes);
 	return (
 		<Router>
 			<Suspense fallback={<Loading />}>
