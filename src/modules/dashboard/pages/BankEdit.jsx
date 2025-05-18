@@ -1,38 +1,61 @@
 import { useEffect, useState } from "react";
 import { BankForm } from "../components/BankForm";
-import { useParams } from "react-router";
-import axios from "axios";
+import { useParams, useNavigate } from "react-router";
+import { getBankById, updateBank } from "@/api/dashboard/banks";
+import { toast } from "sonner";
 
 export default function BankEdit() {
-  const [data, setData] = useState(null);
+  const [data, setData] = useState();
   const { id } = useParams();
-  const defaultValues = data ? data.find((item) => item._id === id) : null;
-
-  console.log(id);
-  console.log(data);
+  const navigate = useNavigate();
 
   useEffect(() => {
-    axios({
-      method: "get",
-      url: "https://blood-bank-server-28lz.onrender.com/api/v1/admin-dashboard/banks",
-    }).then((respond) => {
-      const data = respond.data.data.banks;
-      setData(data);
-    });
+    const fetchData = async () => {
+      try {
+        const res = await getBankById(id);
+        const data = res?.data.bank;
+
+        if (!data) {
+          console.warn("Bank data is missing or undefined");
+          return;
+        }
+
+        setData(data);
+        console.log(res?.message);
+      } catch (err) {
+        console.error("Failed to fetch Bank Data: ", err);
+      }
+    };
+
+    fetchData();
   }, []);
 
-  function handleUpdate(data) {
-    console.log("Bank Updated:", data);
+  console.log(data);
+
+  async function handleUpdate(data) {
+    try {
+      const requiredData = {
+        email: data.email,
+        title: data.title,
+        description: data.description,
+        address: data.address,
+        city: data.city,
+        phone: data.phone,
+        status: data.status,
+      };
+      const res = await updateBank(id, requiredData);
+      toast.success(res?.message || "Bank Updated successfully!");
+      navigate(-1);
+      console.log(res?.message);
+    } catch (err) {
+      console.error("Failed to update Bank: ", err);
+    }
   }
 
   return (
     <div>
       {data ? (
-        <BankForm
-          onSubmit={handleUpdate}
-          defaultValues={defaultValues}
-          isEdit
-        />
+        <BankForm onSubmit={handleUpdate} defaultValues={data} isEdit />
       ) : (
         "Loading..."
       )}

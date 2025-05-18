@@ -1,25 +1,34 @@
-import { useEffect, useState, useRef } from "react";
+import { useEffect, useState } from "react";
 import getBankColumns from "../components/columns";
 import { DataTable } from "@/components/ui/custom/data-table";
-import { banks } from "./sampleData";
 import { useNavigate } from "react-router";
-import axios from "axios";
+import { getBanks } from "@/api/dashboard/banks";
 
 export default function Bank() {
-  const [data, setData] = useState([]);
+  const [data, setData] = useState();
 
   // get / post / put / patch / delete
 
   useEffect(() => {
-    axios({
-      method: "get",
-      url: "https://blood-bank-server-28lz.onrender.com/api/v1/admin-dashboard/banks",
-    }).then(function (response) {
-      // console.log("Response", response.data.data.banks[0].title);
-      setData(response?.data.data.banks);
-    });
+    const fetchData = async () => {
+      try {
+        const res = await getBanks();
+        const data = res?.data.banks;
+
+        if (!data) {
+          console.warn("Bank datas are missing or undefined");
+          return;
+        }
+
+        setData(data);
+        console.log(res?.message);
+      } catch (err) {
+        console.error("Failed to fetch banks lists:", err);
+      }
+    };
+
+    fetchData();
   }, []);
-  console.log(data);
 
   const navigate = useNavigate();
 
@@ -55,12 +64,16 @@ export default function Bank() {
         </div>
 
         <div className="overflow-x-auto">
-          <DataTable
-            columns={columns}
-            data={data}
-            onCreate={handleCreate}
-            resourceName="Bank"
-          />
+          {data ? (
+            <DataTable
+              columns={columns}
+              data={data}
+              onCreate={handleCreate}
+              resourceName="Bank"
+            />
+          ) : (
+            "Loading"
+          )}
         </div>
       </div>
     </div>

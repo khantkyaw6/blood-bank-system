@@ -7,15 +7,20 @@ import {
   BackButton,
 } from "@/components/ui/custom/FormElements";
 
-export function BankForm({ onSubmit, defaultValues = {}, isEdit = false }) {
+export function BankForm({
+  onSubmit,
+  defaultValues = { password: "" }, //if I don't pass, if defined as null and result in uncontrolled error
+  isEdit = false,
+}) {
   const {
     register,
+    control,
     reset,
     handleSubmit,
     formState: { errors },
   } = useForm({ defaultValues });
 
-  console.log(defaultValues);
+  // console.log(defaultValues);
 
   useEffect(() => {
     if (defaultValues) reset({ ...defaultValues });
@@ -51,7 +56,7 @@ export function BankForm({ onSubmit, defaultValues = {}, isEdit = false }) {
         />
 
         <PasswordInput
-          register={register}
+          control={control}
           name="password"
           title="Password"
           errors={errors}

@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router";
 import { ArrowLeft, Eye, EyeOff } from "lucide-react";
+import { Controller } from "react-hook-form";
 
 export function SelectInput({
   register,
@@ -65,53 +66,44 @@ export function TextInput({
   );
 }
 
-export function PasswordInput({ register, name, title, errors }) {
+export function PasswordInput({ control, name, title, errors }) {
   const [showPassword, setShowPassword] = useState(false);
-  const [inputValue, setInputValue] = useState(""); // Track input value
-  const inputType = showPassword ? "text" : "password";
-
-  // const togglePassword = () => setShowPassword((prev) => !prev);
-
-  useEffect(() => {
-    const form = document.querySelector("form");
-    if (form) {
-      const field = form.elements[name];
-      if (field && field.value) {
-        setInputValue(field.value);
-      }
-    }
-  }, [name]);
-
-  const handleInputChange = (e) => {
-    setInputValue(e.target.value); // Update input value
-  };
 
   return (
     <div className="relative">
       <p className="text-xs text-gray-500 mb-1 ml-1">{title}</p>
       <div className="relative">
-        <input
-          {...register(name)}
-          type={inputType}
-          value={inputValue}
-          onChange={handleInputChange}
-          className="input"
+        <Controller
+          name={name}
+          control={control}
+          rules={{
+            required: `${title} is required`,
+            minLength: {
+              value: 6,
+              message: "Password must be at least 6 characters long",
+            },
+          }}
+          render={({ field }) => (
+            <input
+              {...field}
+              type={showPassword ? "text" : "password"}
+              className="input"
+              placeholder="Enter your password"
+            />
+          )}
         />
-        {inputValue ? (
-          <button
-            type="button"
-            // onClick={togglePassword}
-            onMouseDown={() => setShowPassword(true)}
-            onMouseUp={() => setShowPassword(false)}
-            onMouseLeave={() => setShowPassword(false)} // optional: handles dragging out
-            onTouchStart={() => setShowPassword(true)}
-            onTouchEnd={() => setShowPassword(false)}
-            className="absolute inset-y-0 right-3 flex items-center text-gray-500 hover:text-gray-700 cursor-pointer"
-            tabIndex={-1}
-          >
-            {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
-          </button>
-        ) : null}
+        <button
+          type="button"
+          onMouseDown={() => setShowPassword(true)}
+          onMouseUp={() => setShowPassword(false)}
+          onMouseLeave={() => setShowPassword(false)}
+          onTouchStart={() => setShowPassword(true)}
+          onTouchEnd={() => setShowPassword(false)}
+          className="absolute inset-y-0 right-3 flex items-center text-gray-500 hover:text-gray-700 cursor-pointer"
+          tabIndex={-1}
+        >
+          {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
+        </button>
       </div>
       {errors?.[name] && (
         <p className="text-red-500 text-sm mt-1">{errors[name].message}</p>
