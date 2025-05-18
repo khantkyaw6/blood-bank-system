@@ -13,6 +13,7 @@ import RequestForm from "@/modules/bank-dashboard/pages/requestForm/RequestForm"
 import RequestFormCreate from "@/modules/bank-dashboard/pages/requestForm/RequestFormCreate";
 import RequestFormEdit from "@/modules/bank-dashboard/pages/requestForm/RequestFormEdit";
 // import Home from "@/modules/bank-dashboard/pages/Home";
+import { Navigate } from "react-router";
 
 export const bankDashboardRoutes = [
   {
@@ -23,6 +24,7 @@ export const bankDashboardRoutes = [
       </BankAuthGuard>
     ),
     children: [
+      { index: true, element: <Navigate to="appointments" replace /> },
       // { index: true, element: <Home /> },
       { path: "appointments", element: <Appointment /> },
       { path: "appointments/create", element: <AppointmentCreate /> },

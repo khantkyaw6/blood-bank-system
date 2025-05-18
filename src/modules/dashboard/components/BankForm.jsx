@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import {
   TextInput,
@@ -9,9 +10,16 @@ import {
 export function BankForm({ onSubmit, defaultValues = {}, isEdit = false }) {
   const {
     register,
+    reset,
     handleSubmit,
     formState: { errors },
   } = useForm({ defaultValues });
+
+  console.log(defaultValues);
+
+  useEffect(() => {
+    if (defaultValues) reset({ ...defaultValues });
+  }, []);
 
   return (
     <form
@@ -24,6 +32,8 @@ export function BankForm({ onSubmit, defaultValues = {}, isEdit = false }) {
       </h2>
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <input type="hidden" {...register("_id")} value={defaultValues?._id} />
+
         <TextInput
           register={register}
           name="title"
@@ -81,7 +91,7 @@ export function BankForm({ onSubmit, defaultValues = {}, isEdit = false }) {
         register={register}
         name="status"
         title="Status"
-        options={["approved", "pending", "rejected"]}
+        options={["active", "suspend"]}
         placeholder="Choose status"
         errors={errors}
       />

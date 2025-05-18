@@ -5,35 +5,21 @@ import { banks } from "./sampleData";
 import { useNavigate } from "react-router";
 import axios from "axios";
 
-// async function getData() {
-//   return [
-//     {
-//       id: "728ed52f",
-//       amount: 100,
-//       status: "pending",
-//       email: "m@example.com",
-//     },
-//     // ...
-//   ];
-// }
-
 export default function Bank() {
-  // const [sample, setSample] = useState("Bello");
-  // const [data, setData] = useState(
-  // []);
+  const [data, setData] = useState([]);
 
   // get / post / put / patch / delete
 
-  // useEffect(() => {
-  //   axios({
-  //     method: "get",
-  //     url: "https://api-d.estate.com.mm/",
-  //   }).then(function (response) {
-  //     console.log("Response", response.data.messageq);
-  //     setSample(response?.data.message);
-  //   });
-  //   // https://api-d.estate.com.mm/
-  // }, []);
+  useEffect(() => {
+    axios({
+      method: "get",
+      url: "https://blood-bank-server-28lz.onrender.com/api/v1/admin-dashboard/banks",
+    }).then(function (response) {
+      // console.log("Response", response.data.data.banks[0].title);
+      setData(response?.data.data.banks);
+    });
+  }, []);
+  console.log(data);
 
   const navigate = useNavigate();
 
@@ -71,7 +57,7 @@ export default function Bank() {
         <div className="overflow-x-auto">
           <DataTable
             columns={columns}
-            data={banks}
+            data={data}
             onCreate={handleCreate}
             resourceName="Bank"
           />

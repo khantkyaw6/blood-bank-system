@@ -14,9 +14,17 @@ export default function getBankColumns({ handleEdit, handleDelete }) {
   const columnHelper = createColumnHelper();
 
   return [
-    columnHelper.accessor("id", {
+    columnHelper.accessor("_id", {
       header: "ID",
-      cell: (info) => info.getValue(),
+      cell: (info) => (
+        <button
+          onClick={() => navigator.clipboard.writeText(info.getValue())}
+          className="cursor-pointer active:text-blue-400"
+          title="click to copy"
+        >
+          {info.getValue().slice(0, 6)}...{info.getValue().slice(-4)}
+        </button>
+      ),
     }),
     columnHelper.accessor("title", {
       header: "Bank Name",
@@ -37,7 +45,7 @@ export default function getBankColumns({ handleEdit, handleDelete }) {
           className="line-clamp-2 max-w-[300px] cursor-pointer"
           title={info.getValue()}
         >
-          {info.getValue()}
+          {info?.getValue() || <span className="text-red-500">null</span>}
         </span>
       ),
     }),
@@ -62,11 +70,11 @@ export default function getBankColumns({ handleEdit, handleDelete }) {
       cell: (info) => {
         const value = info.getValue();
         const color =
-          value === "approved"
+          value === "active"
             ? "text-green-600"
-            : value === "pending"
-            ? "text-yellow-600"
-            : "text-red-600";
+            : value === "suspend"
+            ? "text-red-600"
+            : null;
         return <span className={`font-medium ${color}`}>{value}</span>;
       },
     }),
@@ -83,7 +91,7 @@ export default function getBankColumns({ handleEdit, handleDelete }) {
       id: "actions",
       header: "Actions",
       cell: ({ row }) => {
-        const id = row.original.id;
+        const id = row.original._id;
 
         return (
           <DropdownMenu>

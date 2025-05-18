@@ -10,7 +10,6 @@ import {
   AlertDialogCancel,
   AlertDialogAction,
 } from "@/components/ui/alert-dialog";
-import { DropdownMenuItem } from "@/components/ui/dropdown-menu";
 
 export default function DeleteAlertButton({ itemId, onDelete, ref }) {
   const [open, setOpen] = useState(false);
@@ -18,7 +17,7 @@ export default function DeleteAlertButton({ itemId, onDelete, ref }) {
   return (
     <AlertDialog open={open} onOpenChange={setOpen}>
       <AlertDialogTrigger asChild>
-        <button className="custom-dropdownitem text-red-600 hover:bg-red-600 hover:text-white">
+        <button className="custom-dropdownitem text-red-600 hover:bg-red-500 hover:text-white">
           Delete
         </button>
       </AlertDialogTrigger>
