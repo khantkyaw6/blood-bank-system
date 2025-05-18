@@ -1,5 +1,5 @@
 import { useForm } from "react-hook-form";
-import "../style/form.css";
+import "../style/Form.css";
 
 export default function RegisterPage() {
   const {
