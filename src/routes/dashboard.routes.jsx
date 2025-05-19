@@ -3,6 +3,7 @@ import AuthGuard from "@/middlewares/auth-guard";
 import Bank from "@/modules/dashboard/pages/Bank";
 import BankCreate from "@/modules/dashboard/pages/BankCreate";
 import BankEdit from "@/modules/dashboard/pages/BankEdit";
+import BankDetail from "@/modules/dashboard/pages/BankDetail";
 import { Navigate } from "react-router";
 
 export const dashboardRoutes = [
@@ -22,6 +23,7 @@ export const dashboardRoutes = [
       { path: "banks", element: <Bank /> },
       { path: "banks/create", element: <BankCreate /> },
       { path: "banks/edit/:id", element: <BankEdit /> },
+      { path: "banks/detail/:id", element: <BankDetail /> },
     ],
   },
 ];

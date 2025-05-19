@@ -38,10 +38,12 @@ export default function Bank() {
     // show confirmation or remove from state
   }
 
+  function handleDetail(id) {
+    navigate(`/dashboard/banks/detail/${id}`);
+  }
+
   function handleEdit(id) {
-    console.log("Edit bank", id);
     navigate(`/dashboard/banks/edit/${id}`);
-    // navigate or open modal
   }
 
   function handleDelete(id) {
@@ -54,7 +56,7 @@ export default function Bank() {
     // }
   }
 
-  const columns = getBankColumns({ handleEdit, handleDelete });
+  const columns = getBankColumns({ handleDetail, handleEdit, handleDelete });
 
   return (
     <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-10">

@@ -10,7 +10,11 @@ import {
 import { Button } from "@/components/ui/button";
 import { MoreHorizontal } from "lucide-react";
 
-export default function getBankColumns({ handleEdit, handleDelete }) {
+export default function getBankColumns({
+  handleDetail,
+  handleEdit,
+  handleDelete,
+}) {
   const columnHelper = createColumnHelper();
 
   return [
@@ -102,8 +106,14 @@ export default function getBankColumns({ handleEdit, handleDelete }) {
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end">
               <button
+                onClick={() => handleDetail(id)}
+                className="custom-dropdownitem text-green-500 hover:text-white hover:bg-green-500"
+              >
+                Detail
+              </button>
+              <button
                 onClick={() => handleEdit(id)}
-                className="custom-dropdownitem text-blue-600 hover:text-white hover:bg-blue-600"
+                className="custom-dropdownitem text-blue-500 hover:text-white hover:bg-blue-500"
               >
                 Edit
               </button>
