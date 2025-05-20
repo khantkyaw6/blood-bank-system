@@ -30,7 +30,7 @@ export default function BankDetail() {
         { label: "ID", value: data._id },
         { label: "Bank Title", value: data.title },
         { label: "Email", value: data.email },
-        { label: "Password", value: data.password },
+        { label: "Password", value: "******" },
         { label: "Description", value: data.description },
         { label: "Address", value: data.address },
         { label: "City", value: data.city },
