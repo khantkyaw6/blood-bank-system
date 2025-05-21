@@ -27,7 +27,17 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { ArrowUpDown, Plus } from "lucide-react";
 
-export function DataTable({ columns, data, onCreate, resourceName = null }) {
+export function DataTable({
+  columns,
+  data,
+  onCreate,
+  resourceName = null,
+  page,
+  pageSize,
+  totalPages,
+  onPageChange,
+  onPageSizeChange,
+}) {
   const [sorting, setSorting] = React.useState([]);
   const [globalFilter, setGlobalFilter] = React.useState("");
 
@@ -35,9 +45,15 @@ export function DataTable({ columns, data, onCreate, resourceName = null }) {
     data,
     columns,
     state: {
+      pagination: {
+        pageIndex: page - 1,
+        pageSize: pageSize,
+      },
       sorting,
       globalFilter,
     },
+    manualPagination: true,
+    pageCount: totalPages,
     onSortingChange: setSorting,
     onGlobalFilterChange: setGlobalFilter,
     getCoreRowModel: getCoreRowModel(),
@@ -56,6 +72,28 @@ export function DataTable({ columns, data, onCreate, resourceName = null }) {
           onChange={(event) => setGlobalFilter(event.target.value)}
           className="max-w-sm"
         />
+
+        {/* Page limit dropdown */}
+        <div className="flex items-center gap-2">
+          <label htmlFor="pageSize" className="text-sm text-gray-600">
+            Rows per page:
+          </label>
+          <select
+            id="pageSize"
+            value={pageSize}
+            onChange={(e) => {
+              onPageSizeChange(Number(e.target.value));
+              onPageChange(1);
+            }}
+            className="border border-gray-300 rounded px-2 py-1 text-sm"
+          >
+            {[5, 10, 20, 50].map((size) => (
+              <option key={size} value={size}>
+                {size}
+              </option>
+            ))}
+          </select>
+        </div>
 
         {onCreate && (
           <Button
@@ -155,23 +193,22 @@ export function DataTable({ columns, data, onCreate, resourceName = null }) {
       {/* Pagination Controls */}
       <div className="flex items-center justify-between space-x-2">
         <div className="text-sm text-muted-foreground">
-          Page {table.getState().pagination.pageIndex + 1} of{" "}
-          {table.getPageCount()}
+          Page {page} of {totalPages}
         </div>
         <div className="flex items-center space-x-2">
           <Button
             variant="outline"
             size="sm"
-            onClick={() => table.previousPage()}
-            disabled={!table.getCanPreviousPage()}
+            onClick={() => onPageChange(Math.max(page - 1, 1))}
+            disabled={page <= 1}
           >
             Previous
           </Button>
           <Button
             variant="outline"
             size="sm"
-            onClick={() => table.nextPage()}
-            disabled={!table.getCanNextPage()}
+            onClick={() => onPageChange(Math.min(page + 1, totalPages))}
+            disabled={page >= totalPages}
           >
             Next
           </Button>

@@ -6,6 +6,7 @@ import { toast } from "sonner";
 
 export default function BankEdit() {
   const [data, setData] = useState();
+  const [loading, setLoading] = useState(false);
   const { id } = useParams();
   const navigate = useNavigate();
 
@@ -33,6 +34,7 @@ export default function BankEdit() {
   console.log(data);
 
   async function handleUpdate(data) {
+    setLoading(true);
     try {
       const requiredData = {
         email: data.email,
@@ -49,13 +51,27 @@ export default function BankEdit() {
       console.log(res?.message);
     } catch (err) {
       console.error("Failed to update Bank: ", err);
+      toast.error(
+        err.response
+          ? err.response.data.error +
+              " - " +
+              err.response.data.details.join(". ") || "Failed to Update Bank!"
+          : err.message
+      );
+    } finally {
+      setLoading(false);
     }
   }
 
   return (
     <div>
       {data ? (
-        <BankForm onSubmit={handleUpdate} defaultValues={data} isEdit />
+        <BankForm
+          onSubmit={handleUpdate}
+          defaultValues={data}
+          loading={loading}
+          isEdit
+        />
       ) : (
         "Loading..."
       )}

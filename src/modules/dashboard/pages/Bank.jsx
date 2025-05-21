@@ -3,9 +3,12 @@ import getBankColumns from "../components/columns";
 import { DataTable } from "@/components/ui/custom/data-table";
 import { useNavigate } from "react-router";
 import { getBanks } from "@/api/dashboard/banks";
+import { toast } from "sonner";
 
 export default function Bank() {
   const [data, setData] = useState();
+
+  const navigate = useNavigate();
 
   // get / post / put / patch / delete
 
@@ -24,18 +27,16 @@ export default function Bank() {
         console.log(res?.message);
       } catch (err) {
         console.error("Failed to fetch banks lists:", err);
+        err.message ? toast.error(err.message) : null;
       }
     };
 
     fetchData();
   }, []);
 
-  const navigate = useNavigate();
-
   function handleCreate() {
     console.log("Create bank");
     navigate("/dashboard/banks/create");
-    // show confirmation or remove from state
   }
 
   function handleDetail(id) {
@@ -47,13 +48,7 @@ export default function Bank() {
   }
 
   function handleDelete(id) {
-    // show confirmation or remove from state
-    // const confirmed = window.confirm("Are you sure you want to delete this?");
-    // if (confirmed) {/
-    // Call your delete function
-    // deleteItem(id);
     console.log("Delete bank", id);
-    // }
   }
 
   const columns = getBankColumns({ handleDetail, handleEdit, handleDelete });

@@ -9,6 +9,7 @@ export default function DonorForm({
   onSubmit,
   defaultValues = {},
   isEdit = false,
+  loading,
 }) {
   const {
     register,
@@ -35,6 +36,7 @@ export default function DonorForm({
           placeholder="Alice"
           errors={errors}
         />
+
         <TextInput
           register={register}
           name="dob"
@@ -65,7 +67,7 @@ export default function DonorForm({
         />
         <SelectInput
           register={register}
-          name="blood_type"
+          name="bloodType"
           title="Blood Type"
           placeholder="Blood Type"
           options={["A+", "A-", "B+", "B-", "AB+", "AB-", "O+", "O-"]}
@@ -82,9 +84,16 @@ export default function DonorForm({
       <div className="text-center pt-4">
         <button
           type="submit"
-          className="bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 px-6 rounded-lg transition-colors duration-300"
+          className="bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 px-6 rounded-lg transition-colors duration-300 cursor-pointer"
+          disabled={loading}
         >
-          {isEdit ? "Update Donor" : "Create Donor"}
+          {isEdit
+            ? loading
+              ? "Updating..."
+              : "Update Donor"
+            : loading
+            ? "Creating..."
+            : "Create Donor"}
         </button>
       </div>
     </form>

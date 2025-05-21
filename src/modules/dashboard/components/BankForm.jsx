@@ -11,6 +11,7 @@ export function BankForm({
   onSubmit,
   defaultValues = { password: "" }, //if I don't pass, if defined as null and result in uncontrolled error
   isEdit = false,
+  loading,
 }) {
   const {
     register,
@@ -113,9 +114,16 @@ export function BankForm({
       <div className="text-center pt-4">
         <button
           type="submit"
-          className="bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 px-6 rounded-lg transition-colors duration-300"
+          className="bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 px-6 rounded-lg transition-colors duration-300 cursor-pointer"
+          disabled={loading}
         >
-          {isEdit ? "Update Bank" : "Create Bank"}
+          {isEdit
+            ? loading
+              ? "Updating..."
+              : "Update Bank"
+            : loading
+            ? "Creating..."
+            : "Create Bank"}
         </button>
       </div>
     </form>

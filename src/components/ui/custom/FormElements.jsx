@@ -24,7 +24,10 @@ export function SelectInput({
       >
         <option value="">{placeholder}</option>
         {options.map((opt) => (
-          <option key={opt} value={opt}>
+          <option
+            key={opt}
+            value={name === "bloodType" ? opt : opt.toLowerCase()}
+          >
             {opt}
           </option>
         ))}

@@ -17,6 +17,10 @@ export default function Appointment() {
     navigate("/bank-dashboard/appointments/create");
   }
 
+  function handleDetail(id) {
+    navigate(`/bank-dashboard/appointments/detail/${id}`);
+  }
+
   function handleEdit(id) {
     console.log("Edit appointment", id);
     // navigate or open modal
