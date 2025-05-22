@@ -1,7 +1,7 @@
 import { useNavigate, useParams } from "react-router";
 import DonorForm from "./components/DonorForm";
 import { useEffect, useState } from "react";
-import { getDonorByID, updateDonor } from "@/api/bank-dashboard/donors/donors";
+import { getDonorByID, updateDonor } from "@/api/bank-dashboard/donors";
 import { toast } from "sonner";
 
 export default function DonorEdit() {
@@ -16,17 +16,18 @@ export default function DonorEdit() {
     const fetchData = async () => {
       try {
         const res = await getDonorByID(id);
-        setData(res?.data.donor);
-        // console.log(res);
+        const data = res?.data.donor;
+
+        if (!data) {
+          console.warn("Request data is missing or undefined");
+          return;
+        }
+
+        setData(data);
+        console.log(res?.message);
       } catch (err) {
         console.error("Failed to fetch Donor Detail: ", err);
-        toast.error(
-          err.response
-            ? err.response.data.error +
-                " - " +
-                err.response.data.details.join(". ") || "Bank created Failed!"
-            : err.message
-        );
+        err.message ? toast.error(err.message) : null;
       }
     };
 
@@ -55,7 +56,7 @@ export default function DonorEdit() {
         err.response
           ? err.response.data.error +
               " - " +
-              err.response.data.details.join(". ") || "Bank created Failed!"
+              err.response.data.details.join(". ") || "Donor Update Failed!"
           : err.message
       );
     } finally {

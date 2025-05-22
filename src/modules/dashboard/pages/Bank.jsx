@@ -7,7 +7,9 @@ import { toast } from "sonner";
 
 export default function Bank() {
   const [data, setData] = useState();
-
+  const [page, setPage] = useState(1);
+  const [pageSize, setPageSize] = useState(10);
+  const [totalPages, setTotalPages] = useState(1);
   const navigate = useNavigate();
 
   // get / post / put / patch / delete
@@ -15,8 +17,9 @@ export default function Bank() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const res = await getBanks();
+        const res = await getBanks(page, pageSize);
         const data = res?.data.banks;
+        const total = res?.data.pagination.totalResult;
 
         if (!data) {
           console.warn("Bank datas are missing or undefined");
@@ -24,6 +27,8 @@ export default function Bank() {
         }
 
         setData(data);
+        setTotalPages(Math.ceil(total / pageSize));
+
         console.log(res?.message);
       } catch (err) {
         console.error("Failed to fetch banks lists:", err);
@@ -32,7 +37,7 @@ export default function Bank() {
     };
 
     fetchData();
-  }, []);
+  }, [page, pageSize]);
 
   function handleCreate() {
     console.log("Create bank");
@@ -67,6 +72,11 @@ export default function Bank() {
               data={data}
               onCreate={handleCreate}
               resourceName="Bank"
+              page={page}
+              pageSize={pageSize}
+              totalPages={totalPages}
+              onPageChange={setPage}
+              onPageSizeChange={setPageSize}
             />
           ) : (
             "Loading"

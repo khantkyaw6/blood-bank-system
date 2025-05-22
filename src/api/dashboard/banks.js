@@ -1,7 +1,7 @@
 import api from './index';
 
-const getBanks = async() => {
-    const res = await api.get('banks')
+const getBanks = async(page,limit) => {
+    const res = await api.get(`banks/?page=${page}&limit=${limit}`);
     return res.data;
 }
 

@@ -62,6 +62,10 @@ export function DataTable({
     getPaginationRowModel: getPaginationRowModel(),
   });
 
+  const rowHeight = 48;
+  const tableHeight = pageSize * rowHeight;
+  console.log(rowHeight, tableHeight);
+
   return (
     <div className="space-y-4">
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
@@ -159,23 +163,53 @@ export function DataTable({
               </TableRow>
             ))}
           </TableHeader>
+
           <TableBody>
             {table.getRowModel().rows?.length ? (
-              table.getRowModel().rows.map((row) => (
-                <TableRow
-                  key={row.id}
-                  data-state={row.getIsSelected() && "selected"}
-                >
-                  {row.getVisibleCells().map((cell) => (
-                    <TableCell key={cell.id}>
-                      {flexRender(
-                        cell.column.columnDef.cell,
-                        cell.getContext()
-                      )}
-                    </TableCell>
-                  ))}
-                </TableRow>
-              ))
+              <>
+                {table.getRowModel().rows.map((row) => (
+                  <TableRow
+                    key={row.id}
+                    data-state={row.getIsSelected() && "selected"}
+                    style={{
+                      height: `${rowHeight}px`,
+                      maxHeight: `${rowHeight}px`,
+                      minHeight: `${rowHeight}px`,
+                    }}
+                  >
+                    {row.getVisibleCells().map((cell) => (
+                      <TableCell key={cell.id}>
+                        {flexRender(
+                          cell.column.columnDef.cell,
+                          cell.getContext()
+                        )}
+                      </TableCell>
+                    ))}
+                  </TableRow>
+                ))}
+
+                {/* Add empty rows to fill space */}
+                {[
+                  ...Array(
+                    Math.max(0, pageSize - table.getRowModel().rows.length)
+                  ),
+                ].map((_, i) => (
+                  <TableRow
+                    key={`empty-${i}`}
+                    aria-hidden="true"
+                    style={{
+                      height: `${rowHeight}px`,
+                      maxHeight: `${rowHeight}px`,
+                      minHeight: `${rowHeight}px`,
+                      pointerEvents: "none",
+                      opacity: 0,
+                      border: "none",
+                    }}
+                  >
+                    <TableCell colSpan={columns.length} />
+                  </TableRow>
+                ))}
+              </>
             ) : (
               <TableRow>
                 <TableCell

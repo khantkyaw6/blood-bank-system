@@ -13,6 +13,7 @@ import DonorEdit from "@/modules/bank-dashboard/pages/donor/DonorEdit";
 
 import RequestForm from "@/modules/bank-dashboard/pages/requestForm/RequestForm";
 import RequestFormCreate from "@/modules/bank-dashboard/pages/requestForm/RequestFormCreate";
+import RequestFormDetail from "@/modules/bank-dashboard/pages/requestForm/RequestFormDetail";
 import RequestFormEdit from "@/modules/bank-dashboard/pages/requestForm/RequestFormEdit";
 // import Home from "@/modules/bank-dashboard/pages/Home";
 import { Navigate } from "react-router";
@@ -40,6 +41,7 @@ export const bankDashboardRoutes = [
 
       { path: "request-forms", element: <RequestForm /> },
       { path: "request-forms/create", element: <RequestFormCreate /> },
+      { path: "request-forms/detail/:id", element: <RequestFormDetail /> },
       { path: "request-forms/edit/:id", element: <RequestFormEdit /> },
     ],
   },

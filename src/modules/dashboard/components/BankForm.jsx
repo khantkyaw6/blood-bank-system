@@ -9,23 +9,18 @@ import {
 
 export function BankForm({
   onSubmit,
-  defaultValues = { password: "" }, //if I don't pass, if defined as null and result in uncontrolled error
+  defaultValues = { password: "" }, //if I don't pass, it defined as null and result in uncontrolled error
   isEdit = false,
   loading,
 }) {
   const {
     register,
     control,
-    reset,
     handleSubmit,
     formState: { errors },
   } = useForm({ defaultValues });
 
   // console.log(defaultValues);
-
-  useEffect(() => {
-    if (defaultValues) reset({ ...defaultValues });
-  }, []);
 
   return (
     <form
@@ -38,8 +33,6 @@ export function BankForm({
       </h2>
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-        <input type="hidden" {...register("_id")} value={defaultValues?._id} />
-
         <TextInput
           register={register}
           name="title"

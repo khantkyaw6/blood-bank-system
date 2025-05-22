@@ -3,7 +3,7 @@ import { useState, useEffect } from "react";
 import { useNavigate } from "react-router";
 import { DataTable } from "@/components/ui/custom/data-table";
 import getDonarsCol from "./components/DonorColumns";
-import { getDonors } from "@/api/bank-dashboard/donors/donors";
+import { getDonors } from "@/api/bank-dashboard/donors";
 import { toast } from "sonner";
 
 export default function Donor() {
@@ -35,7 +35,6 @@ export default function Donor() {
       }
     };
     fetchData();
-    console.log("domo");
   }, [page, pageSize]);
 
   function handleCreate() {

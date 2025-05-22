@@ -1,18 +1,22 @@
 import { useForm } from "react-hook-form";
-import { TextInput, SelectInput } from "@/components/ui/custom/FormElements";
-import { BackButton } from "@/components/ui/custom/FormElements";
+import {
+  TextInput,
+  SelectInput,
+  BackButton,
+} from "@/components/ui/custom/FormElements";
+import { useEffect } from "react";
 
 export default function RequestForm({
   onSubmit,
   defaultValues = {},
   isEdit = false,
+  loading,
 }) {
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm({ defaultValues });
-
   //   Blood Request => name / phone / email / address / age / blood type / unit / status
 
   return (
@@ -64,7 +68,7 @@ export default function RequestForm({
         />
         <SelectInput
           register={register}
-          name="blood_type"
+          name="bloodType"
           title="Blood Type"
           placeholder="Blood Type"
           options={["A+", "A-", "B+", "B-", "AB+", "AB-", "O+", "O-"]}
@@ -92,8 +96,15 @@ export default function RequestForm({
         <button
           type="submit"
           className="bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 px-6 rounded-lg transition-colors duration-300"
+          disabled={loading}
         >
-          {isEdit ? "Update Request" : "Create Request"}
+          {loading
+            ? isEdit
+              ? "Updating..."
+              : "Creating..."
+            : isEdit
+            ? "Update Request"
+            : "Create Request"}
         </button>
       </div>
     </form>

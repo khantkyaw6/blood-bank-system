@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router";
-import { getDonorByID } from "@/api/bank-dashboard/donors";
+import { getRequestByID } from "@/api/bank-dashboard/requests";
 
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -16,11 +16,11 @@ export default function BankDetail() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const res = await getDonorByID(id);
-        const data = res?.data.donor;
+        const res = await getRequestByID(id);
+        const data = res?.data.request;
 
         if (!data) {
-          console.warn("Donor data is missing or undefined");
+          console.warn("Request data is missing or undefined");
           return;
         }
 
@@ -39,15 +39,28 @@ export default function BankDetail() {
     ? [
         { label: "ID", value: data._id },
         { label: "Name", value: data.name },
-        {
-          label: "Date of Birth",
-          value: new Date(data.dob).toLocaleDateString(),
-        },
-        { label: "Gender", value: data.gender },
-        { label: "Address", value: data.address },
-        { label: "Blood Type", value: data.bloodType },
         { label: "Phone", value: data.phone },
-        { label: "Weight", value: data.weight },
+        { label: "Email", value: data.email },
+        { label: "Address", value: data.address },
+        { label: "Age", value: data.age },
+        { label: "Blood Type", value: data.bloodType },
+        { label: "Unit", value: data.unit },
+        {
+          label: "Status",
+          value: (
+            <span
+              className={`font-medium ${
+                data.status === "approved"
+                  ? "text-green-600"
+                  : data.status === "pending"
+                  ? "text-yellow-600"
+                  : "text-red-600"
+              }`}
+            >
+              {data.status}
+            </span>
+          ),
+        },
         {
           label: "Created",
           value: new Date(data.createdAt).toLocaleString(),
@@ -63,12 +76,12 @@ export default function BankDetail() {
     <InfoRow key={index} label={field.label} value={field.value} />
   ));
 
-  function editDonor() {
-    navigate(`/bank-dashboard/donors/edit/${id}`);
+  function editRequest() {
+    navigate(`/bank-dashboard/request-forms/edit/${id}`);
   }
 
-  function deleteDonor() {
-    console.log("bank deleted: ", id);
+  function deleteRequest() {
+    console.log("request deleted: ", id);
   }
 
   return (
@@ -80,10 +93,10 @@ export default function BankDetail() {
             Donor Detail
           </h2>
           <div className="space-x-2">
-            <Button variant="outline" onClick={editDonor}>
+            <Button variant="outline" onClick={editRequest}>
               Edit
             </Button>
-            <Button variant="destructive" onClick={deleteDonor}>
+            <Button variant="destructive" onClick={deleteRequest}>
               Delete
             </Button>
           </div>
