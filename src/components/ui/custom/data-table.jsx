@@ -41,6 +41,9 @@ export function DataTable({
   const [sorting, setSorting] = React.useState([]);
   const [globalFilter, setGlobalFilter] = React.useState("");
 
+  //for cell place holder
+  const rowHeight = 48;
+
   const table = useReactTable({
     data,
     columns,
@@ -61,10 +64,6 @@ export function DataTable({
     getSortedRowModel: getSortedRowModel(),
     getPaginationRowModel: getPaginationRowModel(),
   });
-
-  const rowHeight = 48;
-  const tableHeight = pageSize * rowHeight;
-  console.log(rowHeight, tableHeight);
 
   return (
     <div className="space-y-4">
@@ -191,7 +190,9 @@ export function DataTable({
                 {/* Add empty rows to fill space */}
                 {[
                   ...Array(
-                    Math.max(0, pageSize - table.getRowModel().rows.length)
+                    pageSize
+                      ? Math.max(0, pageSize - table.getRowModel().rows.length)
+                      : null
                   ),
                 ].map((_, i) => (
                   <TableRow
