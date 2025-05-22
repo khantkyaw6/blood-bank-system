@@ -187,29 +187,30 @@ export function DataTable({
                   </TableRow>
                 ))}
 
-                {/* Add empty rows to fill space */}
-                {[
-                  ...Array(
-                    pageSize
-                      ? Math.max(0, pageSize - table.getRowModel().rows.length)
-                      : null
-                  ),
-                ].map((_, i) => (
-                  <TableRow
-                    key={`empty-${i}`}
-                    aria-hidden="true"
-                    style={{
-                      height: `${rowHeight}px`,
-                      maxHeight: `${rowHeight}px`,
-                      minHeight: `${rowHeight}px`,
-                      pointerEvents: "none",
-                      opacity: 0,
-                      border: "none",
-                    }}
-                  >
-                    <TableCell colSpan={columns.length} />
-                  </TableRow>
-                ))}
+                {page === totalPages &&
+                page > 1 &&
+                table.getRowModel().rows.length < pageSize
+                  ? [
+                      ...Array(
+                        Math.max(0, pageSize - table.getRowModel().rows.length)
+                      ),
+                    ].map((_, i) => (
+                      <TableRow
+                        key={`empty-${i}`}
+                        aria-hidden="true"
+                        style={{
+                          height: `${rowHeight}px`,
+                          maxHeight: `${rowHeight}px`,
+                          minHeight: `${rowHeight}px`,
+                          pointerEvents: "none",
+                          opacity: 0,
+                          border: "none",
+                        }}
+                      >
+                        <TableCell colSpan={columns.length} />
+                      </TableRow>
+                    ))
+                  : null}
               </>
             ) : (
               <TableRow>
