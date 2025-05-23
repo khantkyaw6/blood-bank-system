@@ -233,6 +233,7 @@ export function DataTable({
         </div>
         <div className="flex items-center space-x-2">
           <Button
+            type="button"
             variant="outline"
             size="sm"
             onClick={() => onPageChange(Math.max(page - 1, 1))}
@@ -241,6 +242,7 @@ export function DataTable({
             Previous
           </Button>
           <Button
+            type="button"
             variant="outline"
             size="sm"
             onClick={() => onPageChange(Math.min(page + 1, totalPages))}

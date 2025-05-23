@@ -1,19 +1,42 @@
+import { useState, useEffect } from "react";
 import getAppointmentCol from "./components/AppointmentColumns";
 import { DataTable } from "@/components/ui/custom/data-table";
-import { appointments } from "./appointmentData";
 import { useNavigate } from "react-router";
+import { getAppointments } from "@/api/bank-dashboard/appointments";
+import { toast } from "sonner";
 
 export default function Appointment() {
-  // const [data, setData] = useState([]);
+  const [data, setData] = useState();
+  const [page, setPage] = useState(1);
+  const [pageSize, setPageSize] = useState(5);
+  const [totalPages, setTotalPages] = useState(1);
   const navigate = useNavigate();
 
-  // useEffect(() => {
-  //   getData().then(setData);
-  // }, []);
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const res = await getAppointments(page, pageSize);
+        const data = res?.data.appointments;
+        const total = res?.data.pagination.totalResult;
+
+        if (!data) {
+          console.warn("Appointments data are missing or undefined");
+          return;
+        }
+
+        setData(data);
+        setTotalPages(Math.ceil(total / pageSize));
+        console.log(res.message);
+      } catch (err) {
+        console.error("Failed to fetch appointment data: ", err);
+        err.message ? toast.error(err.message) : null;
+      }
+    };
+
+    fetchData();
+  }, [page, pageSize]);
 
   function handleCreate() {
-    console.log("Create appointment");
-    // show confirmation or remove from state
     navigate("/bank-dashboard/appointments/create");
   }
 
@@ -32,7 +55,7 @@ export default function Appointment() {
     // show confirmation or remove from state
   }
 
-  const columns = getAppointmentCol({ handleEdit, handleDelete });
+  const columns = getAppointmentCol({ handleDetail, handleEdit, handleDelete });
 
   return (
     <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-10">
@@ -42,12 +65,21 @@ export default function Appointment() {
         </div>
 
         <div className="overflow-x-auto">
-          <DataTable
-            columns={columns}
-            data={appointments}
-            onCreate={handleCreate}
-            resourceName="Appointment"
-          />
+          {data ? (
+            <DataTable
+              columns={columns}
+              data={data}
+              onCreate={handleCreate}
+              resourceName="Request"
+              page={page}
+              pageSize={pageSize}
+              totalPages={totalPages}
+              onPageChange={setPage}
+              onPageSizeChange={setPageSize}
+            />
+          ) : (
+            "Loading"
+          )}
         </div>
       </div>
     </div>

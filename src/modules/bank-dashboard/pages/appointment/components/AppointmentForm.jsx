@@ -1,19 +1,41 @@
 import { useForm } from "react-hook-form";
 import { TextInput, BackButton } from "@/components/ui/custom/FormElements";
+import { useEffect, useState } from "react";
+import { getAppointments } from "@/api/bank-dashboard/appointments";
+import { toast } from "sonner";
+
+import DonorSelectorModal from "./DonorSelectorModal";
+import RequestSelectModal from "./RequestSelectModal";
 
 export default function AppointmentForm({
   onSubmit,
   defaultValues = {},
   isEdit = false,
+  loading,
 }) {
   const {
     register,
     handleSubmit,
     formState: { errors },
+    setValue,
   } = useForm({ defaultValues });
 
-  // Appointment => Donar Id / Blood Request Id / Date / Bank
-  // { donorId: "D020", requestId: "BR020", date: "2025-05-27", bank: "National Blood Center" }
+  const [donorModalOpen, setDonorModalOpen] = useState(false);
+  const [requestModalOpen, setRequestModalOpen] = useState(false);
+  const [donor, setDonor] = useState(defaultValues.donor || null);
+  const [request, setRequest] = useState(defaultValues.request || null);
+
+  const handleDonorSelect = (donor) => {
+    setDonor(donor);
+    setValue("donor", donor._id);
+    setDonorModalOpen(false);
+  };
+
+  const handleRequestSelect = (request) => {
+    setRequest(request);
+    setValue("request", request._id);
+    setRequestModalOpen(false);
+  };
 
   return (
     <form
@@ -25,46 +47,120 @@ export default function AppointmentForm({
         {isEdit ? "Edit Appointment Details" : "Create New Appointment"}
       </h2>
 
-      {/* <div className="grid grid-cols-1 gap-6"> */}
-      <TextInput
-        register={register}
-        name="donorId"
-        title="Donor ID"
-        placeholder="Enter donor Id"
-        errors={errors}
-      />
-      <TextInput
-        register={register}
-        name="requestId"
-        title="Blood Request Id"
-        placeholder="Enter Blood Request Id"
-        errors={errors}
-      />
+      {/* Donor Selector */}
+      <div>
+        <label className="block text-xs text-gray-500 mb-1 ml-1">Donor</label>
+        <div className="flex rounded-lg border border-gray-300 overflow-hidden shadow-sm w-full">
+          {/* Left: Display selected donor info (75%) */}
+          <div className="flex-4 bg-gray-100 px-4 py-2 text-sm text-gray-700 flex items-center">
+            {donor ? (
+              <div className="flex items-center space-x-4">
+                <p className="font-medium">{donor.name}</p>
+                {/* <p className="text-xs text-gray-500">ID: {donor._id}</p> */}
+                <p className="text-xs text-gray-500">
+                  Blood Type: {donor.bloodType}
+                </p>
+              </div>
+            ) : (
+              <span className="text-gray-400 italic">No donor selected</span>
+            )}
+          </div>
+
+          {/* Right: Button to open modal (25%) */}
+          <button
+            type="button"
+            onClick={() => setDonorModalOpen(true)}
+            className="flex-1 bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 text-sm font-medium whitespace-nowrap rounded-lg cursor-pointer"
+          >
+            {donor ? "Change" : "Select"}
+          </button>
+        </div>
+
+        {/* Hidden input for form submission */}
+        <input type="hidden" {...register("donor", { required: true })} />
+        {errors.donor && (
+          <p className="text-sm text-red-600 mt-1">Donor is required</p>
+        )}
+      </div>
+
+      {/* Request Selector */}
+      <div>
+        <label className="block text-xs text-gray-500 mb-1 ml-1">
+          Blood Request
+        </label>
+        <div className="flex rounded-lg border border-gray-300 overflow-hidden shadow-sm w-full">
+          {/* Left: Display selected donor info (75%) */}
+          <div className="flex-4 bg-gray-100 px-4 py-2 text-sm text-gray-700 flex items-center">
+            {request ? (
+              <div className="flex items-center space-x-4">
+                <p className="font-medium">{request.name}</p>
+                <p className="text-xs text-gray-500">
+                  Blood Type: {request.bloodType}
+                </p>
+                <p className="text-xs text-gray-500">Unit: {request.unit}</p>
+              </div>
+            ) : (
+              <span className="text-gray-400 italic">No request selected</span>
+            )}
+          </div>
+
+          {/* Right: Button to open modal (25%) */}
+          <button
+            type="button"
+            onClick={() => setRequestModalOpen(true)}
+            className="flex-1 bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 text-sm font-medium whitespace-nowrap rounded-lg cursor-pointer "
+          >
+            {request ? "Change" : "Select"}
+          </button>
+        </div>
+
+        {/* Hidden input for form submission */}
+        <input type="hidden" {...register("request", { required: true })} />
+        {errors.request && (
+          <p className="text-sm text-red-600 mt-1">Request is required</p>
+        )}
+      </div>
+
+      {/* Other fields */}
+
       <TextInput
         register={register}
         name="date"
         title="Date"
         placeholder="Enter Date"
         errors={errors}
-        type="date"
+        type="datetime-local"
       />
-      <TextInput
-        register={register}
-        name="bank"
-        title="Bank"
-        placeholder="Enter Bank Name"
-        errors={errors}
-      />
-      {/* </div> */}
 
       <div className="text-center pt-4">
         <button
           type="submit"
-          className="bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 px-6 rounded-lg transition-colors duration-300"
+          className="bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 px-6 rounded-lg transition-colors duration-300 cursor-pointer"
+          disabled={loading}
         >
-          {isEdit ? "Update Appointment" : "Create Appointment"}
+          {isEdit
+            ? loading
+              ? "Updating..."
+              : "Update Appointment"
+            : loading
+            ? "Creating..."
+            : "Create Appointment"}
         </button>
       </div>
+
+      {/* Donor Modal */}
+      <DonorSelectorModal
+        isOpen={donorModalOpen}
+        onClose={() => setDonorModalOpen(false)}
+        onSelect={handleDonorSelect}
+      />
+
+      {/* Request Modal */}
+      <RequestSelectModal
+        isOpen={requestModalOpen}
+        onClose={() => setRequestModalOpen(false)}
+        onSelect={handleRequestSelect}
+      />
     </form>
   );
 }

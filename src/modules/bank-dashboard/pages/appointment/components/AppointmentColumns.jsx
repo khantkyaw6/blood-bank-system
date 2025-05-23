@@ -11,7 +11,7 @@ import {
 import { Button } from "@/components/ui/button";
 import { MoreHorizontal } from "lucide-react";
 
-export default function getBankColumns({
+export default function getAppointmentCol({
   handleDetail,
   handleEdit,
   handleDelete,
@@ -19,21 +19,54 @@ export default function getBankColumns({
   const columnHelper = createColumnHelper();
 
   return [
-    // columnHelper.accessor("id", {
-    //   header: "ID",
-    //   cell: (info) => info.getValue(),
+    columnHelper.accessor("_id", {
+      header: "ID",
+      cell: (info) => (
+        <button
+          onClick={() => navigator.clipboard.writeText(info.getValue())}
+          className="cursor-pointer active:text-blue-400"
+          title="click to copy"
+        >
+          {info.getValue().slice(0, 6)}...{info.getValue().slice(-4)}
+        </button>
+      ),
+    }),
+    columnHelper.accessor("donor.name", {
+      header: "Donor",
+      cell: (info) => info.getValue(),
+    }),
+    columnHelper.accessor("bloodRequest.name", {
+      header: "Blood Request",
+      cell: (info) => info.getValue(),
+    }),
+    // columnHelper.accessor("bloodRequest._id", {
+    //   header: "Blood Request ID",
+    //   cell: (info) => (
+    //     <button
+    //       onClick={() => navigator.clipboard.writeText(info.getValue())}
+    //       className="cursor-pointer active:text-blue-400"
+    //       title="click to copy"
+    //     >
+    //       {info.getValue().slice(0, 6)}...{info.getValue().slice(-4)}
+    //     </button>
+    //   ),
     // }),
-    columnHelper.accessor("donorId", {
-      header: "Donor ID",
-      cell: (info) => info.getValue(),
-    }),
-    columnHelper.accessor("requestId", {
-      header: "Blood Request ID",
-      cell: (info) => info.getValue(),
-    }),
-    columnHelper.accessor("bank", {
+    columnHelper.accessor("bank.title", {
       header: "Bank Name",
       cell: (info) => info.getValue(),
+    }),
+    columnHelper.accessor("status", {
+      header: "Status",
+      cell: (info) => {
+        const value = info.getValue();
+        const color =
+          value === "scheduled"
+            ? "text-blue-600"
+            : value === "completed"
+            ? "text-green-600"
+            : "text-red-600";
+        return <span className={`font-medium ${color}`}>{value}</span>;
+      },
     }),
     columnHelper.accessor("date", {
       header: "Date",
