@@ -45,14 +45,11 @@ export default function Appointment() {
   }
 
   function handleEdit(id) {
-    console.log("Edit appointment", id);
-    // navigate or open modal
     navigate(`/bank-dashboard/appointments/edit/${id}`);
   }
 
   function handleDelete(id) {
     console.log("Delete appointment", id);
-    // show confirmation or remove from state
   }
 
   const columns = getAppointmentCol({ handleDetail, handleEdit, handleDelete });
@@ -70,7 +67,7 @@ export default function Appointment() {
               columns={columns}
               data={data}
               onCreate={handleCreate}
-              resourceName="Request"
+              resourceName="Appointment"
               page={page}
               pageSize={pageSize}
               totalPages={totalPages}

@@ -10,6 +10,11 @@ export default function DonorEdit() {
   const { id } = useParams();
   const navigate = useNavigate();
 
+  // Fixing date object not appearing in date input
+  const formattedData = data
+    ? { ...data, dob: new Date(data.dob).toISOString().split("T")[0] }
+    : null;
+
   // console.log(data);
 
   useEffect(() => {
@@ -63,16 +68,6 @@ export default function DonorEdit() {
       setLoading(false);
     }
   }
-
-  // Fixing date object not appearing in date input
-  function formatDateForInput(date) {
-    if (!date) return "";
-    return new Date(date).toISOString().split("T")[0]; // returns YYYY-MM-DD
-  }
-
-  const formattedData = data
-    ? { ...data, dob: formatDateForInput(data.dob) }
-    : null;
 
   return (
     <div>

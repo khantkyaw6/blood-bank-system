@@ -5,9 +5,19 @@ const getAppointments = async(page,limit)=>{
     return res.data;
 }
 
+const getAppointmentByID = async(id)=>{
+    const res = await api.get(`appointments/${id}`);
+    return res.data;
+}
+
 const createAppointment = async(appointmentData) => {
     const res = await api.post(`appointments`, appointmentData);
     return res.data;
 }
 
-export {getAppointments, createAppointment};
+const updateAppointment = async(id,appointmentData) => {
+    const res = await api.patch(`appointments/${id}`, appointmentData);
+    return res.data;
+}
+
+export {getAppointments, getAppointmentByID, createAppointment, updateAppointment};

@@ -9,19 +9,20 @@ export default function AppointmentCreate() {
   const navigate = useNavigate();
 
   const handleCreate = async (data) => {
+    setLoading(true);
     const formattedData = {
-      donor: data.donor,
-      bloodRequest: data.request,
+      donor: data.donor._id,
+      bloodRequest: data.bloodRequest._id,
       date: data.date,
       bank: "6828e5a15b21986c0c7424e6",
     };
-    setLoading(true);
+    // console.log(data);
+    // console.log(formattedData);
 
     try {
       const res = await createAppointment(formattedData);
       toast.success(res.message);
-      console.log(res);
-
+      // console.log(res);
       navigate(-1);
     } catch (err) {
       console.error("Create Appointment Failed: ", err);

@@ -90,7 +90,7 @@ export default function BankDetail() {
       <Card className="rounded-2xl shadow-lg border border-gray-200">
         <CardHeader className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 pb-2">
           <h2 className="text-2xl font-semibold tracking-tight text-gray-900">
-            Donor Detail
+            Request Detail
           </h2>
           <div className="space-x-2">
             <Button variant="outline" onClick={editRequest}>
@@ -109,7 +109,7 @@ export default function BankDetail() {
             </div>
           ) : (
             <div className="text-center text-gray-500 py-10">
-              Loading bank details...
+              Loading request details...
             </div>
           )}
         </CardContent>

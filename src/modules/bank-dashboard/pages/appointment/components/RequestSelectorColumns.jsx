@@ -9,6 +9,7 @@ export default function getRequestSelectorCol({ onSelect }) {
       header: "ID",
       cell: (info) => (
         <button
+          type="button"
           onClick={() => navigator.clipboard.writeText(info.getValue())}
           className="cursor-pointer active:text-blue-400"
           title="click to copy"

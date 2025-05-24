@@ -5,6 +5,7 @@ import { getDonorByID } from "@/api/bank-dashboard/donors";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { BackButton } from "@/components/ui/custom/FormElements";
+import { toast } from "sonner";
 
 export default function BankDetail() {
   const [data, setData] = useState(null);
@@ -68,7 +69,7 @@ export default function BankDetail() {
   }
 
   function deleteDonor() {
-    console.log("bank deleted: ", id);
+    console.log("donor deleted: ", id);
   }
 
   return (
@@ -96,7 +97,7 @@ export default function BankDetail() {
             </div>
           ) : (
             <div className="text-center text-gray-500 py-10">
-              Loading bank details...
+              Loading Donor details...
             </div>
           )}
         </CardContent>

@@ -81,7 +81,7 @@ export default function getAppointmentCol({
       id: "actions",
       header: "Actions",
       cell: ({ row }) => {
-        const id = row.original.donorId;
+        const id = row.original._id;
 
         return (
           <DropdownMenu>
