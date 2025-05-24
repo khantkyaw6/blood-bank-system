@@ -4,7 +4,7 @@ export default function Main() {
   return (
     <>
       {/* Navbar */}
-      <nav className="flex items-center justify-between px-6 py-3 bg-gradient-to-r from-red-300 to-red-600 rounded-full shadow-lg w-[90%] max-w-5xl mx-auto mt-6">
+      <nav className="flex items-center justify-between px-6 py-3 bg-gradient-to-r from-red-300 to-red-600 rounded-full shadow-lg w-[90%] max-w-5xl mx-auto mt-6 mb-6">
         {/* Logo */}
         <div className="flex items-center">
           <img src="bloodbank-logo.png" alt="Blood Bank Logo" className="w-12 h-12 rounded-full" />
