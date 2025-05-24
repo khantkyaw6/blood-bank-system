@@ -23,7 +23,7 @@ export default function Main() {
             <Button href="/request-form" primary>
               🚑 Request Blood
             </Button>
-            <Button href="/donor-form">🩸 Book a Donation</Button>
+            <Button href="/donor-form">🩸 Book</Button>
           </div>
         </div>
 
