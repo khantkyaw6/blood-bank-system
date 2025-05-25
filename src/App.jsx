@@ -1,12 +1,15 @@
 import { Toaster } from "sonner";
 import AppRoutes from "./routes";
+import { ThemeProvider } from "./components/ui/ThemeProvider";
 
 function App() {
   return (
-    <div>
-      <AppRoutes />
-      <Toaster position="top-right" />
-    </div>
+    <ThemeProvider>
+      <div>
+        <AppRoutes />
+        <Toaster position="top-right" />
+      </div>
+    </ThemeProvider>
   );
 }
 

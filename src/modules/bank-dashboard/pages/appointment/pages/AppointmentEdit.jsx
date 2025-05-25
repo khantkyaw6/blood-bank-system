@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router";
-import AppointmentForm from "./components/AppointmentForm";
+import AppointmentForm from "../components/AppointmentForm";
 import {
   getAppointmentByID,
   updateAppointment,

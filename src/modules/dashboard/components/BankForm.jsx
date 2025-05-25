@@ -20,19 +20,19 @@ export function BankForm({
     formState: { errors },
   } = useForm({ defaultValues });
 
-  // console.log(defaultValues);
+  // console.log(defaultValues);SUM Blood Bank 2SUM Blood Bank 2SUM Blood Bank 2
 
   return (
     <form
       onSubmit={handleSubmit(onSubmit)}
-      className="bg-zinc-50 p-8 rounded-2xl shadow-md max-w-2xl w-full mx-auto space-y-6"
+      className="bg-zinc-50 dark:bg-zinc-900 p-8 rounded-2xl shadow-md max-w-2xl w-full mx-auto space-y-6"
     >
       <BackButton />
-      <h2 className="text-2xl text-center font-semibold text-gray-800 mb-4">
+      <h2 className="text-2xl text-center font-semibold text-gray-800 dark:text-gray-100 mb-4">
         {isEdit ? "Edit Bank Details" : "Create New Bank"}
       </h2>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-6 dark:text-gray-100">
         <TextInput
           register={register}
           name="title"
@@ -49,12 +49,14 @@ export function BankForm({
           errors={errors}
         />
 
-        <PasswordInput
-          control={control}
-          name="password"
-          title="Password"
-          errors={errors}
-        />
+        {isEdit ? null : (
+          <PasswordInput
+            control={control}
+            name="password"
+            title="Password"
+            errors={errors}
+          />
+        )}
         <TextInput
           register={register}
           name="phone"
@@ -64,18 +66,20 @@ export function BankForm({
         />
         <TextInput
           register={register}
-          name="address"
-          title="Address"
-          placeholder="123 Elm Street"
-          errors={errors}
-        />
-        <TextInput
-          register={register}
           name="city"
           title="City"
           placeholder="New York"
           errors={errors}
         />
+        <div style={isEdit ? { gridColumnEnd: "span 2" } : null}>
+          <TextInput
+            register={register}
+            name="address"
+            title="Address"
+            placeholder="123 Elm Street"
+            errors={errors}
+          />
+        </div>
       </div>
 
       <TextInput
@@ -94,15 +98,6 @@ export function BankForm({
         placeholder="Choose status"
         errors={errors}
       />
-
-      {/* Hidden fields for createdAt and updatedAt */}
-      {isEdit ? null : (
-        <input
-          type="hidden"
-          {...register("createdAt")}
-          value={new Date().toLocaleString()} // Set the current timestamp here
-        />
-      )}
 
       <div className="text-center pt-4">
         <button

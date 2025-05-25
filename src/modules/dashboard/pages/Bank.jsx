@@ -60,9 +60,11 @@ export default function Bank() {
 
   return (
     <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-10">
-      <div className="bg-white shadow-md rounded-2xl p-6 space-y-6">
+      <div className="bg-white dark:bg-zinc-900 shadow-md rounded-2xl p-6 space-y-6">
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-          <h1 className="text-2xl font-bold text-gray-800">Bank Management</h1>
+          <h1 className="text-2xl font-bold text-gray-800 dark:text-gray-100">
+            Bank Management
+          </h1>
         </div>
 
         <div className="overflow-x-auto">
@@ -79,7 +81,7 @@ export default function Bank() {
               onPageSizeChange={setPageSize}
             />
           ) : (
-            "Loading"
+            "Loading..."
           )}
         </div>
       </div>

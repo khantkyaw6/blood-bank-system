@@ -1,9 +1,9 @@
 // Donar => name / phone / dob ( date of birth ) / gender / address / blood_type / weight
 import { useState, useEffect } from "react";
-import { useNavigate } from "react-router";
+import getRequestCol from "../components/RequestFormColumns";
 import { DataTable } from "@/components/ui/custom/data-table";
-import getDonarsCol from "./components/DonorColumns";
-import { getDonors } from "@/api/bank-dashboard/donors";
+import { useNavigate } from "react-router";
+import { getRequests } from "@/api/bank-dashboard/requests";
 import { toast } from "sonner";
 
 export default function Donor() {
@@ -13,56 +13,65 @@ export default function Donor() {
   const [totalPages, setTotalPages] = useState(1);
   const navigate = useNavigate();
 
+  const [delDialogOpen, setDelDialogOpen] = useState(false);
+
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const res = await getDonors(page, pageSize);
-        const data = res?.data.donors;
+        const res = await getRequests(page, pageSize);
+        const data = res?.data.requests;
         const total = res?.data.pagination.totalResult;
 
         if (!data) {
-          console.warn("Donor datas are missing or undefined");
+          console.warn("Requests data are missing or undefined");
           return;
         }
 
         setData(data);
         setTotalPages(Math.ceil(total / pageSize));
 
-        console.log(res?.message);
+        console.log(res.message);
       } catch (err) {
-        console.error("Failed to fetch donors lists:", err);
+        console.error("Failed to fetch Requests: ", err);
         err.message ? toast.error(err.message) : null;
       }
     };
+
     fetchData();
   }, [page, pageSize]);
 
   function handleCreate() {
-    console.log("Create donor");
-    navigate("/bank-dashboard/donors/create");
+    console.log("Create Request");
+    navigate("/bank-dashboard/request-forms/create");
   }
 
   function handleDetail(id) {
-    console.log("Donor Detail", id);
-    navigate(`/bank-dashboard/donors/detail/${id}`);
+    console.log("Edit Request", id);
+    navigate(`/bank-dashboard/request-forms/detail/${id}`);
   }
 
   function handleEdit(id) {
-    console.log("Edit donor", id);
-    navigate(`/bank-dashboard/donors/edit/${id}`);
+    console.log("Edit Request", id);
+    navigate(`/bank-dashboard/request-forms/edit/${id}`);
   }
 
   function handleDelete(id) {
-    console.log("Delete donor", id);
+    console.log("Delete Request Main:", id);
   }
 
-  const columns = getDonarsCol({ handleDetail, handleEdit, handleDelete });
+  const columns = getRequestCol({
+    handleDetail,
+    handleEdit,
+    handleDelete,
+  });
 
   return (
     <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-10">
-      <div className="bg-white shadow-md rounded-2xl p-6 space-y-6">
+      <div className="bg-white dark:bg-zinc-900 shadow-md rounded-2xl p-6 space-y-6">
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-          <h1 className="text-2xl font-bold text-gray-800">Donors</h1>
+          <h1 className="text-2xl font-bold text-gray-800 dark:text-gray-100">
+            Requests
+          </h1>
         </div>
 
         <div className="overflow-x-auto">
@@ -71,7 +80,7 @@ export default function Donor() {
               columns={columns}
               data={data}
               onCreate={handleCreate}
-              resourceName="Donor"
+              resourceName="Request"
               page={page}
               pageSize={pageSize}
               totalPages={totalPages}
@@ -79,7 +88,7 @@ export default function Donor() {
               onPageSizeChange={setPageSize}
             />
           ) : (
-            "Loading..."
+            "Loading"
           )}
         </div>
       </div>

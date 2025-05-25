@@ -40,10 +40,10 @@ export default function AppointmentForm({
   return (
     <form
       onSubmit={handleSubmit(onSubmit)}
-      className="bg-zinc-50 p-8 rounded-2xl shadow-md max-w-2xl w-full mx-auto space-y-6"
+      className="bg-zinc-50 dark:bg-zinc-900 p-8 rounded-2xl shadow-md max-w-2xl w-full mx-auto space-y-6"
     >
       <BackButton />
-      <h2 className="text-2xl text-center font-semibold text-gray-800 mb-4">
+      <h2 className="text-2xl text-center font-semibold text-gray-800 dark:text-gray-100 mb-4">
         {isEdit ? "Edit Appointment Details" : "Create New Appointment"}
       </h2>
 
@@ -52,12 +52,12 @@ export default function AppointmentForm({
         <label className="block text-xs text-gray-500 mb-1 ml-1">Donor</label>
         <div className="flex rounded-lg border border-gray-300 overflow-hidden shadow-sm w-full">
           {/* Left: Display selected donor info (75%) */}
-          <div className="flex-4 bg-gray-100 px-4 py-2 text-sm text-gray-700 flex items-center">
+          <div className="flex-4 bg-gray-100 dark:bg-zinc-900 px-4 py-2 text-sm text-gray-700 flex items-center">
             {donor ? (
-              <div className="flex items-center space-x-4">
+              <div className="flex items-center space-x-4 dark:text-gray-100">
                 <p className="font-medium">{donor.name}</p>
                 {/* <p className="text-xs text-gray-500">ID: {donor._id}</p> */}
-                <p className="text-xs text-gray-500">
+                <p className="text-xs text-gray-500 dark:text-gray-200">
                   Blood Type: {donor.bloodType}
                 </p>
               </div>
@@ -94,14 +94,14 @@ export default function AppointmentForm({
         </label>
         <div className="flex rounded-lg border border-gray-300 overflow-hidden shadow-sm w-full">
           {/* Left: Display selected donor info (75%) */}
-          <div className="flex-4 bg-gray-100 px-4 py-2 text-sm text-gray-700 flex items-center">
+          <div className="flex-4 bg-gray-100 dark:bg-zinc-900 px-4 py-2 text-sm text-gray-700 flex items-center">
             {bloodRequest ? (
-              <div className="flex items-center space-x-4">
+              <div className="flex items-center space-x-4 dark:text-gray-100">
                 <p className="font-medium">{bloodRequest.name}</p>
-                <p className="text-xs text-gray-500">
+                <p className="text-xs text-gray-500 dark:text-gray-200">
                   Blood Type: {bloodRequest.bloodType}
                 </p>
-                <p className="text-xs text-gray-500">
+                <p className="text-xs text-gray-500 dark:text-gray-200">
                   Unit: {bloodRequest.unit}
                 </p>
               </div>

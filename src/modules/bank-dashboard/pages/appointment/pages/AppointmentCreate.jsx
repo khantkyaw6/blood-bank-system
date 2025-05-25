@@ -1,5 +1,5 @@
 import { useState } from "react";
-import AppointmentForm from "./components/AppointmentForm";
+import AppointmentForm from "../components/AppointmentForm";
 import { createAppointment } from "@/api/bank-dashboard/appointments";
 import { useNavigate } from "react-router";
 import { toast } from "sonner";

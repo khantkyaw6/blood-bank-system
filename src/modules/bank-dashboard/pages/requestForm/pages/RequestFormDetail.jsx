@@ -5,13 +5,17 @@ import { getRequestByID } from "@/api/bank-dashboard/requests";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { BackButton } from "@/components/ui/custom/FormElements";
+import { toast } from "sonner";
+import { DeleteDialog } from "@/components/ui/custom/DeleteDialog";
+import InfoRow from "@/components/ui/custom/InfoRow";
 
 export default function BankDetail() {
   const [data, setData] = useState(null);
+  const [delDialogOpen, setDelDialogOpen] = useState(false);
   const { id } = useParams();
   const navigate = useNavigate();
 
-  console.log(data);
+  // console.log(data);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -89,14 +93,17 @@ export default function BankDetail() {
       <BackButton />
       <Card className="rounded-2xl shadow-lg border border-gray-200">
         <CardHeader className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 pb-2">
-          <h2 className="text-2xl font-semibold tracking-tight text-gray-900">
+          <h2 className="text-2xl font-semibold tracking-tight text-gray-900 dark:text-gray-100">
             Request Detail
           </h2>
           <div className="space-x-2">
             <Button variant="outline" onClick={editRequest}>
               Edit
             </Button>
-            <Button variant="destructive" onClick={deleteRequest}>
+            <Button
+              variant="destructive"
+              onClick={() => setDelDialogOpen(true)}
+            >
               Delete
             </Button>
           </div>
@@ -114,13 +121,14 @@ export default function BankDetail() {
           )}
         </CardContent>
       </Card>
+
+      {/* Separate dialog component */}
+      <DeleteDialog
+        open={delDialogOpen}
+        setOpen={setDelDialogOpen}
+        itemId={id}
+        onDelete={deleteRequest}
+      />
     </div>
   );
 }
-
-const InfoRow = ({ label, value }) => (
-  <div className="flex flex-col gap-1">
-    <span className="text-sm font-medium text-gray-600">{label}</span>
-    <div className="text-base text-gray-900 break-words">{value ?? "—"}</div>
-  </div>
-);

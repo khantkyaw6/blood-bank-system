@@ -34,7 +34,7 @@ function RequestSelectModal({ isOpen, onClose, onSelect }) {
 
   return (
     <div className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-50">
-      <div className="bg-white rounded-xl shadow-2xl p-6 w-full max-w-3xl max-h-[90vh] overflow-y-auto">
+      <div className="bg-white dark:bg-zinc-900 rounded-xl shadow-2xl p-6 w-full max-w-3xl max-h-[90vh] overflow-y-auto">
         <h2 className="text-lg font-semibold mb-4">Select a Request</h2>
 
         <div className="overflow-x-auto">
@@ -49,14 +49,14 @@ function RequestSelectModal({ isOpen, onClose, onSelect }) {
               onPageSizeChange={setPageSize}
             />
           ) : (
-            "Loading"
+            "Loading..."
           )}
         </div>
 
         <button
           type="button"
           onClick={onClose}
-          className="mt-4 bg-gray-200 px-4 py-2 rounded"
+          className="mt-4 bg-gray-200 dark:bg-zinc-800 cursor-pointer px-4 py-2 rounded"
         >
           Cancel
         </button>

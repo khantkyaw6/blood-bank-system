@@ -31,7 +31,7 @@ export default function BankEdit() {
     fetchData();
   }, []);
 
-  console.log(data);
+  // console.log(data);
 
   async function handleUpdate(data) {
     setLoading(true);

@@ -1,20 +1,20 @@
 import DashboardLayout from "@/components/layout/bank-dashboard-layout";
 import BankAuthGuard from "@/middlewares/bank-auth-guard";
 
-import Appointment from "@/modules/bank-dashboard/pages/appointment/Appointment";
-import AppointmentCreate from "@/modules/bank-dashboard/pages/appointment/AppointmentCreate";
-import AppointmentEdit from "@/modules/bank-dashboard/pages/appointment/AppointmentEdit";
-import AppointmentDetail from "@/modules/bank-dashboard/pages/appointment/AppointmentDetail";
+import Appointment from "@/modules/bank-dashboard/pages/appointment/pages/Appointment";
+import AppointmentCreate from "@/modules/bank-dashboard/pages/appointment/pages/AppointmentCreate";
+import AppointmentEdit from "@/modules/bank-dashboard/pages/appointment/pages/AppointmentEdit";
+import AppointmentDetail from "@/modules/bank-dashboard/pages/appointment/pages/AppointmentDetail";
 
-import Donor from "@/modules/bank-dashboard/pages/donor/Donor";
-import DonorCreate from "@/modules/bank-dashboard/pages/donor/DonorCreate";
-import DonorDetail from "@/modules/bank-dashboard/pages/donor/DonorDetail";
-import DonorEdit from "@/modules/bank-dashboard/pages/donor/DonorEdit";
+import Donor from "@/modules/bank-dashboard/pages/donor/pages/Donor";
+import DonorCreate from "@/modules/bank-dashboard/pages/donor/pages/DonorCreate";
+import DonorDetail from "@/modules/bank-dashboard/pages/donor/pages/DonorDetail";
+import DonorEdit from "@/modules/bank-dashboard/pages/donor/pages/DonorEdit";
 
-import RequestForm from "@/modules/bank-dashboard/pages/requestForm/RequestForm";
-import RequestFormCreate from "@/modules/bank-dashboard/pages/requestForm/RequestFormCreate";
-import RequestFormDetail from "@/modules/bank-dashboard/pages/requestForm/RequestFormDetail";
-import RequestFormEdit from "@/modules/bank-dashboard/pages/requestForm/RequestFormEdit";
+import RequestForm from "@/modules/bank-dashboard/pages/requestForm/pages/RequestForm";
+import RequestFormCreate from "@/modules/bank-dashboard/pages/requestForm/pages/RequestFormCreate";
+import RequestFormDetail from "@/modules/bank-dashboard/pages/requestForm/pages/RequestFormDetail";
+import RequestFormEdit from "@/modules/bank-dashboard/pages/requestForm/pages/RequestFormEdit";
 // import Home from "@/modules/bank-dashboard/pages/Home";
 import { Navigate } from "react-router";
 

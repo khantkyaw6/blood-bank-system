@@ -1,5 +1,5 @@
 import { useNavigate, useParams } from "react-router";
-import DonorForm from "./components/DonorForm";
+import DonorForm from "../components/DonorForm";
 import { useEffect, useState } from "react";
 import { getDonorByID, updateDonor } from "@/api/bank-dashboard/donors";
 import { toast } from "sonner";

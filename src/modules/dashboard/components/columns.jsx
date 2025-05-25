@@ -1,5 +1,5 @@
 import { createColumnHelper } from "@tanstack/react-table";
-import DeleteAlertButton from "@/components/ui/custom/DeleteAlertButton";
+import { DeleteAlertButton } from "@/components/ui/custom/DeleteDialog";
 
 import {
   DropdownMenu,
@@ -38,10 +38,10 @@ export default function getBankColumns({
       header: "Email",
       cell: (info) => <span className="text-blue-600">{info.getValue()}</span>,
     }),
-    columnHelper.accessor("password", {
-      header: "Password",
-      cell: () => "••••••••", // never show actual password
-    }),
+    // columnHelper.accessor("password", {
+    //   header: "Password",
+    //   cell: () => "••••••••", // never show actual password
+    // }),
     columnHelper.accessor("description", {
       header: "Description",
       cell: (info) => (

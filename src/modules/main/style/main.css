@@ -3,15 +3,3 @@
   --tw-ring-shadow: 0 0 0 <number>px;
 } */
 
-.input{
-  width: 100%;
-  border: 1px solid #d1d5db;
-  border-radius: 6px;
-  padding: 8px;
-}
-
-.input:focus{
-  outline: none;
-  /* border-color: #ef4444; */
-  box-shadow: 0 0 0 2px #ef4444;
-}

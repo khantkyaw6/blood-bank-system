@@ -6,11 +6,17 @@ import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { BackButton } from "@/components/ui/custom/FormElements";
+import { toast } from "sonner";
+import InfoRow from "@/components/ui/custom/InfoRow";
+import { DeleteDialog } from "@/components/ui/custom/DeleteDialog";
 
 export default function BankDetail() {
   const [data, setData] = useState(null);
+  const [delDialogOpen, setDelDialogOpen] = useState(false);
   const { id } = useParams();
   const navigate = useNavigate();
+
+  // consoel.log(data);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -26,15 +32,8 @@ export default function BankDetail() {
         setData(data);
         console.log(res?.message);
       } catch (err) {
-        console.error("Failed to fetch Bank Data", err);
-        toast.error(
-          err.response
-            ? err.response.data.error +
-                " - " +
-                err.response.data.details.join(". ") ||
-                "Failed to fetch Bank Data"
-            : err.message
-        );
+        console.error("Failed to fetch Appointment Data", err);
+        err.message ? toast.error(err.message) : null;
       }
     };
 
@@ -46,7 +45,7 @@ export default function BankDetail() {
         { label: "ID", value: data._id },
         { label: "Bank Title", value: data.title },
         { label: "Email", value: data.email },
-        { label: "Password", value: "******" },
+        // { label: "Password", value: "******" },
         { label: "Description", value: data.description },
         { label: "Address", value: data.address },
         { label: "City", value: data.city },
@@ -89,14 +88,17 @@ export default function BankDetail() {
       <BackButton />
       <Card className="rounded-2xl shadow-lg border border-gray-200">
         <CardHeader className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 pb-2">
-          <h2 className="text-2xl font-semibold tracking-tight text-gray-900">
+          <h2 className="text-2xl font-semibold tracking-tight text-gray-900 dark:text-gray-100">
             Bank Detail
           </h2>
           <div className="space-x-2">
             <Button variant="outline" onClick={editBank}>
               Edit
             </Button>
-            <Button variant="destructive" onClick={deleteBank}>
+            <Button
+              variant="destructive"
+              onClick={() => setDelDialogOpen(true)}
+            >
               Delete
             </Button>
           </div>
@@ -114,13 +116,14 @@ export default function BankDetail() {
           )}
         </CardContent>
       </Card>
+
+      {/* Separate dialog component */}
+      <DeleteDialog
+        open={delDialogOpen}
+        setOpen={setDelDialogOpen}
+        itemId={id}
+        onDelete={deleteBank}
+      />
     </div>
   );
 }
-
-const InfoRow = ({ label, value }) => (
-  <div className="flex flex-col gap-1">
-    <span className="text-sm font-medium text-gray-600">{label}</span>
-    <div className="text-base text-gray-900 break-words">{value ?? "—"}</div>
-  </div>
-);

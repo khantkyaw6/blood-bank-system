@@ -78,7 +78,10 @@ export function DataTable({
 
         {/* Page limit dropdown */}
         <div className="flex items-center gap-2">
-          <label htmlFor="pageSize" className="text-sm text-gray-600">
+          <label
+            htmlFor="pageSize"
+            className="text-sm text-gray-600 dark:text-gray-100"
+          >
             Rows per page:
           </label>
           <select
@@ -88,7 +91,7 @@ export function DataTable({
               onPageSizeChange(Number(e.target.value));
               onPageChange(1);
             }}
-            className="border border-gray-300 rounded px-2 py-1 text-sm"
+            className="border dark:bg-zinc-900 border-gray-300 rounded px-2 py-1 text-sm"
           >
             {[5, 10, 20, 50].map((size) => (
               <option key={size} value={size}>

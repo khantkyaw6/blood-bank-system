@@ -7,7 +7,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { Button } from "@/components/ui/button";
 import { MoreHorizontal } from "lucide-react";
-import DeleteAlertButton from "@/components/ui/custom/DeleteAlertButton";
+import { DeleteAlertButton } from "@/components/ui/custom/DeleteDialog";
 
 export default function getRequestColumns({
   handleDetail,
@@ -102,7 +102,12 @@ export default function getRequestColumns({
               >
                 Edit
               </button>
-              <DeleteAlertButton itemId={id} onDelete={handleDelete} />
+              <DeleteAlertButton
+                itemId={id}
+                onDelete={() => handleDelete(id)}
+                // title={"Domo"}
+                // description={"What's mate?"}
+              />
             </DropdownMenuContent>
           </DropdownMenu>
         );

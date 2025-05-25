@@ -2,7 +2,7 @@ import { useState } from "react";
 import { useNavigate } from "react-router";
 import { toast } from "sonner";
 import { createDonor } from "@/api/bank-dashboard/donors";
-import DonorForm from "./components/DonorForm";
+import DonorForm from "../components/DonorForm";
 
 export default function DonorsCreate() {
   const [loading, setLoading] = useState(false);

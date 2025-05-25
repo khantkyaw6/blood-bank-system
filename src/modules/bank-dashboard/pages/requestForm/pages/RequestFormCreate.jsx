@@ -1,5 +1,5 @@
 import { useState } from "react";
-import RequestForm from "./components/RequestFormFormat";
+import RequestForm from "../components/RequestFormFormat";
 import { createRequest } from "@/api/bank-dashboard/requests";
 import { toast } from "sonner";
 import { useNavigate } from "react-router";

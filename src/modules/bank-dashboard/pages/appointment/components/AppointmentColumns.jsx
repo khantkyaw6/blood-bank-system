@@ -1,7 +1,7 @@
 // Appointment => Donar Id / Blood Request Id / Date / Bank
 
 import { createColumnHelper } from "@tanstack/react-table";
-import DeleteAlertButton from "@/components/ui/custom/DeleteAlertButton";
+import { DeleteAlertButton } from "@/components/ui/custom/DeleteDialog";
 
 import {
   DropdownMenu,
