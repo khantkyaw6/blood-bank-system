@@ -1,65 +1,93 @@
+import { useState } from "react";
 import { useForm } from "react-hook-form";
-import "../style/Form.css";
+import { adminAuth } from "@/api/dashboard";
+import { toast } from "sonner";
+import { useNavigate } from "react-router";
 
 export default function LoginPage() {
-	const {
-		register,
-		handleSubmit,
-		formState: { errors },
-	} = useForm({
-		defaultValues: {
-			email: "",
-			password: "",
-		},
-	});
+  const [loading, setLoading] = useState(false);
+  const navigate = useNavigate();
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm({
+    defaultValues: {
+      email: "",
+      password: "",
+    },
+  });
 
-	const onSubmit = (data) => {
-		console.log(data);
-		// post method
+  const onSubmit = async (data) => {
+    setLoading(true);
 
-		// isSuccess => true / message => toast / token => local storage ("admin")
-		// isSuccess => false / error + details[0] => toast
+    try {
+      const res = await adminAuth(data);
+      console.log(res);
+      toast.success(res.isSuccess && res?.message);
 
-		// logout => localstorage clear လုပ်ရန်
-	};
+      localStorage.removeItem("bank_admin");
+      localStorage.removeItem("bank_data");
+      localStorage.setItem("admin", res.data.token);
+      navigate("/dashboard");
+    } catch (err) {
+      const message = err.response.data;
+      !message.isSuccess && toast.error(message.details[0]);
 
-	return (
-		<div className='form-container'>
-			<form onSubmit={handleSubmit(onSubmit)} className='login-form'>
-				<h1 className='form-title'>Login</h1>
+      console.error("Failed to Authenticate: ", err);
+    } finally {
+      setLoading(false);
+    }
+  };
 
-				<input
-					type='email'
-					className='form-input'
-					placeholder='Email...'
-					{...register("email", { required: "Email is required!" })}
-				/>
-				{errors.email && (
-					<span className='error-msg'>{errors.email.message}</span>
-				)}
+  return (
+    <div className="min-h-screen flex items-center justify-center bg-[#1a1a1a] text-white">
+      <form
+        onSubmit={handleSubmit(onSubmit)}
+        className="w-[380px] p-10 rounded-xl border border-white/20 backdrop-blur-md bg-white/10 shadow-md backdrop-blue-eff"
+      >
+        <h1 className="text-3xl font-bold text-center mb-10">Login</h1>
 
-				<input
-					type='password'
-					className='form-input'
-					placeholder='Password...'
-					{...register("password", {
-						required: "Password is required!",
-						minLength: {
-							value: 8,
-							message:
-								"Password must be at least 8 characters long",
-						},
-					})}
-				/>
-				{errors.password && (
-					<span className='error-msg'>{errors.password.message}</span>
-				)}
+        <div className="mb-5">
+          <input
+            type="email"
+            placeholder="Email..."
+            {...register("email", { required: "Email is required!" })}
+            className="w-full h-10 px-3 rounded-md bg-white/20 text-white placeholder-white/70 focus:outline-none focus:ring-2 focus:ring-green-400"
+          />
+          {errors.email && (
+            <p className="text-red-400 text-sm mt-1">{errors.email.message}</p>
+          )}
+        </div>
 
-				<button className='submit-btn'>Login</button>
-				<span className='register-msg'>
-					Don't have an account? <a href='/register'>Register</a>
-				</span>
-			</form>
-		</div>
-	);
+        <div className="mb-5">
+          <input
+            type="password"
+            placeholder="Password..."
+            {...register("password", {
+              required: "Password is required!",
+              minLength: {
+                value: 8,
+                message: "Password must be at least 8 characters long",
+              },
+            })}
+            className="w-full h-10 px-3 rounded-md bg-white/20 text-white placeholder-white/70 focus:outline-none focus:ring-2 focus:ring-green-400"
+          />
+          {errors.password && (
+            <p className="text-red-400 text-sm mt-1">
+              {errors.password.message}
+            </p>
+          )}
+        </div>
+
+        <button
+          type="submit"
+          disabled={loading}
+          className="w-full h-10 bg-green-600 hover:bg-green-500 text-white font-bold rounded-full transition cursor-pointer mt-5"
+        >
+          {loading ? "Loading..." : "Login"}
+        </button>
+      </form>
+    </div>
+  );
 }

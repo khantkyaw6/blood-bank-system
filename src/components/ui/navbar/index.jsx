@@ -1,5 +1,5 @@
 import { SidebarTrigger } from "@/components/ui/sidebar";
-// import NavProfile from "./nav-profile";
+import NavProfile from "./nav-profile";
 import ModeToggle from "@/components/ui/mode-toggle";
 
 export default function Navbar() {
@@ -10,8 +10,8 @@ export default function Navbar() {
         <div className="ml-auto flex items-center gap-2">
           {/* <ModeToggle /> */}
           <ModeToggle />
-          This is navbar
-          {/* <NavProfile /> */}
+          {/* This is navbar */}
+          <NavProfile />
         </div>
       </nav>
     </header>

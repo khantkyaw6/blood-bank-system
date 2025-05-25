@@ -20,4 +20,6 @@ const updateBank = async(id, bankData) => {
     return res.data;
 }
 
+
+
 export {getBanks, getBankById, createBank, updateBank};

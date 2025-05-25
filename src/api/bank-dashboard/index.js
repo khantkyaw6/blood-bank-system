@@ -21,4 +21,9 @@ api.interceptors.request.use((config) => {
 	return config;
 });
 
-export default api;
+const bankAdminAuth = async (loginData) => {
+	const res = await api.post('/auth/login', loginData);
+	return res.data;
+}
+
+export {api as default, bankAdminAuth};
