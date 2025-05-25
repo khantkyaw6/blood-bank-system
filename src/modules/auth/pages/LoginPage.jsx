@@ -15,6 +15,12 @@ export default function LoginPage() {
 
 	const onSubmit = (data) => {
 		console.log(data);
+		// post method
+
+		// isSuccess => true / message => toast / token => local storage ("admin")
+		// isSuccess => false / error + details[0] => toast
+
+		// logout => localstorage clear လုပ်ရန်
 	};
 
 	return (

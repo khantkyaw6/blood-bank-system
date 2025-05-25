@@ -6,8 +6,8 @@ import RegisterPage from "./pages/RegisterPage";
 const authRoutes = [
 	{ path: "/login", element: <LoginPage /> },
 	{ path: "/register", element: <RegisterPage /> },
-	{ path: "/bank/login", element: <BankLoginPage /> },
-	{ path: "/bank/register", element: <BankRegisterPage /> },
+	{ path: "/bank-dashboard/login", element: <BankLoginPage /> },
+	// { path: "/bank/register", element: <BankRegisterPage /> },
 ];
 
 export default authRoutes;
