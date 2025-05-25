@@ -8,13 +8,22 @@ export default function AppointmentCreate() {
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
+  const storedData = localStorage.getItem("bank_data");
+  const bankData = storedData ? JSON.parse(storedData) : null;
+
+  if (!bankData) {
+    // redirect to login or show error
+    navigate("/bank-dashboard/login");
+    return null;
+  }
+
   const handleCreate = async (data) => {
     setLoading(true);
     const formattedData = {
       donor: data.donor._id,
       bloodRequest: data.bloodRequest._id,
       date: data.date,
-      bank: "6828e5a15b21986c0c7424e6",
+      bank: bankData._id,
     };
     // console.log(data);
     // console.log(formattedData);
