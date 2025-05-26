@@ -1,68 +1,41 @@
-// import styles from "./style/main.module.css";
+import { useState } from "react";
+import Navbar from "../components/NavBar";
+import Button from "../components/Button";
 
 export default function Main() {
   return (
-    <>
+    <section className="min-h-screen bg-gradient-to-br from-white via-red-50 to-red-100">
       {/* Navbar */}
-      <nav className="flex items-center justify-between px-6 py-3 bg-gradient-to-r from-red-300 to-red-600 rounded-full shadow-lg w-[90%] max-w-5xl mx-auto mt-6 mb-6">
-        {/* Logo */}
-        <div className="flex items-center">
-          <img src="bloodbank-logo.png" alt="Blood Bank Logo" className="w-12 h-12 rounded-full" />
-        </div>
-
-        {/* Navigation Links */}
-        <ul className="flex space-x-6 text-white font-medium">
-          <li>
-            <a href="#" className="hover:bg-[#FFB4B4] px-4 py-1 rounded-full transition">Home</a>
-          </li>
-          <li>
-            <a href="#" className="hover:bg-[#FFB4B4] px-4 py-1 rounded-full transition">AboutUS</a>
-          </li>
-          <li>
-            <a href="#" className="hover:bg-[#FFB4B4] px-4 py-1 rounded-full transition">Contact</a>
-          </li>
-          <li>
-            <a href="#" className="hover:bg-[#FFB4B4] px-4 py-1 rounded-full transition">View</a>
-          </li>
-        </ul>
-      </nav>
+      {/* blah blah */}
+      <Navbar />
 
       {/* Hero Section */}
-      <section className="md:w-screen md:h-screen bg-red-100 py-16 px-6 md:px-12 lg:px-24 flex justify-center items-center bg-gradient-to-br from-white to-red-200">
-        <div className="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-12">
-          <div className="flex-1 text-center md:text-left">
-            <h1 className="text-4xl md:text-5xl font-extrabold text-red-700 mb-6">
-              Save Lives. Be a Hero Today.
-            </h1>
-            <p className="text-lg md:text-xl text-gray-700 mb-8">
-              Every drop counts. Your blood donation could give someone a second
-              chance at life. Join us or request help — we’re here for you.
-            </p>
-            <div className="flex flex-col md:flex-row gap-4 justify-center md:justify-start">
-              <a
-                href="/request-form"
-                className="bg-red-600 hover:bg-red-700 text-white font-semibold px-6 py-3 rounded-lg shadow-md transition"
-              >
-                🚑 Request Blood
-              </a>
-              <a
-                href="/donor-form"
-                className="bg-white border border-red-600 text-red-700 hover:bg-red-200 font-semibold px-6 py-3 rounded-lg transition"
-              >
-                🩸 Book a Donation
-              </a>
-            </div>
-          </div>
+      <div className="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-12 py-20 px-6 md:px-10">
+        <div className="flex-1 text-center md:text-left">
+          <h1 className="text-4xl md:text-5xl font-bold text-red-700 mb-6 leading-tight">
+            Save Lives. <br className="hidden md:inline" /> Be a Lifesaver Today
+          </h1>
+          <p className="max-w-xl mx-auto text-lg text-gray-800 font-pompiere mb-6">
+             “We rise by lifting others — and through blood donation, you rise to become a silent hero to someone you may never meet.”
+          </p>
 
-          <div className="flex-1">
-            <img
-              src="https://cdn-icons-png.flaticon.com/512/2936/2936740.png"
-              alt="Blood Donation Illustration"
-              className="w-full max-w-md mx-auto"
-            />
+          <div className="flex flex-col md:flex-row gap-4 justify-center md:justify-start">
+            <Button href="/request-form" primary>
+              🚑 Request Blood
+            </Button>
+            <Button href="/donor-form">🩸 Book a Donation</Button>
           </div>
         </div>
-      </section>
-    </>
+
+        <div className="flex-1">
+          <img
+            src="HomeImage.jpg"
+            alt="Blood Donation Illustration"
+            className="w-full max-w-md mx-auto rounded-xl"
+          />
+        </div>
+        
+      </div>
+    </section>
   );
 }
