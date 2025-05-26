@@ -4,15 +4,15 @@ import MainSection from "./main-section";
 import SettingSection from "./setting-section";
 
 const DashboardSidebar = () => {
-	return (
-		<Sidebar variant='inset'>
-			<SidebarContent>
-				<MainSection />
-				<Separator />
-				<SettingSection />
-			</SidebarContent>
-		</Sidebar>
-	);
+  return (
+    <Sidebar variant="inset">
+      <SidebarContent>
+        <MainSection />
+        <Separator />
+        {/* <SettingSection /> */}
+      </SidebarContent>
+    </Sidebar>
+  );
 };
 
 export default DashboardSidebar;
