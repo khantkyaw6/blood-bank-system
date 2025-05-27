@@ -20,7 +20,7 @@ export default function getRequestSelectorCol({ onSelect }) {
     }),
 
     columnHelper.accessor("name", {
-      header: "Donor",
+      header: "Name",
       cell: (info) => info.getValue(),
     }),
 
