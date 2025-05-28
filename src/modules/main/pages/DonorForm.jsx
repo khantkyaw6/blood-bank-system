@@ -18,10 +18,12 @@ export default function DonorForm() {
   };
 
   return (
-    <section>
+    <section className="min-h-screen flex flex-col bg-gradient-to-br from-white to-red-200">
       <Navbar />
-      <section className="md:pt-10 md:pb-10 bg-linear-to-br/oklab from-white to-red-200">
-        <div className="max-w-3xl mx-auto p-6 bg-white rounded-lg shadow-lg">
+      {/* <section className="md:pt-10 md:pb-10 bg-linear-to-br/oklab from-white to-red-200">
+        <div className="max-w-3xl mx-auto p-6 bg-white rounded-lg shadow-lg"> */}
+      <section className="flex-grow flex items-center justify-center py-10 ">
+        <div className="max-w-3xl w-full p-6 bg-white rounded-lg shadow-lg">
           <h2 className="text-3xl font-bold text-red-600 mb-6">
             Donor Registration Form
           </h2>
@@ -35,6 +37,7 @@ export default function DonorForm() {
                 placeholder="Alice Doe"
                 type="text"
                 errors={errors}
+                forceLight
               />
               <TextInput
                 register={register}
@@ -42,6 +45,7 @@ export default function DonorForm() {
                 title="Date of Birth"
                 type="date"
                 errors={errors}
+                forceLight
               />
               <SelectInput
                 register={register}
@@ -50,6 +54,7 @@ export default function DonorForm() {
                 placeholder="Gender"
                 options={["Male", "Female", "Other"]}
                 errors={errors}
+                forceLight
               />
               <TextInput
                 register={register}
@@ -57,21 +62,35 @@ export default function DonorForm() {
                 title="Phone Number"
                 placeholder="09987654321"
                 errors={errors}
+                forceLight
               />
               <SelectInput
                 register={register}
                 name="blood_type"
                 title="Blood Type"
-                placeholder="Blood Type"
+                placeholder="Bank"
                 options={["A+", "A-", "B+", "B-", "AB+", "AB-", "O+", "O-"]}
                 errors={errors}
+                forceLight
               />
               <TextInput
                 register={register}
                 name="weight"
                 title="Weight (kg)"
                 type="number"
+                forceLight
               />
+              <div className="md:col-span-2">
+                <SelectInput
+                  register={register}
+                  name="bank"
+                  title="Bank"
+                  placeholder="Blood Type"
+                  options={["A+", "A-", "B+", "B-", "AB+", "AB-", "O+", "O-"]}
+                  errors={errors}
+                  forceLight
+                />
+              </div>
               <div className="md:col-span-2">
                 <p className="text-xs text-gray-500 mb-1 ml-1">Address</p>
                 <textarea

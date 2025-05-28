@@ -3,6 +3,42 @@ import { useNavigate } from "react-router";
 import { ArrowLeft, Eye, EyeOff } from "lucide-react";
 import { Controller } from "react-hook-form";
 
+// export function SelectInput({
+//   register,
+//   name,
+//   title,
+//   options,
+//   placeholder,
+//   errors,
+//   required = true,
+// }) {
+//   return (
+//     <div>
+//       <p className="text-xs text-gray-500 mb-1 ml-1">{title}</p>
+//       <select
+//         {...register(
+//           name,
+//           required ? { required: `${title} is required` } : {}
+//         )}
+//         className="input dark:bg-zinc-900"
+//       >
+//         <option value="">{placeholder}</option>
+//         {options.map((opt) => (
+//           <option
+//             key={opt}
+//             value={name === "bloodType" ? opt : opt.toLowerCase()}
+//           >
+//             {opt}
+//           </option>
+//         ))}
+//       </select>
+//       {errors?.[name] && (
+//         <p className="text-red-500 text-sm ms-2">{errors[name].message}</p>
+//       )}
+//     </div>
+//   );
+// }
+
 export function SelectInput({
   register,
   name,
@@ -11,6 +47,7 @@ export function SelectInput({
   placeholder,
   errors,
   required = true,
+  forceLight = false,
 }) {
   return (
     <div>
@@ -20,14 +57,16 @@ export function SelectInput({
           name,
           required ? { required: `${title} is required` } : {}
         )}
-        className="input dark:bg-zinc-900"
+        className={`input border rounded px-3 py-2 w-full
+          ${
+            forceLight
+              ? "bg-white text-black border-gray-300 !important"
+              : "bg-white text-black dark:bg-zinc-900 dark:text-white dark:border-zinc-700"
+          }`}
       >
         <option value="">{placeholder}</option>
         {options.map((opt) => (
-          <option
-            key={opt}
-            value={name === "bloodType" ? opt : opt.toLowerCase()}
-          >
+          <option key={opt} value={opt.toLowerCase()}>
             {opt}
           </option>
         ))}
@@ -47,6 +86,7 @@ export function TextInput({
   type = "text",
   errors,
   required = true,
+  forceLight = false,
 }) {
   return (
     <div>
@@ -59,8 +99,13 @@ export function TextInput({
         type={type}
         placeholder={placeholder}
         // defaultValue={placeholder}
-        className="input"
         min={type === "number" ? 1 : null}
+        className={`input border rounded px-3 py-2 w-full
+          ${
+            forceLight
+              ? "bg-white text-black border-gray-300 !important"
+              : "bg-white text-black dark:bg-zinc-900 dark:text-white dark:border-zinc-700"
+          }`}
       />
       {errors?.[name] && (
         <p className="text-red-500 text-sm ms-2">{errors[name].message}</p>
