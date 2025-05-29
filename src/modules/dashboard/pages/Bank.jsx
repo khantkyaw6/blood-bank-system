@@ -4,7 +4,6 @@ import { DataTable } from "@/components/ui/custom/data-table";
 import { useNavigate } from "react-router";
 import { getBanks, getBanksWithoutPagination } from "@/api/dashboard/banks";
 import { toast } from "sonner";
-import { CSVDownload } from "react-csv";
 import CsvDownloader from "react-csv-downloader";
 
 export default function Bank() {
