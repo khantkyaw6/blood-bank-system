@@ -2,89 +2,131 @@ import { useEffect, useState } from "react";
 import getBankColumns from "../components/columns";
 import { DataTable } from "@/components/ui/custom/data-table";
 import { useNavigate } from "react-router";
-import { getBanks } from "@/api/dashboard/banks";
+import { getBanks, getBanksWithoutPagination } from "@/api/dashboard/banks";
 import { toast } from "sonner";
+import { CSVDownload } from "react-csv";
+import CsvDownloader from "react-csv-downloader";
 
 export default function Bank() {
-  const [data, setData] = useState();
-  const [page, setPage] = useState(1);
-  const [pageSize, setPageSize] = useState(10);
-  const [totalPages, setTotalPages] = useState(1);
-  const navigate = useNavigate();
+	const [data, setData] = useState();
+	const [page, setPage] = useState(1);
+	const [pageSize, setPageSize] = useState(10);
+	const [totalPages, setTotalPages] = useState(1);
+	const navigate = useNavigate();
 
-  // get / post / put / patch / delete
+	const getCsvData = async () => {
+		const headers = ["Title", "Email", "Phone", "City", "Address"];
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const res = await getBanks(page, pageSize);
-        const data = res?.data.banks;
-        const total = res?.data.pagination.totalResult;
+		try {
+			const response = await getBanksWithoutPagination();
+			const bankList = response?.data?.banks || [];
 
-        if (!data) {
-          console.warn("Bank datas are missing or undefined");
-          return;
-        }
+			if (bankList.length === 0) {
+				toast.info("No bank data found to download.");
+				return [headers];
+			}
 
-        setData(data);
-        setTotalPages(Math.ceil(total / pageSize));
+			const csvRows = bankList.map((bank) => ({
+				Title: bank.title || "",
+				Email: bank.email || "",
+				Phone: bank.phone || "",
+				City: bank.city || "",
+				Address: bank.address || "",
+			}));
 
-        console.log(res?.message);
-      } catch (err) {
-        console.error("Failed to fetch banks lists:", err);
-        err.message ? toast.error(err.message) : null;
-      }
-    };
+			if (csvRows.length > 1) {
+				toast.success("Bank report download started."); // Toast for successful download start
+			}
+			return csvRows;
+		} catch (err) {
+			console.error("Failed to fetch data for CSV download:", err);
+			toast.error("Failed to download bank report.");
 
-    fetchData();
-  }, [page, pageSize]);
+			return [];
+		}
+	};
 
-  function handleCreate() {
-    console.log("Create bank");
-    navigate("/dashboard/banks/create");
-  }
+	useEffect(() => {
+		const fetchData = async () => {
+			try {
+				const res = await getBanks(page, pageSize);
+				const data = res?.data.banks;
+				const total = res?.data.pagination.totalResult;
 
-  function handleDetail(id) {
-    navigate(`/dashboard/banks/detail/${id}`);
-  }
+				if (!data) {
+					console.warn("Bank datas are missing or undefined");
+					return;
+				}
+				console.log({ data });
 
-  function handleEdit(id) {
-    navigate(`/dashboard/banks/edit/${id}`);
-  }
+				setData(data);
+				setTotalPages(Math.ceil(total / pageSize));
 
-  function handleDelete(id) {
-    console.log("Delete bank", id);
-  }
+				console.log(res?.message);
+			} catch (err) {
+				console.error("Failed to fetch banks lists:", err);
+				err.message ? toast.error(err.message) : null;
+			}
+		};
 
-  const columns = getBankColumns({ handleDetail, handleEdit, handleDelete });
+		fetchData();
+	}, [page, pageSize]);
 
-  return (
-    <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-10">
-      <div className="bg-white dark:bg-zinc-900 shadow-md rounded-2xl p-6 space-y-6">
-        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-          <h1 className="text-2xl font-bold text-gray-800 dark:text-gray-100">
-            Bank Management
-          </h1>
-        </div>
+	function handleCreate() {
+		console.log("Create bank");
+		navigate("/dashboard/banks/create");
+	}
 
-        <div className="overflow-x-auto">
-          {data ? (
-            <DataTable
-              columns={columns}
-              data={data}
-              onCreate={handleCreate}
-              resourceName="Bank"
-              page={page}
-              pageSize={pageSize}
-              totalPages={totalPages}
-              onPageChange={setPage}
-              onPageSizeChange={setPageSize}
-            />
-          ) : (
-            "Loading..."
-          )}
-        </div>
-      </div>
-    </div>
-  );
+	function handleDetail(id) {
+		navigate(`/dashboard/banks/detail/${id}`);
+	}
+
+	function handleEdit(id) {
+		navigate(`/dashboard/banks/edit/${id}`);
+	}
+
+	function handleDelete(id) {
+		console.log("Delete bank", id);
+	}
+
+	const columns = getBankColumns({ handleDetail, handleEdit, handleDelete });
+
+	return (
+		<div className='container mx-auto px-4 sm:px-6 lg:px-8 py-10'>
+			<div className='bg-white dark:bg-zinc-900 shadow-md rounded-2xl p-6 space-y-6'>
+				<div className='flex flex-col sm:flex-row sm:items-center justify-between gap-4'>
+					<h1 className='text-2xl font-bold text-gray-800 dark:text-gray-100'>
+						Bank Management
+					</h1>
+				</div>
+
+				<div className='overflow-x-auto'>
+					<CsvDownloader
+						filename={"bank_report"}
+						extension='.csv'
+						datas={getCsvData}
+					>
+						<button className='btn btn-primary mb-4'>
+							Download Bank Report (CSV)
+						</button>
+					</CsvDownloader>
+					{data ? (
+						<DataTable
+							columns={columns}
+							data={data}
+							onCreate={handleCreate}
+							resourceName='Bank'
+							page={page}
+							pageSize={pageSize}
+							totalPages={totalPages}
+							onPageChange={setPage}
+							onPageSizeChange={setPageSize}
+						/>
+					) : (
+						"Loading..."
+					)}
+				</div>
+			</div>
+		</div>
+	);
 }
