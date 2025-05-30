@@ -1,10 +1,14 @@
-// Donar => name / phone / dob ( date of birth ) / gender / address / blood_type / weight
 import { useState, useEffect } from "react";
 import getRequestCol from "../components/RequestFormColumns";
 import { DataTable } from "@/components/ui/custom/data-table";
 import { useNavigate } from "react-router";
-import { getRequests } from "@/api/bank-dashboard/requests";
+import {
+  getRequests,
+  getRequestWithoutPagination,
+} from "@/api/bank-dashboard/requests";
 import { toast } from "sonner";
+import { Button } from "@/components/ui/button";
+import CsvDownloader from "react-csv-downloader";
 
 export default function Donor() {
   const [data, setData] = useState();
@@ -13,7 +17,47 @@ export default function Donor() {
   const [totalPages, setTotalPages] = useState(1);
   const navigate = useNavigate();
 
-  const [delDialogOpen, setDelDialogOpen] = useState(false);
+  const getCsvData = async () => {
+    const headers = [
+      "Name",
+      "Age",
+      "Blood Type",
+      "Unit",
+      "Email",
+      "Phone",
+      "Address",
+    ];
+
+    try {
+      const response = await getRequestWithoutPagination();
+      const requestList = response?.data?.requests || [];
+
+      if (requestList.length === 0) {
+        toast.info("No request data found to download.");
+        return [headers];
+      }
+
+      const csvRows = requestList.map((request) => ({
+        Name: request.name || "",
+        Age: request.age || "",
+        "Blood Type": request.bloodType || "",
+        Unit: request.unit || "",
+        Email: request.email || "",
+        Phone: request.phone || "",
+        Address: request.address || "",
+      }));
+
+      if (csvRows.length >= 1) {
+        toast.success("Request report download started."); // Toast for successful download start
+      }
+      return csvRows;
+    } catch (err) {
+      console.error("Failed to fetch data for CSV download:", err);
+      toast.error("Failed to download request report.");
+
+      return [];
+    }
+  };
 
   useEffect(() => {
     const fetchData = async () => {
@@ -75,6 +119,22 @@ export default function Donor() {
         </div>
 
         <div className="overflow-x-auto">
+          <CsvDownloader
+            filename={"request_report"}
+            extension=".csv"
+            datas={getCsvData}
+          >
+            {/* <button className="btn btn-primary mb-4">
+                        Download Bank Report (CSV)
+                      </button> */}
+            <Button
+              type="button"
+              className="bg-blue-600 text-white hover:bg-blue-700 mb-4"
+            >
+              Download Request Report (CSV)
+            </Button>
+          </CsvDownloader>
+
           {data ? (
             <DataTable
               columns={columns}

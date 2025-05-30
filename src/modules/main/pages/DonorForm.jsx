@@ -75,7 +75,7 @@ export default function DonorForm() {
       <Navbar />
       <section className="flex-grow flex items-center justify-center py-10 ">
         <div className="max-w-3xl w-full p-6 bg-white rounded-lg shadow-lg">
-          <h2 className="text-3xl font-bold text-red-600 mb-6">
+          <h2 className="text-3xl font-bold text-red-600 mb-6 text-center">
             Donor Registration Form
           </h2>
           <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">

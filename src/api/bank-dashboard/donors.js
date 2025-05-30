@@ -5,6 +5,11 @@ const getDonors = async(page=1, limit=10) => {
    return res.data;
 }
 
+const getDonorsWithoutPagination = async() => {
+    const res = await api.get("donors/report");
+    return res.data;
+}
+
 const getDonorByID = async(id) => {
     const res = await api.get(`donors/${id}`);
     return res.data;
@@ -21,4 +26,4 @@ const updateDonor = async(id, donorData) => {
 }
 
 
-export {getDonors, getDonorByID, createDonor, updateDonor};
+export {getDonors, getDonorByID, createDonor, updateDonor,getDonorsWithoutPagination};

@@ -3,8 +3,15 @@ import { useState, useEffect } from "react";
 import { useNavigate } from "react-router";
 import { DataTable } from "@/components/ui/custom/data-table";
 import getDonarsCol from "../components/DonorColumns";
-import { getDonors } from "@/api/bank-dashboard/donors";
+import {
+  getDonors,
+  getDonorsWithoutPagination,
+} from "@/api/bank-dashboard/donors";
 import { toast } from "sonner";
+import { Button } from "@/components/ui/button";
+import CsvDownloader from "react-csv-downloader";
+
+// donorname, phone, DateOfBirth, Gender, Address, BloodType, Weight
 
 export default function Donor() {
   const [data, setData] = useState();
@@ -12,6 +19,53 @@ export default function Donor() {
   const [pageSize, setPageSize] = useState(10);
   const [totalPages, setTotalPages] = useState(1);
   const navigate = useNavigate();
+
+  const getCsvData = async () => {
+    const headers = [
+      "Donor Name",
+      "Date of Birth",
+      "Gender",
+      "Blood Type",
+      "Weight",
+      "Phone",
+      "Address",
+    ];
+
+    try {
+      const response = await getDonorsWithoutPagination();
+      const donorList = response?.data?.donors || [];
+
+      if (donorList.length === 0) {
+        toast.info("No donor data found to download.");
+        return [headers];
+      }
+
+      const csvRows = donorList.map((donor) => ({
+        "Donor Name": donor.name || "",
+        "Date of Birth":
+          new Date(donor.dob).toLocaleDateString("en-GB", {
+            day: "2-digit",
+            month: "short",
+            year: "numeric",
+          }) || "",
+        Gender: donor.gender || "",
+        "Blood Type": donor.bloodType || "",
+        Weight: donor.weight || "",
+        Phone: donor.phone || "",
+        Address: donor.address || "",
+      }));
+
+      if (csvRows.length >= 1) {
+        toast.success("Donor report download started."); // Toast for successful download start
+      }
+      return csvRows;
+    } catch (err) {
+      console.error("Failed to fetch data for CSV download:", err);
+      toast.error("Failed to download donor report.");
+
+      return [];
+    }
+  };
 
   useEffect(() => {
     const fetchData = async () => {
@@ -68,6 +122,22 @@ export default function Donor() {
         </div>
 
         <div className="overflow-x-auto">
+          <CsvDownloader
+            filename={"donor_report"}
+            extension=".csv"
+            datas={getCsvData}
+          >
+            {/* <button className="btn btn-primary mb-4">
+              Download Bank Report (CSV)
+            </button> */}
+            <Button
+              type="button"
+              className="bg-blue-600 text-white hover:bg-blue-700 mb-4"
+            >
+              Download Donor Report (CSV)
+            </Button>
+          </CsvDownloader>
+
           {data ? (
             <DataTable
               columns={columns}

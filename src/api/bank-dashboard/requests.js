@@ -6,6 +6,11 @@ const getRequests = async(page, limit)=>{
     return res.data;
 }
 
+const getRequestWithoutPagination = async () => {
+	const res = await api.get("requests/report");
+	return res.data;
+};
+
 const getRequestByID = async(id)=>{
     const res = await api.get(`requests/${id}`);
     return res.data;
@@ -21,4 +26,4 @@ const updateRequest = async(id, requestData) => {
     return res.data;
 }
 
-export {getRequests, createRequest, getRequestByID, updateRequest}
+export {getRequests, createRequest, getRequestByID, updateRequest,getRequestWithoutPagination}
