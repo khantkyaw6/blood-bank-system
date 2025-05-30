@@ -1,25 +1,68 @@
-import React from "react";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
+import { useNavigate } from "react-router";
+import { toast } from "sonner";
+import { createDonor } from "@/api/main";
 // import "../style/main.css";
 
 import { TextInput, SelectInput } from "@/components/ui/custom/FormElements";
 import Navbar from "../components/NavBar";
 import BankSelectorModal from "../components/BankSelectorModal";
+import { ThankYouDialog } from "@/components/ui/custom/ThankyouDialog";
 
 export default function DonorForm() {
   const [bankModalOpen, setbankModalOpen] = useState(false);
   const [bank, setBank] = useState(null);
+  const [loading, setLoading] = useState(false);
+  const [showDialog, setShowDialog] = useState(false);
+
+  // console.log(bank);
 
   const {
     register,
     handleSubmit,
+    setValue,
+    reset,
     formState: { errors },
   } = useForm();
 
-  const onSubmit = (data) => {
-    console.log("Donor Data:", data);
-    alert("Thank you for your donation!");
+  const onSubmit = async (data) => {
+    // alert("Thank you for your donation!");
+    // console.log("Donor Data:", data);
+    setLoading(true);
+
+    const formattedData = {
+      ...data,
+      bank: data.bank._id,
+      weight: +data.weight,
+      bloodType: data.bloodType.toUpperCase(),
+    };
+    console.log("formattedData Data: ", formattedData);
+    try {
+      const res = await createDonor(formattedData);
+      toast.success(res.message);
+      console.log(res);
+
+      setShowDialog(true);
+    } catch (err) {
+      console.error("Create Donor Failed: ", err);
+      toast.error(
+        err.response
+          ? err.response.data.error +
+              " - " +
+              err.response.data.details.join(". ") || "Bank created Failed!"
+          : err.message
+      );
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleDialogClose = () => {
+    setShowDialog(false);
+    reset();
+    setBank(null);
+    setbankModalOpen(false);
   };
 
   const handleBankSelect = (bank) => {
@@ -75,9 +118,9 @@ export default function DonorForm() {
               />
               <SelectInput
                 register={register}
-                name="blood_type"
+                name="bloodType"
                 title="Blood Type"
-                placeholder="Bank"
+                placeholder="Blood Type"
                 options={["A+", "A-", "B+", "B-", "AB+", "AB-", "O+", "O-"]}
                 errors={errors}
                 forceLight
@@ -100,8 +143,8 @@ export default function DonorForm() {
                     {/* Left: Display selected bank info (75%) */}
                     <div className="flex-4 bg-gray-100 px-4 py-2 text-sm text-gray-700 flex items-center">
                       {bank ? (
-                        <div className="flex items-center space-x-4 dark:text-gray-100">
-                          <p className="font-medium">{bank.name}</p>
+                        <div className="flex items-center space-x-4 text-gray-600">
+                          <p className="font-medium">{bank.title}</p>
                         </div>
                       ) : (
                         <span className="text-gray-400 italic">
@@ -126,7 +169,7 @@ export default function DonorForm() {
                     value={bank?._id ?? ""}
                     {...register("bank", { required: true })}
                   />
-                  {errors.donor && (
+                  {errors.bank && (
                     <p className="text-sm text-red-600 mt-1">
                       Bank is required
                     </p>
@@ -141,7 +184,7 @@ export default function DonorForm() {
                     required: "Address is required",
                   })}
                   placeholder="123 Main St, City, Country"
-                  className="input"
+                  className="input text-black"
                   // defaultValue="123 Main St, City, Country"
                 />
                 {errors?.address && (
@@ -156,8 +199,9 @@ export default function DonorForm() {
               <button
                 type="submit"
                 className="bg-red-600 hover:bg-red-700 text-white px-6 py-3 rounded-lg font-semibold shadow-md transition"
+                disabled={loading}
               >
-                Submit Form
+                {loading ? "Submitting..." : "Submit Form"}
               </button>
             </div>
           </form>
@@ -168,6 +212,8 @@ export default function DonorForm() {
           onClose={() => setbankModalOpen(false)}
           onSelect={handleBankSelect}
         />
+        {/* Thankyou Dialog Box */}
+        <ThankYouDialog open={showDialog} onClose={handleDialogClose} />
       </section>
     </section>
   );

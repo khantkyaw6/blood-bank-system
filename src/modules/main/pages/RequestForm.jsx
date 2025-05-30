@@ -1,13 +1,20 @@
-import React from "react";
+import { useState } from "react";
 import { useForm } from "react-hook-form";
 
 import { TextInput, SelectInput } from "@/components/ui/custom/FormElements";
 import Navbar from "../components/NavBar";
+import BankSelectorModal from "../components/BankSelectorModal";
 
 export default function BloodRequestForm() {
+  const [bankModalOpen, setbankModalOpen] = useState(false);
+  const [bank, setBank] = useState(null);
+
+  // console.log(bank);
+
   const {
     register,
     handleSubmit,
+    setValue,
     formState: { errors },
   } = useForm();
 
@@ -16,7 +23,11 @@ export default function BloodRequestForm() {
     alert("Blood request submitted successfully!");
   };
 
-  //   Blood Request => name / phone / email / address / age / blood type / unit / status
+  const handleBankSelect = (bank) => {
+    setBank(bank);
+    setValue("bank", bank, { shouldValidate: true });
+    setbankModalOpen(false);
+  };
 
   return (
     <section className="min-h-screen flex flex-col bg-gradient-to-br from-white to-red-200">
@@ -83,6 +94,51 @@ export default function BloodRequestForm() {
                 errors={errors}
                 forceLight
               />
+
+              <div className="md:col-span-2">
+                {/* Bank Selector */}
+                <div>
+                  <label className="block text-xs text-gray-500 mb-1 ml-1">
+                    Bank
+                  </label>
+                  <div className="flex rounded-lg border border-gray-300 overflow-hidden shadow-sm w-full">
+                    {/* Left: Display selected bank info (75%) */}
+                    <div className="flex-4 bg-gray-100 px-4 py-2 text-sm text-gray-700 flex items-center">
+                      {bank ? (
+                        <div className="flex items-center space-x-4 text-gray-600">
+                          <p className="font-medium">{bank.title}</p>
+                        </div>
+                      ) : (
+                        <span className="text-gray-400 italic">
+                          No bank selected
+                        </span>
+                      )}
+                    </div>
+
+                    {/* Right: Button to open modal (25%) */}
+                    <button
+                      type="button"
+                      onClick={() => setbankModalOpen(true)}
+                      className="flex-1 bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 text-sm font-medium whitespace-nowrap rounded-lg cursor-pointer"
+                    >
+                      {bank ? "Change" : "Select"}
+                    </button>
+                  </div>
+
+                  {/* Hidden input for form submission */}
+                  <input
+                    type="hidden"
+                    value={bank?._id ?? ""}
+                    {...register("bank", { required: true })}
+                  />
+                  {errors.donor && (
+                    <p className="text-sm text-red-600 mt-1">
+                      Bank is required
+                    </p>
+                  )}
+                </div>
+              </div>
+
               <div className="md:col-span-2">
                 <p className="text-xs text-gray-500 mb-1 ml-1">Address</p>
                 <textarea
@@ -90,7 +146,7 @@ export default function BloodRequestForm() {
                     required: "Address is required",
                   })}
                   placeholder="123 Main St, City, Country"
-                  className="input"
+                  className="input text-black"
                   // defaultValue="123 Main St, City, Country"
                 />
                 {errors?.address && (
@@ -112,6 +168,12 @@ export default function BloodRequestForm() {
             </div>
           </form>
         </div>
+        {/* Donor Modal */}
+        <BankSelectorModal
+          isOpen={bankModalOpen}
+          onClose={() => setbankModalOpen(false)}
+          onSelect={handleBankSelect}
+        />
       </section>
     </section>
   );

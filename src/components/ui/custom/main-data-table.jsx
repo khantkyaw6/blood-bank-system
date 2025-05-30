@@ -64,8 +64,6 @@ export function MainDataTable({
     getPaginationRowModel: getPaginationRowModel(),
   });
 
-  const visibleRows = table.getRowModel().rows;
-
   return (
     <div className="space-y-4">
       {/* Search + Rows per page */}
@@ -74,15 +72,12 @@ export function MainDataTable({
           placeholder="Search..."
           value={globalFilter ?? ""}
           onChange={(event) => setGlobalFilter(event.target.value)}
-          className="max-w-sm"
+          className="max-w-sm border-black"
         />
 
         {isPaginated && (
           <div className="flex items-center gap-2">
-            <label
-              htmlFor="pageSize"
-              className="text-sm text-gray-600 dark:text-gray-100"
-            >
+            <label htmlFor="pageSize" className="text-sm text-gray-600">
               Rows per page:
             </label>
             <select
@@ -92,7 +87,7 @@ export function MainDataTable({
                 onPageSizeChange(Number(e.target.value));
                 onPageChange(1);
               }}
-              className="border dark:bg-zinc-900 border-gray-300 rounded px-2 py-1 text-sm"
+              className="border bg-white text-black border-gray-300 rounded px-2 py-1 text-sm"
             >
               {[5, 10, 20, 50].map((size) => (
                 <option key={size} value={size}>
@@ -115,13 +110,19 @@ export function MainDataTable({
       </div>
 
       {/* Table */}
-      <div className="rounded-md border">
-        <Table>
+      <div className="rounded-md border border-gray-300 text-black bg-white">
+        <Table className="">
           <TableHeader>
             {table.getHeaderGroups().map((headerGroup) => (
-              <TableRow key={headerGroup.id}>
+              <TableRow
+                key={headerGroup.id}
+                className="border-b border-gray-200 text-black"
+              >
                 {headerGroup.headers.map((header) => (
-                  <TableHead key={header.id}>
+                  <TableHead
+                    key={header.id}
+                    className="bg-gray-100 text-black border-b border-gray-300"
+                  >
                     {header.column.getCanSort() ? (
                       <TooltipProvider>
                         <Tooltip>
@@ -167,27 +168,54 @@ export function MainDataTable({
           </TableHeader>
 
           <TableBody>
-            {visibleRows?.length ? (
-              visibleRows.map((row) => (
-                <TableRow
-                  key={row.id}
-                  data-state={row.getIsSelected() && "selected"}
-                  style={{
-                    height: `${rowHeight}px`,
-                    maxHeight: `${rowHeight}px`,
-                    minHeight: `${rowHeight}px`,
-                  }}
-                >
-                  {row.getVisibleCells().map((cell) => (
-                    <TableCell key={cell.id}>
-                      {flexRender(
-                        cell.column.columnDef.cell,
-                        cell.getContext()
-                      )}
-                    </TableCell>
-                  ))}
-                </TableRow>
-              ))
+            {table.getRowModel().rows?.length ? (
+              <>
+                {table.getRowModel().rows.map((row) => (
+                  <TableRow
+                    key={row.id}
+                    data-state={row.getIsSelected() && "selected"}
+                    className="border-b border-gray-200 text-black"
+                    style={{
+                      height: `${rowHeight}px`,
+                      maxHeight: `${rowHeight}px`,
+                      minHeight: `${rowHeight}px`,
+                    }}
+                  >
+                    {row.getVisibleCells().map((cell) => (
+                      <TableCell key={cell.id}>
+                        {flexRender(
+                          cell.column.columnDef.cell,
+                          cell.getContext()
+                        )}
+                      </TableCell>
+                    ))}
+                  </TableRow>
+                ))}
+
+                {/* Placeholder empty rows to maintain height */}
+                {page > 1 && table.getRowModel().rows.length < pageSize
+                  ? [
+                      ...Array(
+                        Math.max(0, pageSize - table.getRowModel().rows.length)
+                      ),
+                    ].map((_, i) => (
+                      <TableRow
+                        key={`empty-${i}`}
+                        aria-hidden="true"
+                        style={{
+                          height: `${rowHeight}px`,
+                          maxHeight: `${rowHeight}px`,
+                          minHeight: `${rowHeight}px`,
+                          pointerEvents: "none",
+                          opacity: 0,
+                          border: "none",
+                        }}
+                      >
+                        <TableCell colSpan={columns.length} />
+                      </TableRow>
+                    ))
+                  : null}
+              </>
             ) : (
               <TableRow>
                 <TableCell
@@ -204,26 +232,26 @@ export function MainDataTable({
 
       {/* Pagination controls */}
       {isPaginated && (
-        <div className="flex items-center justify-between space-x-2">
-          <div className="text-sm text-muted-foreground">
+        <div className="flex items-center justify-between space-x-2 px-4 py-2 rounded-md bg-white text-black">
+          <div className="text-sm text-gray-600">
             Page {page} of {totalPages}
           </div>
           <div className="flex items-center space-x-2">
             <Button
               type="button"
-              variant="outline"
               size="sm"
               onClick={() => onPageChange(Math.max(page - 1, 1))}
               disabled={page <= 1}
+              className="border border-gray-300 bg-white text-black hover:bg-gray-100 active:bg-gray-200 disabled:opacity-50 disabled:cursor-not-allowed"
             >
               Previous
             </Button>
             <Button
               type="button"
-              variant="outline"
               size="sm"
               onClick={() => onPageChange(Math.min(page + 1, totalPages))}
               disabled={page >= totalPages}
+              className="border border-gray-300 bg-white text-black hover:bg-gray-100 active:bg-gray-200 disabled:opacity-50 disabled:cursor-not-allowed"
             >
               Next
             </Button>

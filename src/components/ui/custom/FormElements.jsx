@@ -103,7 +103,7 @@ export function TextInput({
         className={`input border rounded px-3 py-2 w-full
           ${
             forceLight
-              ? "bg-white text-black border-gray-300 !important"
+              ? "bg-white text-black  border-gray-300 !important"
               : "bg-white text-black dark:bg-zinc-900 dark:text-white dark:border-zinc-700"
           }`}
       />
