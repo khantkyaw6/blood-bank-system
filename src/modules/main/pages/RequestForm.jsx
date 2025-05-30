@@ -1,13 +1,18 @@
 import { useState } from "react";
 import { useForm } from "react-hook-form";
+import { toast } from "sonner";
+import { createRequest } from "@/api/main";
 
 import { TextInput, SelectInput } from "@/components/ui/custom/FormElements";
 import Navbar from "../components/NavBar";
 import BankSelectorModal from "../components/BankSelectorModal";
+import { ThankYouDialog } from "@/components/ui/custom/ThankyouDialog";
 
 export default function BloodRequestForm() {
   const [bankModalOpen, setbankModalOpen] = useState(false);
   const [bank, setBank] = useState(null);
+  const [loading, setLoading] = useState(false);
+  const [showDialog, setShowDialog] = useState(false);
 
   // console.log(bank);
 
@@ -15,12 +20,48 @@ export default function BloodRequestForm() {
     register,
     handleSubmit,
     setValue,
+    reset,
     formState: { errors },
   } = useForm();
 
-  const onSubmit = (data) => {
-    console.log("Blood Request Data:", data);
-    alert("Blood request submitted successfully!");
+  const onSubmit = async (data) => {
+    // alert("Thank you for your donation!");
+    // console.log("Donor Data:", data);
+    setLoading(true);
+
+    const formattedData = {
+      ...data,
+      bank: data.bank._id,
+      age: +data.age,
+      unit: +data.unit,
+      bloodType: data.bloodType.toUpperCase(),
+    };
+    console.log("formattedData Data: ", formattedData);
+    try {
+      const res = await createRequest(formattedData);
+      toast.success(res.message);
+      console.log(res);
+
+      setShowDialog(true);
+    } catch (err) {
+      console.error("Create Donor Failed: ", err);
+      toast.error(
+        err.response
+          ? err.response.data.error +
+              " - " +
+              err.response.data.details.join(". ") || "Request created Failed!"
+          : err.message
+      );
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleDialogClose = () => {
+    setShowDialog(false);
+    reset();
+    setBank(null);
+    setbankModalOpen(false);
   };
 
   const handleBankSelect = (bank) => {
@@ -32,15 +73,12 @@ export default function BloodRequestForm() {
   return (
     <section className="min-h-screen flex flex-col bg-gradient-to-br from-white to-red-200">
       <Navbar />
-      {/* <section className="md:pt-10 md:pb-10 bg-linear-to-br/oklab from-white to-red-200">
-           <div className="max-w-3xl mx-auto p-6 bg-white rounded-lg shadow-lg"> */}
       <section className="flex-grow flex items-center justify-center py-10 ">
         <div className="max-w-3xl w-full p-6 bg-white rounded-lg shadow-lg">
           <h2 className="text-3xl font-bold text-red-600 mb-6 text-center">
             Blood Request Form
           </h2>
           <form onSubmit={handleSubmit(onSubmit)} className="space-y-8">
-            {/* Requester Info */}
             <div className="grid md:grid-cols-2 gap-4">
               <TextInput
                 register={register}
@@ -78,7 +116,7 @@ export default function BloodRequestForm() {
               />
               <SelectInput
                 register={register}
-                name="blood_type"
+                name="bloodType"
                 title="Blood Type"
                 placeholder="Blood Type"
                 options={["A+", "A-", "B+", "B-", "AB+", "AB-", "O+", "O-"]}
@@ -87,7 +125,7 @@ export default function BloodRequestForm() {
               />
               <TextInput
                 register={register}
-                name="units"
+                name="unit"
                 title="Units Required"
                 placeholder="1"
                 type="number"
@@ -131,7 +169,7 @@ export default function BloodRequestForm() {
                     value={bank?._id ?? ""}
                     {...register("bank", { required: true })}
                   />
-                  {errors.donor && (
+                  {errors.bank && (
                     <p className="text-sm text-red-600 mt-1">
                       Bank is required
                     </p>
@@ -162,8 +200,9 @@ export default function BloodRequestForm() {
               <button
                 type="submit"
                 className="bg-red-600 text-white px-6 py-3 rounded-lg hover:bg-red-700 transition"
+                disabled={loading}
               >
-                Submit Request
+                {loading ? "Submitting..." : "Submit Form"}
               </button>
             </div>
           </form>
@@ -174,6 +213,8 @@ export default function BloodRequestForm() {
           onClose={() => setbankModalOpen(false)}
           onSelect={handleBankSelect}
         />
+        {/* Thankyou Dialog Box */}
+        <ThankYouDialog open={showDialog} onClose={handleDialogClose} />
       </section>
     </section>
   );

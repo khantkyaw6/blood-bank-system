@@ -31,4 +31,9 @@ const createDonor = async(donorData) => {
 	return res.data;
 }
 
-export {getBanks, createDonor};
+const createRequest = async(requestData) => {
+	const res = await api.post('requests', requestData);
+	return res.data;
+} 
+
+export {getBanks, createDonor, createRequest};

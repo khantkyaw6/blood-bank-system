@@ -1,6 +1,5 @@
 import { useState } from "react";
 import { useForm } from "react-hook-form";
-import { useNavigate } from "react-router";
 import { toast } from "sonner";
 import { createDonor } from "@/api/main";
 // import "../style/main.css";
@@ -50,7 +49,7 @@ export default function DonorForm() {
         err.response
           ? err.response.data.error +
               " - " +
-              err.response.data.details.join(". ") || "Bank created Failed!"
+              err.response.data.details.join(". ") || "Donor created Failed!"
           : err.message
       );
     } finally {
@@ -80,7 +79,6 @@ export default function DonorForm() {
             Donor Registration Form
           </h2>
           <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
-            {/* // Donar => name / phone / dob ( date of birth ) / gender / address / blood_type / weight */}
             <div className="grid md:grid-cols-2 gap-4">
               <TextInput
                 register={register}
