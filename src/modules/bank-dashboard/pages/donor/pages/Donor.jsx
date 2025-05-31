@@ -6,6 +6,7 @@ import getDonarsCol from "../components/DonorColumns";
 import {
   getDonors,
   getDonorsWithoutPagination,
+  deleteDonorByID,
 } from "@/api/bank-dashboard/donors";
 import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
@@ -106,8 +107,23 @@ export default function Donor() {
     navigate(`/bank-dashboard/donors/edit/${id}`);
   }
 
-  function handleDelete(id) {
-    console.log("Delete donor: ", id);
+  async function handleDelete(id) {
+    // console.log("Delete donor: ", id);
+    try {
+      const res = await deleteDonorByID(id);
+      // console.log(res);
+
+      const refreshed = await getDonors(page, pageSize);
+      setData(refreshed.data.donors);
+      setTotalPages(
+        Math.ceil(refreshed.data.pagination.totalResult / pageSize)
+      );
+
+      toast.success(res?.message);
+    } catch (err) {
+      console.error("Failed to delete Donor: ", err);
+      err.message ? toast.error(err.message) : null;
+    }
   }
 
   const columns = getDonarsCol({ handleDetail, handleEdit, handleDelete });

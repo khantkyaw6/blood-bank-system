@@ -13,7 +13,9 @@ export default function DonorsCreate() {
       ...data,
       age: +data.age,
       unit: +data.unit,
+      bloodType: data.bloodType.toUpperCase(),
     };
+    // console.log(data);
     setLoading(true);
 
     try {

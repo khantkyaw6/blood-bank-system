@@ -25,5 +25,10 @@ const updateDonor = async(id, donorData) => {
     return res.data;
 }
 
+const deleteDonorByID = async(id) => {
+    const res = await api.delete(`donors/${id}`);
+    return res.data
+}
 
-export {getDonors, getDonorByID, createDonor, updateDonor,getDonorsWithoutPagination};
+
+export {getDonors, getDonorByID, createDonor, updateDonor, deleteDonorByID, getDonorsWithoutPagination};

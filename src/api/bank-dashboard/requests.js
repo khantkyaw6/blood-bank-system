@@ -26,4 +26,9 @@ const updateRequest = async(id, requestData) => {
     return res.data;
 }
 
-export {getRequests, createRequest, getRequestByID, updateRequest,getRequestWithoutPagination}
+const deleteRequestByID = async(id) => {
+    const res = await api.delete(`requests/${id}`);
+    return res.data;
+}
+
+export {getRequests, createRequest, getRequestByID, updateRequest, deleteRequestByID, getRequestWithoutPagination}

@@ -5,6 +5,7 @@ import { useNavigate } from "react-router";
 import {
   getRequests,
   getRequestWithoutPagination,
+  deleteRequestByID,
 } from "@/api/bank-dashboard/requests";
 import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
@@ -99,8 +100,23 @@ export default function Donor() {
     navigate(`/bank-dashboard/request-forms/edit/${id}`);
   }
 
-  function handleDelete(id) {
-    console.log("Delete Request Main:", id);
+  async function handleDelete(id) {
+    // console.log("Delete request: ", id);
+    try {
+      const res = await deleteRequestByID(id);
+      // console.log(res);
+
+      const refreshed = await getRequests(page, pageSize);
+      setData(refreshed.data.requests);
+      setTotalPages(
+        Math.ceil(refreshed.data.pagination.totalResult / pageSize)
+      );
+
+      toast.success(res?.message);
+    } catch (err) {
+      console.error("Failed to delete Request: ", err);
+      err.message ? toast.error(err.message) : null;
+    }
   }
 
   const columns = getRequestCol({
