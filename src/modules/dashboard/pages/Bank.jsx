@@ -2,7 +2,11 @@ import { useEffect, useState } from "react";
 import getBankColumns from "../components/columns";
 import { DataTable } from "@/components/ui/custom/data-table";
 import { useNavigate } from "react-router";
-import { getBanks, getBanksWithoutPagination } from "@/api/dashboard/banks";
+import {
+  getBanks,
+  deleteBankByID,
+  getBanksWithoutPagination,
+} from "@/api/dashboard/banks";
 import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
 import CsvDownloader from "react-csv-downloader";
@@ -87,8 +91,23 @@ export default function Bank() {
     navigate(`/dashboard/banks/edit/${id}`);
   }
 
-  function handleDelete(id) {
-    console.log("Delete bank", id);
+  async function handleDelete(id) {
+    // console.log("Delete donor: ", id);
+    try {
+      const res = await deleteBankByID(id);
+      // console.log(res);
+
+      const refreshed = await getBanks(page, pageSize);
+      setData(refreshed.data.banks);
+      setTotalPages(
+        Math.ceil(refreshed.data.pagination.totalResult / pageSize)
+      );
+
+      toast.success(res?.message);
+    } catch (err) {
+      console.error("Failed to delete Bank: ", err);
+      err.message ? toast.error(err.message) : null;
+    }
   }
 
   const columns = getBankColumns({ handleDetail, handleEdit, handleDelete });

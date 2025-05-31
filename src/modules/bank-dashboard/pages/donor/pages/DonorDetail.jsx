@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router";
-import { getDonorByID } from "@/api/bank-dashboard/donors";
+import { getDonorByID, deleteDonorByID } from "@/api/bank-dashboard/donors";
 
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -12,27 +12,46 @@ import { DeleteDialog } from "@/components/ui/custom/DeleteDialog";
 export default function BankDetail() {
   const [data, setData] = useState(null);
   const [delDialogOpen, setDelDialogOpen] = useState(false);
+  const [loading, setLoading] = useState(true);
+  const [notFound, setNotFound] = useState(false);
+
   const { id } = useParams();
   const navigate = useNavigate();
 
-  // console.log(data);
-
   useEffect(() => {
     const fetchData = async () => {
+      setLoading(true);
+      setNotFound(false);
+
       try {
         const res = await getDonorByID(id);
-        const data = res?.data.donor;
+        const donor = res?.data?.donor;
 
-        if (!data) {
-          console.warn("Donor data is missing or undefined");
-          return;
+        if (!donor) {
+          setNotFound(true);
+          toast.error(
+            "Donor not found. It may have been deleted or never existed."
+          );
+        } else {
+          setData(donor);
         }
-
-        setData(data);
-        console.log(res?.message);
       } catch (err) {
         console.error("Failed to fetch Donor Data", err);
-        err.message ? toast.error(err.message) : null;
+
+        // If server returned a 404 or similar, show friendly message
+        if (err?.response?.status === 404) {
+          setNotFound(true);
+          toast.error(
+            "Donor not found. It may have been deleted or never existed."
+          );
+        } else {
+          // Generic error handling
+          toast.error(
+            err?.message || "Something went wrong while fetching the donor"
+          );
+        }
+      } finally {
+        setLoading(false);
       }
     };
 
@@ -71,8 +90,17 @@ export default function BankDetail() {
     navigate(`/bank-dashboard/donors/edit/${id}`);
   }
 
-  function deleteDonor() {
-    console.log("donor deleted: ", id);
+  async function deleteDonor(id) {
+    try {
+      const res = await deleteDonorByID(id);
+      toast.success(res.message);
+      navigate(-1);
+    } catch (err) {
+      console.error("Failed to delete Donor: ", err);
+      toast.error(
+        err?.message || "Something went wrong while deleting the donor"
+      );
+    }
   }
 
   return (
@@ -83,27 +111,36 @@ export default function BankDetail() {
           <h2 className="text-2xl font-semibold tracking-tight text-gray-900 dark:text-gray-100">
             Donor Detail
           </h2>
-          <div className="space-x-2">
-            <Button variant="outline" onClick={editDonor}>
-              Edit
-            </Button>
-            <Button
-              variant="destructive"
-              onClick={() => setDelDialogOpen(true)}
-            >
-              Delete
-            </Button>
-          </div>
+          {data && (
+            <div className="space-x-2">
+              <Button variant="outline" onClick={editDonor}>
+                Edit
+              </Button>
+              <Button
+                variant="destructive"
+                onClick={() => setDelDialogOpen(true)}
+              >
+                Delete
+              </Button>
+            </div>
+          )}
         </CardHeader>
 
         <CardContent>
-          {data ? (
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 text-sm text-gray-800">
-              {dataElements}
+          {loading ? (
+            <div className="text-center text-gray-500 py-10">
+              Loading donor details...
+            </div>
+          ) : notFound ? (
+            <div className="text-center text-red-500 font-medium py-10">
+              Request not found.{" "}
+              <span className="text-gray-500">
+                (It may have been deleted or never existed.)
+              </span>
             </div>
           ) : (
-            <div className="text-center text-gray-500 py-10">
-              Loading Donor details...
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 text-sm text-gray-800">
+              {dataElements}
             </div>
           )}
         </CardContent>

@@ -25,10 +25,16 @@ const updateBank = async (id, bankData) => {
 	return res.data;
 };
 
+const deleteBankByID = async (id) => {
+	const res = await api.delete(`banks/${id}`);
+	return res.data;
+}
+
 export {
 	getBanks,
 	getBankById,
 	createBank,
 	updateBank,
+	deleteBankByID,
 	getBanksWithoutPagination,
 };

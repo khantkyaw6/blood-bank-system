@@ -1,6 +1,9 @@
 import { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router";
-import { getAppointmentByID } from "@/api/bank-dashboard/appointments";
+import {
+  getAppointmentByID,
+  deleteAppointmentByID,
+} from "@/api/bank-dashboard/appointments";
 
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -114,8 +117,17 @@ export default function AppointmentDetail() {
     navigate(`/bank-dashboard/appointments/edit/${id}`);
   }
 
-  function deleteAppointment() {
-    console.log("appointment deleted: ", id);
+  async function deleteAppointment(id) {
+    try {
+      const res = await deleteAppointmentByID(id);
+      toast.success(res.message);
+      navigate(-1);
+    } catch (err) {
+      console.error("Failed to delete Appointment: ", err);
+      toast.error(
+        err?.message || "Something went wrong while deleting the Appointment"
+      );
+    }
   }
 
   return (

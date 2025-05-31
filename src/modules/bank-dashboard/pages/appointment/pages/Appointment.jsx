@@ -2,7 +2,10 @@ import { useState, useEffect } from "react";
 import getAppointmentCol from "../components/AppointmentColumns";
 import { DataTable } from "@/components/ui/custom/data-table";
 import { useNavigate } from "react-router";
-import { getAppointments } from "@/api/bank-dashboard/appointments";
+import {
+  getAppointments,
+  deleteAppointmentByID,
+} from "@/api/bank-dashboard/appointments";
 import { toast } from "sonner";
 
 export default function Appointment() {
@@ -48,8 +51,23 @@ export default function Appointment() {
     navigate(`/bank-dashboard/appointments/edit/${id}`);
   }
 
-  function handleDelete(id) {
-    console.log("Delete appointment", id);
+  async function handleDelete(id) {
+    // console.log("Delete donor: ", id);
+    try {
+      const res = await deleteAppointmentByID(id);
+      // console.log(res);
+
+      const refreshed = await getAppointments(page, pageSize);
+      setData(refreshed.data.appointments);
+      setTotalPages(
+        Math.ceil(refreshed.data.pagination.totalResult / pageSize)
+      );
+
+      toast.success(res?.message);
+    } catch (err) {
+      console.error("Failed to delete Donor: ", err);
+      err.message ? toast.error(err.message) : null;
+    }
   }
 
   const columns = getAppointmentCol({ handleDetail, handleEdit, handleDelete });

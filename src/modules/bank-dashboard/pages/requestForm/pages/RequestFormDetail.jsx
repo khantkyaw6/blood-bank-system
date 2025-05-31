@@ -1,6 +1,9 @@
 import { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router";
-import { getRequestByID } from "@/api/bank-dashboard/requests";
+import {
+  getRequestByID,
+  deleteRequestByID,
+} from "@/api/bank-dashboard/requests";
 
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -11,28 +14,45 @@ import InfoRow from "@/components/ui/custom/InfoRow";
 
 export default function BankDetail() {
   const [data, setData] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [notFound, setNotFound] = useState(false);
   const [delDialogOpen, setDelDialogOpen] = useState(false);
   const { id } = useParams();
   const navigate = useNavigate();
 
-  // console.log(data);
-
   useEffect(() => {
     const fetchData = async () => {
+      setLoading(true);
+      setNotFound(false);
       try {
         const res = await getRequestByID(id);
-        const data = res?.data.request;
+        const request = res?.data?.request;
 
-        if (!data) {
-          console.warn("Request data is missing or undefined");
-          return;
+        if (!request) {
+          setNotFound(true);
+          toast.error(
+            "Request not found. It may have been deleted or never existed."
+          );
+        } else {
+          setData(request);
         }
-
-        setData(data);
-        console.log(res?.message);
       } catch (err) {
         console.error("Failed to fetch Donor Data", err);
-        err.message ? toast.error(err.message) : null;
+
+        // If server returned a 404 or similar, show friendly message
+        if (err?.response?.status === 404) {
+          setNotFound(true);
+          toast.error(
+            "Request not found. It may have been deleted or never existed."
+          );
+        } else {
+          // Generic error handling
+          toast.error(
+            err?.message || "Something went wrong while fetching the request"
+          );
+        }
+      } finally {
+        setLoading(false);
       }
     };
 
@@ -84,8 +104,15 @@ export default function BankDetail() {
     navigate(`/bank-dashboard/request-forms/edit/${id}`);
   }
 
-  function deleteRequest() {
-    console.log("request deleted: ", id);
+  async function deleteRequest(id) {
+    try {
+      const res = await deleteRequestByID(id);
+      toast.success(res.message);
+      navigate(-1);
+    } catch (err) {
+      console.error("Failed to delete request", err);
+      toast.error(err?.message || "Failed to delete request");
+    }
   }
 
   return (
@@ -96,33 +123,41 @@ export default function BankDetail() {
           <h2 className="text-2xl font-semibold tracking-tight text-gray-900 dark:text-gray-100">
             Request Detail
           </h2>
-          <div className="space-x-2">
-            <Button variant="outline" onClick={editRequest}>
-              Edit
-            </Button>
-            <Button
-              variant="destructive"
-              onClick={() => setDelDialogOpen(true)}
-            >
-              Delete
-            </Button>
-          </div>
+          {data && (
+            <div className="space-x-2">
+              <Button variant="outline" onClick={editRequest}>
+                Edit
+              </Button>
+              <Button
+                variant="destructive"
+                onClick={() => setDelDialogOpen(true)}
+              >
+                Delete
+              </Button>
+            </div>
+          )}
         </CardHeader>
 
         <CardContent>
-          {data ? (
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 text-sm text-gray-800">
-              {dataElements}
-            </div>
-          ) : (
+          {loading ? (
             <div className="text-center text-gray-500 py-10">
               Loading request details...
+            </div>
+          ) : notFound ? (
+            <div className="text-center text-red-500 font-medium py-10">
+              Request not found.{" "}
+              <span className="text-gray-500">
+                (It may have been deleted or never existed.)
+              </span>
+            </div>
+          ) : (
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 text-sm text-gray-800">
+              {dataElements}
             </div>
           )}
         </CardContent>
       </Card>
 
-      {/* Separate dialog component */}
       <DeleteDialog
         open={delDialogOpen}
         setOpen={setDelDialogOpen}

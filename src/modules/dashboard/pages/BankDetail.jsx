@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router";
-import { getBankById } from "@/api/dashboard/banks";
+import { getBankById, deleteBankByID } from "@/api/dashboard/banks";
 
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -81,6 +81,19 @@ export default function BankDetail() {
 
   function deleteBank() {
     console.log("bank deleted: ", id);
+  }
+
+  async function deleteBank(id) {
+    try {
+      const res = await deleteBankByID(id);
+      toast.success(res.message);
+      navigate(-1);
+    } catch (err) {
+      console.error("Failed to delete Bank: ", err);
+      toast.error(
+        err?.message || "Something went wrong while deleting the Bank"
+      );
+    }
   }
 
   return (
