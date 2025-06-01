@@ -51,7 +51,9 @@ export function SelectInput({
 }) {
   return (
     <div>
-      <p className="text-xs text-gray-500 mb-1 ml-1">{title}</p>
+      <p className="text-xs text-gray-500 mb-1 ml-1">
+        {title} <span className="text-red-500 text-lg">*</span>
+      </p>
       <select
         {...register(
           name,
@@ -90,7 +92,9 @@ export function TextInput({
 }) {
   return (
     <div>
-      <p className="text-xs text-gray-500 mb-1 ml-1">{title}</p>
+      <p className="text-xs text-gray-500 mb-1 ml-1">
+        {title} <span className="text-red-500 text-lg">*</span>
+      </p>
       <input
         {...register(
           name,
@@ -119,7 +123,10 @@ export function PasswordInput({ control, name, title, errors }) {
 
   return (
     <div className="relative">
-      <p className="text-xs text-gray-500 mb-1 ml-1">{title}</p>
+      <p className="text-xs text-gray-500 mb-1 ml-1">
+        {title}
+        <span className="text-red-500 text-lg">*</span>
+      </p>
       <div className="relative">
         <Controller
           name={name}

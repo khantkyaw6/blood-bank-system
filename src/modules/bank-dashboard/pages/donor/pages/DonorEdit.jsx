@@ -46,7 +46,7 @@ export default function DonorEdit() {
       dob: data.dob, // YYYY-MM-DD
       gender: data.gender,
       address: data.address,
-      bloodType: data.bloodType,
+      bloodType: data.bloodType.toUpperCase,
       weight: +data.weight,
     };
     setLoading(true);

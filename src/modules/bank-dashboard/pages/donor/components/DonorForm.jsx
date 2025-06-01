@@ -12,11 +12,22 @@ export default function DonorForm({
   isEdit = false,
   loading,
 }) {
+  const initialValues = defaultValues
+    ? {
+        ...defaultValues,
+        bloodType: defaultValues.bloodType?.toLowerCase() || "",
+      }
+    : {};
+
   const {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm({ defaultValues });
+  } = useForm({
+    defaultValues: initialValues,
+  });
+
+  console.log(defaultValues);
 
   return (
     <form

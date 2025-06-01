@@ -37,7 +37,7 @@ export default function DonorEdit() {
       email: data.email,
       address: data.address,
       age: data.age,
-      bloodType: data.bloodType,
+      bloodType: data.bloodType.toUpperCase(),
       unit: data.unit,
     };
     setLoading(true);

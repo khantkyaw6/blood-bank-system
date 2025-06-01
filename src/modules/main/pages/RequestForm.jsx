@@ -137,7 +137,7 @@ export default function BloodRequestForm() {
                 {/* Bank Selector */}
                 <div>
                   <label className="block text-xs text-gray-500 mb-1 ml-1">
-                    Bank
+                    Bank <span className="text-red-500 text-lg">*</span>
                   </label>
                   <div className="flex rounded-lg border border-gray-300 overflow-hidden shadow-sm w-full">
                     {/* Left: Display selected bank info (75%) */}
@@ -178,7 +178,9 @@ export default function BloodRequestForm() {
               </div>
 
               <div className="md:col-span-2">
-                <p className="text-xs text-gray-500 mb-1 ml-1">Address</p>
+                <p className="text-xs text-gray-500 mb-1 ml-1">
+                  Address <span className="text-red-500 text-lg">*</span>
+                </p>
                 <textarea
                   {...register("address", {
                     required: "Address is required",

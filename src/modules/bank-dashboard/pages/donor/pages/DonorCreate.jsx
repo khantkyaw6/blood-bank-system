@@ -9,7 +9,11 @@ export default function DonorsCreate() {
   const navigate = useNavigate();
 
   const handleCreate = async (data) => {
-    const formattedData = { ...data, weight: +data.weight };
+    const formattedData = {
+      ...data,
+      weight: +data.weight,
+      bloodType: data.bloodType.toUpperCase(),
+    };
     setLoading(true);
     try {
       const res = await createDonor(formattedData);

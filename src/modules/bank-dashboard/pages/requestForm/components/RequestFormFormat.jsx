@@ -12,11 +12,20 @@ export default function RequestForm({
   isEdit = false,
   loading,
 }) {
+  const initialValues = defaultValues
+    ? {
+        ...defaultValues,
+        bloodType: defaultValues.bloodType?.toLowerCase() || "",
+      }
+    : {};
+
   const {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm({ defaultValues });
+  } = useForm({
+    defaultValues: initialValues,
+  });
   //   Blood Request => name / phone / email / address / age / blood type / unit / status
 
   return (
