@@ -19,18 +19,18 @@ export default function getRequestColumns({
   //   Blood Request => name / phone / email / address / age / blood type / unit / status
 
   return [
-    columnHelper.accessor("_id", {
-      header: "ID",
-      cell: (info) => (
-        <button
-          onClick={() => navigator.clipboard.writeText(info.getValue())}
-          className="cursor-pointer active:text-blue-400"
-          title="click to copy"
-        >
-          {info.getValue().slice(0, 6)}...{info.getValue().slice(-4)}
-        </button>
-      ),
-    }),
+    // columnHelper.accessor("_id", {
+    //   header: "ID",
+    //   cell: (info) => (
+    //     <button
+    //       onClick={() => navigator.clipboard.writeText(info.getValue())}
+    //       className="cursor-pointer active:text-blue-400"
+    //       title="click to copy"
+    //     >
+    //       {info.getValue().slice(0, 6)}...{info.getValue().slice(-4)}
+    //     </button>
+    //   ),
+    // }),
     columnHelper.accessor("name", {
       header: "Name",
       cell: (info) => info.getValue(),
