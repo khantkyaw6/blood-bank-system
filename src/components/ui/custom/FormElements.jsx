@@ -93,7 +93,7 @@ export function TextInput({
   return (
     <div>
       <p className="text-xs text-gray-500 mb-1 ml-1">
-        {title} <span className="text-red-500 text-lg">*</span>
+        {title} {required && <span className="text-red-500 text-lg">*</span>}
       </p>
       <input
         {...register(

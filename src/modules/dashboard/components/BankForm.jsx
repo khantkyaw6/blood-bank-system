@@ -88,6 +88,7 @@ export function BankForm({
         title="Description"
         placeholder="Short description about the bank"
         errors={errors}
+        required={false}
       />
 
       <SelectInput

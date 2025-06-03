@@ -1,13 +1,13 @@
 import { useState, useEffect } from "react";
 import Navbar from "../components/NavBar";
-import Footer from "../components/Footer";
 import {
   FaChevronLeft,
   FaChevronRight,
   FaPhoneAlt,
   FaEnvelope,
   FaTimes,
-} from "react-icons/fa";
+} from "react-icons/fa"; //npm install react-icons
+import Footer from "../components/Footer";
 
 const bloodBanksData = [
   {
@@ -28,8 +28,7 @@ const bloodBanksData = [
     email: "chicago@redcross.org",
     bloodTypes: ["A+", "A-", "B+", "B-", "AB+", "AB-", "O+", "O-"],
     description: "National blood bank with comprehensive services",
-    image:
-      "https://images.unsplash.com/photo-1581595219559-899e8b740104?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1280&q=80",
+    image: "./BB2.png",
   },
   {
     id: 3,
@@ -39,8 +38,7 @@ const bloodBanksData = [
     email: "contact@hopeblood.org",
     bloodTypes: ["A+", "B+", "AB+", "O+"],
     description: "Specialized in pediatric blood donations",
-    image:
-      "https://images.unsplash.com/photo-1551076806-5b9d08a123af?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1280&q=80",
+    image: "./BB3.jpg",
   },
   {
     id: 4,
@@ -50,8 +48,7 @@ const bloodBanksData = [
     email: "info@ubn.org",
     bloodTypes: ["A-", "B-", "AB-", "O-"],
     description: "Focus on rare blood types and plasma donations",
-    image:
-      "https://images.unsplash.com/photo-1585435557343-3b92f77158d0?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1280&q=80",
+    image: "./BB4.jpg",
   },
   {
     id: 5,
@@ -61,8 +58,7 @@ const bloodBanksData = [
     email: "vital@vitalblood.org",
     bloodTypes: ["A+", "B+", "O+"],
     description: "Community blood center with mobile units",
-    image:
-      "https://images.unsplash.com/photo-1581595219559-899e8b740104?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1280&q=80",
+    image: "./BB5.jpg",
   },
   {
     id: 6,
@@ -72,8 +68,7 @@ const bloodBanksData = [
     email: "donate@communityblood.org",
     bloodTypes: ["A-", "B-", "O-"],
     description: "Non-profit organization serving local hospitals",
-    image:
-      "https://images.unsplash.com/photo-1551076806-5b9d08a123af?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1280&q=80",
+    image: "./BB6.jpg",
   },
   {
     id: 7,
@@ -83,8 +78,7 @@ const bloodBanksData = [
     email: "metro@metroblood.org",
     bloodTypes: ["A+", "A-", "AB+", "AB-"],
     description: "Serving the greater Boston area since 1995",
-    image:
-      "https://images.unsplash.com/photo-1585435557343-3b92f77158d0?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1280&q=80",
+    image: "./BB7.jpg",
   },
   {
     id: 8,
@@ -94,8 +88,7 @@ const bloodBanksData = [
     email: "national@nbc.org",
     bloodTypes: ["B+", "B-", "O+", "O-"],
     description: "Federal blood bank with research facilities",
-    image:
-      "https://images.unsplash.com/photo-1576091160550-2173dba999ef?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1280&q=80",
+    image: "./BB8.jpg",
   },
 ];
 
@@ -128,19 +121,62 @@ export default function Main() {
   const showPrevSlide = () => showSlide(currentSlide - 1);
   const showNextSlide = () => showSlide(currentSlide + 1);
 
-  // const handleRequestBlood = () => setIsRequestModalOpen(true);
-
-  // const handleFormSubmit = (e) => {
-  //   e.preventDefault();
-  //   alert('Blood request submitted!');
-  //   setIsRequestModalOpen(false);
-  // };
+  const Bs = [
+    { id: 1, src: "./b1.png" },
+    { id: 2, src: "./b2.png" },
+    { id: 3, src: "./b3.png" },
+    { id: 4, src: "./b4.png" },
+    { id: 5, src: "./b5.png" },
+    { id: 6, src: "./b6.png" },
+    { id: 7, src: "./b7.png" },
+    { id: 7, src: "./b8.png" },
+  ];
+  const duplicatedBs = [...Bs, ...Bs];
 
   return (
     <>
       <Navbar />
 
-      <section className="py-16 md:py-24 bg-gradient-to-br from-white via-red-50 to-red-100">
+      <section className="py-16 md:py-24 bg-gradient-to-br from-red-100 via-red-50 to-red-100">
+        {/* slides */}
+        <div className="w-full max-w-4xl mx-auto">
+          {/* Animation styles */}
+          <style jsx>{`
+            @keyframes scroll {
+              0% {
+                transform: translateX(0);
+              }
+              100% {
+                transform: translateX(calc(-250px * 7));
+              }
+            }
+
+            .animate-scroll {
+              animation: scroll 40s linear infinite;
+              width: calc(250px * 14);
+            }
+          `}</style>
+
+          <div className="relative h-28 overflow-hidden rounded-lg">
+            {/* Slider track */}
+            <div className="flex h-full animate-scroll">
+              {duplicatedBs.map((Bs, index) => (
+                <div
+                  key={`${Bs.id}-${index}`}
+                  className="flex-shrink-0 w-70 h-full flex items-center justify-center"
+                >
+                  <img
+                    src={Bs.src}
+                    alt={`Logo ${Bs.id}`}
+                    className="max-h-35 w-auto object-contain"
+                    loading="lazy"
+                  />
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+
         <div className="pt-24 pb-16 px-6">
           <div className="container mx-auto">
             <div className="text-center mb-12">
@@ -300,7 +336,6 @@ export default function Main() {
           </div>
         )}
       </section>
-
       <Footer />
     </>
   );

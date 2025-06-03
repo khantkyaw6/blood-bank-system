@@ -49,7 +49,9 @@ export default function AppointmentForm({
 
       {/* Donor Selector */}
       <div>
-        <label className="block text-xs text-gray-500 mb-1 ml-1">Donor</label>
+        <label className="block text-xs text-gray-500 mb-1 ml-1">
+          Donor<span className="text-red-500 text-lg">*</span>
+        </label>
         <div className="flex rounded-lg border border-gray-300 overflow-hidden shadow-sm w-full">
           {/* Left: Display selected donor info (75%) */}
           <div className="flex-4 bg-gray-100 dark:bg-zinc-900 px-4 py-2 text-sm text-gray-700 flex items-center">
@@ -90,7 +92,7 @@ export default function AppointmentForm({
       {/* Request Selector */}
       <div>
         <label className="block text-xs text-gray-500 mb-1 ml-1">
-          Blood Request
+          Blood Request<span className="text-red-500 text-lg">*</span>
         </label>
         <div className="flex rounded-lg border border-gray-300 overflow-hidden shadow-sm w-full">
           {/* Left: Display selected donor info (75%) */}
