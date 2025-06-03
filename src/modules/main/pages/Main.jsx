@@ -154,10 +154,12 @@ export default function Main() {
           </p>
           <div className="flex flex-col sm:flex-row gap-3 justify-center md:justify-start">
             <Button href="/request-form" primary className="w-full sm:w-auto">
-              <i className="fas fa-hand-holding-medical mr-2"></i> Request Blood
+              {/* <i className="fas fa-hand-holding-medical mr-2"></i> */}
+              Request Blood
             </Button>
             <Button href="/donor-form" className="w-full sm:w-auto">
-              <i className="fas fa-tint mr-2"></i> Book a Donation
+              {/* <i className="fas fa-tint mr-2"></i> */}
+              Book a Donation
             </Button>
           </div>
         </div>
